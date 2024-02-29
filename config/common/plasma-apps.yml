@@ -1,9 +1,4 @@
----
-- type: files
-  files:
-    - plasma: /usr
-
-- type: rpm-ostree
+type: rpm-ostree
   install:
     - qpwgraph
     - materia-kde 

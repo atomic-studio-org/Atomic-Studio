@@ -1,5 +1,0 @@
-- type: signing
-
-- type: files
-  files:
-    - shared: /usr
