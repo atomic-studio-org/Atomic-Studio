@@ -5,6 +5,6 @@ base-image: ghcr.io/ublue-os/kinoite-nvidia
 image-version: latest
 
 modules:
-  - from-file: ./common/apps.yml
-  - from-file: ./common/shared-sys.yml
-  - from-file: ./common/apps-plasma.yml
+  - from-file: common/apps.yml
+  - from-file: common/shared-sys.yml
+  - from-file: common/apps-plasma.yml
