@@ -28,7 +28,6 @@ modules:
       - gimp
       - gimp-lqr-plugin
       - ffmpeg
-      - pipewire-plugin-jack
       - ardour8
       - helvum
       - audacity
