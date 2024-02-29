@@ -1,5 +1,7 @@
 - type: rpm-ostree
   install:
+    - papirus-icon-theme
+    - materia-gtk-theme
     - krita
     - blender
     - inkscape

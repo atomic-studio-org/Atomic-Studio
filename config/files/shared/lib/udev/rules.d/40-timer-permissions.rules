@@ -1,0 +1,6 @@
+# make precision timers accessible to audio group and MIDI
+#
+# created Sep 3 2012
+
+KERNEL=="rtc0", GROUP="audio"
+KERNEL=="hpet", GROUP="audio"

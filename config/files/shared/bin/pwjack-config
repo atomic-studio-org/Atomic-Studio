@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "" ] || [ "$1" = "-h" ]; then
+  echo "Usage: $0 BUFFERSIZE | enable | disable"
+  echo "       where BUFFERSIZE is 8, 16, 32, 64, 128, 256, 512, 1024, 2048, or 4096"
+  exit 1
+elif [ "$1" = "enable" ]; then
+  ln -fs /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*-linux-gnu.conf \
+			/etc/ld.so.conf.d/pipewire-jack.conf
+  ldconfig
+  systemctl mask pulseaudio-enable-autospawn.service || true
+  echo "Reboot for changes to take effect."
+  exit 0
+elif [ "$1" = "disable" ]; then
+  rm /etc/ld.so.conf.d/pipewire-jack.conf || true
+  ldconfig
+  systemctl unmask pulseaudio-enable-autospawn.service || true
+  echo "Reboot for changes to take effect."
+  exit 0
+elif [ "$1" = "8" ] || [ "$1" = "16" ] || [ "$1" = "32" ] || [ "$1" = "64" ] ||\
+     [ "$1" = "128" ] || [ "$1" = "256" ] || [ "$1" = "512" ] || [ "$1" = "1024" ] ||\
+     [ "$1" = "2048" ] || [ "$1" = "4096" ]; then
+     writefile=$(cat << EOF 
+export PIPEWIRE_QUANTUM="$1/48000"
+EOF
+    )
+  echo "${writefile}" > /etc/profile.d/atomic-pwjack.sh
+  echo "Log out and in for changes to take effect."
+else
+  echo "Invalid Value"
+  exit 2
+fi
