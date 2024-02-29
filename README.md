@@ -1,11 +1,7 @@
-<div style="display: flex; align-items: center; justify-content: center;">
-  <img src="./assets/studio-blob.png" alt="drawing" width="200rem"/>
+<div align="center">
+  <img src="./assets/studio-blob.png" alt="drawing" width="200rem"/> 
+<h1 style="font-size: 48px; margin-left: 0.1em; text-align: center;">Universal Studio</h1>
 </div>
-<div style="display: flex; align-items: center; justify-content: center;">
-<p style="font-size: 48px; margin-left: 0.1em;">Universal Studio</p>
-</div>
-
----
 
 Want Ubuntu Studio but in a reproducible and atomic environment? Then Universal Studio is for you! We provide all the same packages that you would get with Ubuntu Studio, but in a stable, atomic and reliable for all your content creation needs.
 
