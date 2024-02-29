@@ -1,5 +1,5 @@
 ublue_variants:
-  - label: blue-build/template
+  - label: tulilirockz/universal-studio
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: blue-build/template
+      - label: Universal Studio
