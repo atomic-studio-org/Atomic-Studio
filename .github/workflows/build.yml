@@ -23,7 +23,9 @@ jobs:
         recipe:
           # !! Add your recipes here 
           - recipe-latest.yml
-          - recipe-gts.yml
+          - recipe-nvidia.yml
+          - recipe-gnome.yml
+          - recipe-gnome-nvidia.yml
     steps:
        # the build is fully handled by the reusable github action
       - name: Build Custom Image
