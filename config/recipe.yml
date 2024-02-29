@@ -1,10 +1,10 @@
-name: universal-studio
+name: atomic-studio
 description: Operating system based on Fedora Atomic meant for content creators and artists
 
 base-image: ghcr.io/ublue-os/kinoite-main
 image-version: latest
 
 modules:
-  - from-file: ./apps.yml
-  - from-file: ./shared-sys.yml
-  - from-file: ./apps-plasma.yml
+  - from-file: ./common/apps.yml
+  - from-file: ./common/shared-sys.yml
+  - from-file: ./common/apps-plasma.yml

@@ -1,5 +1,5 @@
 ublue_variants:
-  - label: tulilirockz/universal-studio
+  - label: tulilirockz/atomic-studio
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: Universal Studio
+      - label: Atomic Studio
