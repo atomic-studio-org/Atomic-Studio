@@ -27,13 +27,11 @@ modules:
       - inkscape
       - gimp
       - gimp-lqr-plugin
-      - gimp-gap
       - ffmpeg
       - jack-mixer
       - pipewire-plugin-jack
       - ardour8
       - helvum
-      - carla
       - audacity
       - qtractor
       - hydrogen
@@ -46,7 +44,6 @@ modules:
       - kdenlive
       - obs-studio
       - obs-studio-plugin-vkcapture
-      - obs-studio-plugin-browser
       
     remove:
       - firefox # default firefox removed in favor of flatpak
