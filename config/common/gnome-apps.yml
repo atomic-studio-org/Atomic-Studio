@@ -1,0 +1,8 @@
+---
+- type: files
+  files:
+    - gnome: /usr
+
+- type: rpm-ostree
+  install:
+    - helvum

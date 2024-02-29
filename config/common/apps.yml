@@ -1,11 +1,5 @@
----
-- type: files
-  files:
-    - usr: /usr
-
 - type: rpm-ostree
   install:
-    - qpwgraph
     - krita
     - blender
     - inkscape
@@ -19,6 +13,21 @@
     - supercollider
     - csound
     - kdenlive
+    - guitarix
+    - ladspa
+    - ladspa-autotalent-plugins
+    - ladspa-dsp-plugins
+    - ladspa-guitarix-plugins
+    - ladspa-amb-plugins
+    - ladspa-blop-plugins
+    - ladspa-caps-plugins
+    - ladspa-cmt-plugins
+    - ladspa-fil-plugins
+    - ladspa-mcp-plugins
+    - ladspa-rev-plugins
+    - ladspa-tap-plugins
+    - ladspa-vco-plugins
+    - ladspa-zam-plugins
   remove:
     - firefox
     - firefox-langpacks
@@ -40,4 +49,4 @@
       - com.github.qarmin.czkawka
       - org.darktable.Darktable
 
-- type: signing
+- type: yafti

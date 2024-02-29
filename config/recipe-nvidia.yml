@@ -1,13 +1,10 @@
-# image will be published to ghcr.io/<user>/<name>
 name: universal-studio-nvidia
-# description will be included in the image's metadata
-description: Operating system based on Fedora Silverblue meant for artists
+description: Operating system based on Fedora Atomic meant for content creators and artists
 
-# the base image to build on top of (FROM) and the version tag to use
 base-image: ghcr.io/ublue-os/kinoite-nvidia
-image-version: latest # latest is also supported if you want new updates ASAP
+image-version: latest
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
   - from-file: ./apps.yml
+  - from-file: ./shared-sys.yml
+  - from-file: ./apps-plasma.yml
