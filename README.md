@@ -1,8 +1,15 @@
 # Universal Studio
 
-Want Ubuntu Studio but in a reproducible and atomic environment? Then Universal Studio is for you! 
+<div style="display: flex; align-items: center;">
+    <div>
+        Want Ubuntu Studio but in a reproducible and atomic environment? Then Universal Studio is for you! 
+        We provide all the same packages that you would get with Ubuntu Studio, but in a stable, atomic and reliable for all your content creation needs.
+    </div>
+    <div>
+        <img src="https://github.com/tulilirockz/Universal-Studio/assets/120808662/805140a1-eda7-418f-87c8-f8ea319502a7" alt="Image" style="width: 20%; height: 20%;">
+    </div>
+</div>
 
-We provide all the same packages that you would get with Ubuntu Studio, but in a stable, atomic and reliable for all your content creation needs.
 
 ## Installation
 
