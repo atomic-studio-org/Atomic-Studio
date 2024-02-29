@@ -28,7 +28,6 @@ modules:
       - gimp
       - gimp-lqr-plugin
       - ffmpeg
-      - jack-mixer
       - pipewire-plugin-jack
       - ardour8
       - helvum
