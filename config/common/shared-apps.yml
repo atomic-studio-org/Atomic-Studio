@@ -18,7 +18,6 @@ install:
   - guitarix
   - ladspa
   - ladspa-autotalent-plugins
-  - ladspa-dsp-plugins
   - ladspa-guitarix-plugins
   - ladspa-amb-plugins
   - ladspa-blop-plugins

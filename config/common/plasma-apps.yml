@@ -1,4 +1,4 @@
 type: rpm-ostree
-  install:
-    - qpwgraph
-    - materia-kde 
+install:
+  - qpwgraph
+  - materia-kde 
