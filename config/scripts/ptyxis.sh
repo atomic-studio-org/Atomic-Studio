@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ARCH=$(uname -i)
+ARCH="x86_64"
 FEDORA_MAJOR_VERSION=$(rpm -E %fedora)
 
 wget https://copr.fedorainfracloud.org/coprs/kylegospo/prompt/repo/fedora-/kylegospo-prompt-fedora-${FEDORA_MAJOR_VERSION}.repo?arch=${ARCH} \
