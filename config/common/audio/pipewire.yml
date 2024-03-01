@@ -2,3 +2,4 @@ type: rpm-ostree
 install:
   - pipewire-jack-audio-connection-kit
   - pipewire-plugin-jack
+  - jack-audio-connection-kit
