@@ -47,7 +47,6 @@ install:
   - qtractor
   - raysession
   - synfig
-  - synthetic
 remove:
   - firefox
   - firefox-langpacks
