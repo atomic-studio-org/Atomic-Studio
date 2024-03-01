@@ -8,8 +8,6 @@ install:
   - ffmpeg
   - ardour8
   - audacity
-  - qtractor
-  - hydrogen
   - yoshimi
   - rakarrack
   - supercollider
@@ -17,18 +15,8 @@ install:
   - kdenlive
   - guitarix
   - ladspa
-  - ladspa-autotalent-plugins
   - ladspa-guitarix-plugins
-  - ladspa-amb-plugins
-  - ladspa-blop-plugins
-  - ladspa-caps-plugins
-  - ladspa-cmt-plugins
-  - ladspa-fil-plugins
-  - ladspa-mcp-plugins
-  - ladspa-rev-plugins
-  - ladspa-tap-plugins
-  - ladspa-vco-plugins
-  - ladspa-zam-plugins
+
 remove:
   - firefox
   - firefox-langpacks

@@ -15,3 +15,5 @@ type: default-flatpaks
       - com.github.qarmin.czkawka
       - org.darktable.Darktable
       - io.github.fabrialberio.pinapp
+      - org.rncbc.qtractor
+      - org.hydrogenmusic.Hydrogen

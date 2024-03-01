@@ -61,6 +61,8 @@ screens:
             - Audacity: org.audacityteam.Audacity
             - Tenacity: org.tenacityaudio.Tenacity
             - Carla: studio.kx.carla
+            - Qtractor: org.rncbc.qtractor
+            - Hydrogen: org.hydrogenmusic.Hydrogen 
         Graphics:
           description: Graphics-related applications
           default: false
