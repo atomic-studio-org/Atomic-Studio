@@ -16,6 +16,38 @@ install:
   - ladspa-guitarix-plugins
   - ardour8
   - kdenlive
+  - zita-at1
+  - zita-rev1
+  - rosegarden4
+  - carla
+  - entangle
+  - ffado
+  - fluidsynth
+  - csound-fluidsynth
+  - hugin
+  - ImageMagick
+  - jack-mixer
+  - jack-keyboard
+  - k3b
+  - kdeconnect
+  - libreoffice
+  - libreoffice-icon-theme-papirus
+  - lmms
+  - menulibre
+  - musescode
+  - mypaint
+  - mudita24
+  - meterbridge
+  - openlp
+  - phasex
+  - pavucontrol
+  - vlc
+  - ddcontrol
+  - qsynth
+  - qtractor
+  - raysession
+  - synfig
+  - synthetic
 remove:
   - firefox
   - firefox-langpacks
