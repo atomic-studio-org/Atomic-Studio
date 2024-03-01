@@ -19,7 +19,6 @@ install:
   - zita-at1
   - zita-rev1
   - rosegarden4
-  - carla
   - entangle
   - ffado
   - fluidsynth
@@ -29,20 +28,17 @@ install:
   - jack-mixer
   - jack-keyboard
   - k3b
-  - kdeconnect
   - libreoffice
   - libreoffice-icon-theme-papirus
   - lmms
   - menulibre
-  - musescode
+  - musescore
   - mypaint
   - mudita24
   - meterbridge
-  - openlp
   - phasex
   - pavucontrol
   - vlc
-  - ddcontrol
   - qsynth
   - qtractor
   - raysession
