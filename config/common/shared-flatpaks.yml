@@ -17,5 +17,3 @@ system:
     - io.github.fabrialberio.pinapp
     - org.rncbc.qtractor
     - org.hydrogenmusic.Hydrogen
-    - org.ardour.Ardour
-    - org.kde.kdenlive
