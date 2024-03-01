@@ -1,0 +1,311 @@
+title: Welcome to Atomic Studio
+properties:
+  mode: "run-on-change"
+screens:
+  first-screen:
+    source: yafti.screen.title
+    values:
+      title: "Welcome to Atomic Studio"
+      icon: "/usr/share/pixmaps/atomic-studio-logo.png"
+      description: |
+        This guided installer will help you get started with your new system.
+  configure-system:
+    source: yafti.screen.package
+    values:
+      title: Configure Atomic Studio System
+      show_terminal: true
+      package_manager: yafti.plugin.run
+      groups:
+        Davinci Box:
+          description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox.
+          default: false
+          condition:
+            run: distrobox list | grep -v davincibox
+          packages:
+            - Setup davincibox: distrobox create -i ghcr.io/zelikos/davincibox:latest -n davincibox
+        OBS Studio Portable:
+          description: Portable environment for installing OBS Studio - Use this if the pre-installed OBS flatpak does not work properly for you. (and you want some extra plugins)
+          default: false
+          condition:
+            run: distrobox list | grep -v obs-studio-portable
+          packages:
+            - Setup obs-studio-portable: distrobox create --image ghcr.io/ublue-os/obs-studio-portable:latest --name obs-studio-portable --pull --additional-packages nvidia-driver-535
+            - Installing obs-portable launcher: sh -c "mkdir -p $HOME/.local/bin && echo distrobox enter --name obs -- /opt/obs-portable/obs-portable | tee $HOME/.local/bin"
+  check-user-flathub:
+    source: yafti.screen.consent
+    values:
+      title: Missing Flathub Repository (User)
+      condition:
+        run: flatpak remotes --user --columns=name | grep flathub | wc -l | grep '^0$'
+      description: |
+        We have detected that you don't have Flathub's repository on your current user account. We will now add that repository to your account.
+      actions:
+        - run: flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
+  applications:
+    source: yafti.screen.package
+    values:
+      title: Application Installer
+      show_terminal: true
+      package_manager: yafti.plugin.flatpak
+      package_manager_defaults:
+        user: true
+        system: false
+      groups:
+        Audio:
+          description: Tools for audio production
+          default: false
+          packages:
+            - EarTag: app.drey.EarTag
+            - LMMS: io.lmms.LMMS
+            - Ardour: org.ardour.Ardour
+            - Audacity: org.audacityteam.Audacity
+            - Tenacity: org.tenacityaudio.Tenacity
+            - Carla: studio.kx.carla
+        Graphics:
+          description: Graphics-related applications
+          default: false
+          packages:
+            - GIMP: org.gimp.GIMP
+            - GIMP (BIMP plugin): org.gimp.GIMP.Plugin.BIMP
+            - GIMP (Fourier plugin): org.gimp.GIMP.Plugin.Fourier
+            - GIMP (Lensfun plugin): org.gimp.GIMP.Plugin.Lensfun
+            - GIMP (LiquidRescale plugin): org.gimp.GIMP.Plugin.LiquidRescale
+            - Penpot Desktop (Unofficial): com.sudovanilla.penpot-desktop
+            - Figma (Unofficial): io.github.Figma_Linux.figma_linux
+            - Krita: org.kde.Krita
+            - LibreSprite: com.github.libresprite.LibreSprite
+            - Elastic (Animations): app.drey.Elastic
+            - Inkscape: org.inkscape.Inkscape
+            - Halftone: io.github.tfuxu.Halftone
+            - Image Converter: io.gitlab.adhami3310.Converter
+            - Emblem (Icon maker): org.gnome.design.Emblem
+            - Contrast (Color picker): org.gnome.design.Contrast
+            - Frog (Image Text Extractor): com.github.tenderowl.frog
+            - Avvie (Image Cropper): com.github.taiko2k.avvie
+            - Czkawka (Image Deduper): com.github.qarmin.czkawka
+            - Icon Library: org.gnome.design.IconLibrary
+            - Letter Press (Ascii image maker): io.gitlab.gregorni.ASCIIImages
+            - Pixelorama: com.orama_interactive.Pixelorama
+            - Upscayl: org.upscayl.Upscayl
+        Photography:
+          description: Photography-related applications
+          default: false
+          packages:
+            - GIMP: org.gimp.GIMP
+            - GIMP (BIMP plugin): org.gimp.GIMP.Plugin.BIMP
+            - GIMP (Fourier plugin): org.gimp.GIMP.Plugin.Fourier
+            - GIMP (Lensfun plugin): org.gimp.GIMP.Plugin.Lensfun
+            - GIMP (LiquidRescale plugin): org.gimp.GIMP.Plugin.LiquidRescale
+            - Upscayl: org.upscayl.Upscayl
+            - DigiKam: org.kde.digikam
+            - Darktable: org.darktable.Darktable
+            - Shotwell: org.gnome.Shotwell
+        Video:
+          description: Tools for video production
+          default: false
+          packages:
+            - Shotcut: org.shotcut.Shotcut
+            - KdenLive: org.kde.Kdenlive
+            - Footage: io.gitlab.adhami3310.Footage
+            - Identity: org.gnome.gitlab.YaLTeR.Identity
+            - OBS Studio: com.obsproject.Studio
+            - VideoTrimmer: org.gnome.gitlab.YaLTeR.VideoTrimmer
+            - VkCapture for OBS: com.obsproject.Studio.OBSVkCapture
+            - Gstreamer for OBS: com.obsproject.Studio.Plugin.Gstreamer
+            - Gstreamer VAAPI for OBS: com.obsproject.Studio.Plugin.GStreamerVaapi
+            - Boatswain for Streamdeck: com.feaneron.Boatswain
+            - Vpuppr (VTuber avatar): pro.vpup.vpuppr
+        Development:
+          description: Tools for development
+          default: false
+          packages:
+            - Godot Engine: org.godotengine.Godot
+            - VSCode: com.visualstudio.code
+            - VSCodium: com.vscodium.codium
+            - GitCola: com.github.git_cola.git-cola
+            - GitKraken: com.axosoft.GitKraken
+            - Meld: org.gnome.meld
+            - QEMU DBus Viewer (Snowglobe): com.belmoussaoui.snowglobe
+            - Kleopatra: org.kde.kleopatra
+            - Profiler (KCacheGrind): org.kde.kcachegrind
+            - Kompare: org.kde.kompare
+            - Okteta: org.kde.okteta
+            - Git Notifier: com.mardojai.ForgeSparks
+            - GitG: org.gnome.gitg
+            - Android Studio: com.google.AndroidStudio
+            - Cambalache: ar.xjuan.Cambalache
+            - Kdevelop: org.kde.Kdevelop
+            - Gnome Builder: org.gnome.Builder
+            - Pods: com.github.marhkb.Pods
+            - Podman Desktop: io.podman_desktop.PodmanDesktop
+            - Github Desktop: io.github.shiftey.Desktop
+            - Bavarder: io.github.Bavarder.Bavarder
+            - Processing IDE: org.processing.processingide
+            - GuiScrCpy: in.srev.guiscrcpy
+        Web Browsers:
+          description: Additional browsers to complement or replace Firefox.
+          default: false
+          packages:
+            - Firefox: org.mozilla.firefox
+            - Librewolf: io.gitlab.librewolf-community
+            - Chromium: org.chromium.Chromium
+            - Ungoogled Chromium: com.github.Eloston.UngoogledChromium
+            - Brave: com.brave.Browser
+            - Google Chrome: com.google.Chrome
+            - Microsoft Edge: com.microsoft.Edge
+            - Opera: com.opera.Opera
+        Gaming:
+          description: "Rock and Stone!"
+          default: false
+          packages:
+            - Steam: com.valvesoftware.Steam
+            - Gamescope (Utility): org.freedesktop.Platform.VulkanLayer.gamescope
+            - MangoHUD (Utility): org.freedesktop.Platform.VulkanLayer.MangoHud//22.08
+            - SteamTinkerLaunch (Utility): com.valvesoftware.Steam.Utility.steamtinkerlaunch
+            - Proton Updater for Steam: net.davidotek.pupgui2
+            - RetroDeck: net.retrodeck.retrodeck
+            - Minetest: net.minetest.Minetest
+            - OpenArena: ws.openarena.OpenArena
+            - Frogatto: com.frogatto.Frogatto
+            - Cave Story NX: com.gitlab.coringao.cavestory-nx
+            - Pekka Kana: net.pistegamez.PekkaKana2
+            - 0 AD: com.play0ad.zeroad
+            - Sonic Robo Blast: org.srb.SRB
+            - Roblox (Launcher): io.github.vinegarhq.Vinegar
+            - Veloren (Launcher): net.veloren.airshipper
+            - Retroarch: org.libretro.RetroArch
+            - Lutris: net.lutris.Lutris
+            - Bottles: com.usebottles.bottles
+            - Discord: com.discordapp.Discord
+            - Cardriges: hu.kramo.Cartridges
+            - Heroic Games Launcher: com.heroicgameslauncher.hgl
+        Office:
+          description: Boost your productivity.
+          default: false
+          packages:
+            - LibreOffice: org.libreoffice.LibreOffice
+            - OnlyOffice: org.onlyoffice.desktopeditors
+            - Setzer (LaTeX): org.cvfosammmm.Setzer
+            - Kile (LaTeX): org.kde.kile
+            - Thunderbird Email: org.mozilla.Thunderbird
+            - Evolution: org.gnome.Evolution
+            - GhostWriter: io.github.wereturtle.ghostwriter
+            - Apostrophe: org.gnome.gitlab.somas.Apostrophe
+            - Obsidian: md.obsidian.Obsidian
+            - Logseq: com.logseq.Logseq
+            - Zim: org.zim_wiki.Zim
+        System GNOME Apps:
+          description: Core system applications for GNOME
+          default: false
+          packages:
+            - Calculator: org.gnome.Calculator
+            - Calendar: org.gnome.Calendar
+            - Snapshot: org.gnome.Snapshot
+            - Clocks: org.gnome.clocks
+            - Connections: org.gnome.Connections
+            - Disk Usage Analyzer: org.gnome.baobab
+            - Document Viewer: org.gnome.Evince
+            - Extension Manager: com.mattjakeman.ExtensionManager
+            - Image Viewer: org.gnome.Loupe
+            - File Previewr: org.gnome.NautilusPreviewer
+            - Text Editor: org.gnome.TextEditor
+            - Video Player: io.github.celluloid_player.Celluloid
+            - Music Player: com.github.neithern.g4music
+            - Weather: org.gnome.Weather
+            - Logs: org.gnome.Logs
+        GNOME Extras:
+          description: Extra GNOME applications
+          default: false
+          packages:
+            - RSS Reader (NewsFlash): io.gitlab.news_flash.NewsFlash
+            - Authenticator: com.belmoussaoui.Authenticator
+            - Photo Organizer: org.gnome.Shotwell
+            - Music Library Player: org.gnome.Lollypop
+            - GTK4 Theme Customizer: com.github.GradienceTeam.Gradience
+            - Login Screen Manager: io.github.realmazharhussain.GdmSettings
+            - DConf Editor: ca.desrt.dconf-editor
+            - Podcasts Player: org.gnome.Podcasts
+        KDE System Apps:
+          description: Core system applications for KDE
+          default: false
+          packages:
+            - Video Viewer (VLC): org.vlc.VLC
+            - Music Player (Elisa): org.kde.elisa
+            - Image Viewer: org.kde.koko
+            - Pipewire Viewer (QPWGraph): org.rncbc.qpwgraph
+            - Document Viewer (Okular): org.kde.okular
+            - Terminal Emulator (Yakuake): org.kde.yakuake
+            - Clock: org.kde.kclock
+            - Weather: org.kde.kweather
+            - Calculator (Kalk): org.kde.kalk
+            - Camera (Kamoso): org.kde.kamoso
+            - Book Reader (Arianna): org.kde.arianna
+        KDE Extras:
+          description: Core system applications for KDE
+          default: false
+          packages:
+            - Authenticator (Keysmith): org.kde.keysmith
+            - RSS Reader (Alligator): org.kde.alligator
+            - Password Manager (KeepassXC): org.keepassxc.KeePassXC
+            - Podcasts (Kasts): org.kde.kasts
+            - Video Editor (Kdenlive): org.kde.kdenlive
+            - Krita: org.kde.krita
+            - Matrix (Neochat): org.kde.neochat
+            - Mastodon (Tokodon): org.kde.tokodon
+            - Music Player (Vvave): org.kde.vvave
+            - Kontact: org.kde.kontact
+            - KMail: org.kde.kmail
+            - Jukebox (JuK): org.kde.juk
+            - Kontrast: org.kde.kontrast
+            - Media Player (Haruna): org.kde.haruna
+        System Apps:
+          description: System applications for all desktop environments.
+          default: true
+          packages:
+            - Permission Manager: com.github.tchx84.Flatseal
+            - Firmware Manager: org.gnome.Firmware
+            - System Inspector: io.github.nokse22.inspector
+            - System Monitor: io.missioncenter.MissionCenter
+            - Network Inspector: org.gabmus.whatip
+            - ISO Image Writer: org.kde.isoimagewriter
+            - Flatpak Cleaner: io.github.giantpinkrobots.flatsweep
+            - Backup Manager: com.borgbase.Vorta
+        System Extras:
+          description: System applications for all desktop environments.
+          default: false
+          packages:
+            - EasyEffects: com.github.wwmm.easyeffects
+            - Download Manager: org.kde.kget
+            - Syncthing GTK: me.kozec.syncthingtk
+            - Bitwarden: com.bitwarden.desktop
+            - Fedora Media Writer: org.fedoraproject.MediaWriter
+            - Bitwarden: com.bitwarden.desktop
+            - Cockpit Client: org.cockpit_project.CockpitClient
+            - Youtube Downloader: org.nickvision.tubeconverter
+            - Youtube Player: io.gitlab.zehkira.Monophony
+            - Youtube Music Client (AudioTube): org.kde.audiotube
+            - Youtube Client (PlasmaTube): org.kde.plasmatube
+            - Key Manager: org.gnome.seahorse.Application
+            - Music Metadata Tagger: org.nickvision.tagger
+            - Pomodoro Timer: org.gnome.Solanum
+            - Remote Viewer (KRDC): org.kde.krdc
+            - Time Tracker (KTimeTracker): org.kde.ktimetracker
+            - QBittorrent: org.qbittorrent.qBittorrent
+            - Transmission: com.transmissionbt.Transmission
+            - Fragments: de.haeckerfelix.Fragments
+            - Delunge: org.deluge_torrent.deluge
+            - Backup Manager (PikaBackup): org.gnome.World.PikaBackup
+  final-screen:
+    source: yafti.screen.title
+    values:
+      title: "All done!"
+      icon: "/usr/share/pixmaps/atomic-studio-logo.png"
+      links:
+        - "Universal Blue Website":
+          run: /usr/bin/xdg-open https://universal-blue.org
+        - "This images source code":
+          run: /usr/bin/xdg-open https://github.com/tulilirockz/Atomic-Studio
+        - "Join the Universal Blue Discord Community":
+          run: /usr/bin/xdg-open https://discord.gg/XjG48C7VHx
+      description: |
+        Thank you for trying Atomic Studio, we hope you enjoy it!
