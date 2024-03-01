@@ -6,17 +6,14 @@ install:
   - blender
   - inkscape
   - ffmpeg
-  - ardour8
   - audacity
   - yoshimi
   - rakarrack
   - supercollider
   - csound
-  - kdenlive
   - guitarix
   - ladspa
   - ladspa-guitarix-plugins
-
 remove:
   - firefox
   - firefox-langpacks

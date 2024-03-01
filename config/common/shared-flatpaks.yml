@@ -1,19 +1,21 @@
 type: default-flatpaks
-  notify: true
-  system:
-    install:
-      - org.mozilla.firefox
-      - com.obsproject.Studio.Plugin.OBSVkCapture
-      - org.freedesktop.Platform.VulkanLayer.OBSVkCapture
-      - com.obsproject.Studio
-      - org.gimp.GIMP
-      - org.gimp.GIMP.Plugin.BIMP
-      - org.gimp.GIMP.Plugin.Fourier
-      - org.gimp.GIMP.Plugin.Lensfun
-      - org.gimp.GIMP.Plugin.LiquidRescale
-      - org.kde.digikam
-      - com.github.qarmin.czkawka
-      - org.darktable.Darktable
-      - io.github.fabrialberio.pinapp
-      - org.rncbc.qtractor
-      - org.hydrogenmusic.Hydrogen
+notify: true
+system:
+  install:
+    - org.mozilla.firefox
+    - com.obsproject.Studio.Plugin.OBSVkCapture
+    - org.freedesktop.Platform.VulkanLayer.OBSVkCapture
+    - com.obsproject.Studio
+    - org.gimp.GIMP
+    - org.gimp.GIMP.Plugin.BIMP
+    - org.gimp.GIMP.Plugin.Fourier
+    - org.gimp.GIMP.Plugin.Lensfun
+    - org.gimp.GIMP.Plugin.LiquidRescale
+    - org.kde.digikam
+    - com.github.qarmin.czkawka
+    - org.darktable.Darktable
+    - io.github.fabrialberio.pinapp
+    - org.rncbc.qtractor
+    - org.hydrogenmusic.Hydrogen
+    - org.ardour.Ardour
+    - org.kde.kdenlive

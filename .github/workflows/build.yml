@@ -25,6 +25,8 @@ jobs:
           - recipe-gnome.yml
           - recipe-gnome-nvidia.yml
     steps:
+      - name: Maximize build space
+        uses: ublue-os/remove-unwanted-software@v6
       - name: Build Custom Image
         uses: blue-build/github-action@v1.1
         with:
