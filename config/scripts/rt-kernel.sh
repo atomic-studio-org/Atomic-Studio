@@ -19,17 +19,4 @@ rpm-ostree override replace \
     --from repo=copr:copr.fedorainfracloud.org:ycollet:audinux \
     kernel-rt-mao
 
-RUN 
-     && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=copr:copr.fedorainfracloud.org:sentry:kernel-fsync \
-        kernel \
-        kernel-core \
-        kernel-modules \
-        kernel-modules-core \
-        kernel-modules-extra \
-        kernel-uki-virt
-
-
 rm -f $REPO_FILE_PATH
