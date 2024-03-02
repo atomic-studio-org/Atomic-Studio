@@ -46,7 +46,6 @@ install:
   - Carla
   - OpenLP
   - ddccontrol
-  - kde-connect
   - jconvolver
   - jaaa
   - jacktrip
@@ -61,7 +60,21 @@ install:
   - lv2-carla
   - lv2-calf-plugins
   - sooperlooper
-  - jack_capture 
+  - jack_capture
+  - tuxguitar
+  - amsynth 
+  - vkeybd
+  - gimp
+  - gimp-gap
+  - gimp-fourier-plugin
+  - gimp-jxl-plugin
+  - gimp-lqr-plugin
+  - gimp-paint-studio
+  - gmic-gimp
+  - gimp-save-for-web
+  - gimp-lensfun
+  - scribus
+  - openshot
 remove:
   - firefox
   - firefox-langpacks

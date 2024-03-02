@@ -1,0 +1,9 @@
+type: rpm-ostree
+install:
+  - jack-audio-connection-kit
+  - jack-audio-connection-kit-dbus
+  - csound-jack
+  - qemu-audio-jack
+remove:
+  - pipewire
+  - pipewire-pulseaudio

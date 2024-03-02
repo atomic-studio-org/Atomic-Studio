@@ -2,3 +2,4 @@ type: rpm-ostree
 install:
   - qpwgraph
   - materia-kde 
+  - kde-connect

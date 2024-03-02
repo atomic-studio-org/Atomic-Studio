@@ -16,6 +16,13 @@ screens:
       show_terminal: true
       package_manager: yafti.plugin.run
       groups:
+        Jack User Groups:
+          description: Add certain user groups for your user in order to use Jack realtime applications properly 
+          default: false
+          condition:
+            run: rpm -qa | grep "^jack-audio-connection-kit"
+          packages:
+            - Add jackuser group: pkexec sh -c "set -euo pipefail && for GROUP in jackuser ; do usermod -a -G $GROUP $USER done" 
         Davinci Box:
           description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox.
           default: false

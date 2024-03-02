@@ -1,0 +1,16 @@
+name: atomic-studio-jack
+description: Operating system based on Fedora Atomic meant for content creators and artists
+
+base-image: ghcr.io/ublue-os/kinoite-main
+image-version: latest
+
+modules:
+  - from-file: common/shared/apps.yml
+  - from-file: common/shared/files.yml
+  - from-file: common/shared/scripts.yml
+  - from-file: common/plasma/apps.yml
+  - from-file: common/plasma/files.yml
+  - from-file: common/audio/jack-packages.yml
+  - from-file: common/audio/audinux.yml
+  - type: yafti
+  - type: signing

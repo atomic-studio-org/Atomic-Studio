@@ -20,10 +20,14 @@ jobs:
       fail-fast: false
       matrix:
         recipe:
-          - recipe.yml
-          - recipe-nvidia.yml
-          - recipe-gnome.yml
-          - recipe-gnome-nvidia.yml
+          - recipes/pw/recipe.yml
+          - recipes/pw/recipe-nvidia.yml
+          - recipes/pw/recipe-gnome.yml
+          - recipes/pw/recipe-gnome-nvidia.yml
+          - recipes/jack/recipe.yml
+          - recipes/jack/recipe-nvidia.yml
+          - recipes/jack/recipe-gnome.yml
+          - recipes/jack/recipe-gnome-nvidia.yml
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
