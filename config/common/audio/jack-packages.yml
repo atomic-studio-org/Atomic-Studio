@@ -6,4 +6,7 @@ install:
   - qemu-audio-jack
 remove:
   - pipewire
+  - pipewire-utils
   - pipewire-pulseaudio
+  - pipewire-jack-audio-connection-kit
+  - vlc-plugin-pipewire

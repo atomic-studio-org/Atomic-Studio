@@ -54,6 +54,8 @@ install:
   - obs-studio-plugin-vkcapture
   - obs-studio-plugin-webkitgtk
   - lsp-plugins
+  - lsp-plugins-jack
+  - lsp-plugins-lv2
   - calf
   - lv2-x42-plugins
   - lv2
@@ -74,6 +76,7 @@ install:
   - gimp-lensfun
   - scribus
   - openshot
+  - furnace
 remove:
   - firefox
   - firefox-langpacks
