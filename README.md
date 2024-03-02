@@ -5,7 +5,7 @@
 
 Want Ubuntu Studio but in a reproducible and atomic environment? Then Atomic Studio is for you! We provide all the same packages that you would get with Ubuntu Studio, but in a stable, atomic and reliable for all your content creation needs.
 
-This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the Offline ISO in [Releases](https://github.com/tulilirockz/Atomic-Studio/releases) or by rebasing your system to one of them.
+This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the (current netinstall) ISO in [Releases](https://github.com/tulilirockz/Atomic-Studio/releases) or by rebasing your system to one of them.
 
 > This operating system image is not affilitated with Ubuntu or Fedora at all! We just use the Fedora base and get some inspirations from the Ubuntu Studio project. If you like this project, make sure to check out Ubuntu Studio proper!
 
