@@ -10,6 +10,5 @@ remove:
   - pipewire-pulseaudio
   - pipewire-jack-audio-connection-kit
   - pipewire-jack-audio-connection-kit-libs
-  - pipewire-gstreamer
   - pipewire-codec-aptx
   - vlc-plugin-pipewire
