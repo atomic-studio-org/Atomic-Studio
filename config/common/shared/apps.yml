@@ -65,7 +65,6 @@ install:
   - amsynth 
   - vkeybd
   - gimp
-  - gimp-gap
   - gimp-fourier-plugin
   - gimp-jxl-plugin
   - gimp-lqr-plugin
