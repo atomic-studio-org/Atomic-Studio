@@ -12,6 +12,7 @@ rpm-ostree cliwrap install-to-root /
 rpm-ostree override replace \
     --experimental \
     --remove=kernel \
+    --remove=kernel-core \
     --from repo=copr:copr.fedorainfracloud.org:ycollet:audinux \
     kernel-rt-mao
 
