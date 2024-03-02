@@ -9,4 +9,10 @@ remove:
   - pipewire-utils
   - pipewire-pulseaudio
   - pipewire-jack-audio-connection-kit
+  - pipewire-jack-audio-connection-kit-libs
+  - pipewire-libs
+  - pipewire-alsa
+  - pipewire-gstreamer
+  - pipewire-codec-aptx
+  - kpipewire
   - vlc-plugin-pipewire
