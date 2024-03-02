@@ -4,15 +4,12 @@ install:
   - jack-audio-connection-kit-dbus
   - csound-jack
   - qemu-audio-jack
+  - pulseaudio
 remove:
-  - pipewire
   - pipewire-utils
   - pipewire-pulseaudio
   - pipewire-jack-audio-connection-kit
   - pipewire-jack-audio-connection-kit-libs
-  - pipewire-libs
-  - pipewire-alsa
   - pipewire-gstreamer
   - pipewire-codec-aptx
-  - kpipewire
   - vlc-plugin-pipewire
