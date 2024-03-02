@@ -15,7 +15,6 @@ rpm-ostree override replace \
     --remove=kernel-core \
     --remove=kernel-modules \
     --remove=kernel-headers \
-    --remove=kernel-devel \
     --from repo=copr:copr.fedorainfracloud.org:ycollet:audinux \
     kernel-rt-mao
 
