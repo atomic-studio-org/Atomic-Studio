@@ -1,4 +1,4 @@
 type: script
 scripts:
   - ptyxis.sh
-  - rt-kernel.sh
+  #- rt-kernel.sh
