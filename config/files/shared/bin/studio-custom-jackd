@@ -1,0 +1,31 @@
+#!/usr/bin/env -S nu
+
+let DEFAULT_SCRIPT = "#!/usr/bin/env -S nu
+jack_control start
+jack_control ds alsa
+jack_control dps rate 48000
+jack_control dps nperiods 2
+jack_control dps period 64
+sleep 5sec
+a2j_control --ehw
+a2j_control --start
+sleep 5sec
+qjackctl &"
+
+def "main" [
+  --entrypoint (-e) # Entrypoint script for running jackd (default: ~/.config/atomic-studio/jack/custom-jackd.nu)
+  ...args # Arguments that will be passed to the script
+] {
+  mut entrypoint_path = ""
+  if $entrypoint == null {
+    $entrypoint_path = $"($env.XDG_CONFIG_HOME)/atomic-studio/jack/custom-jackd.nu"
+  }
+
+  if not ($entrypoint_path | path exists) {
+    mkdir ($entrypoint_path | path dirname)
+    $DEFAULT_SCRIPT | save $entrypoint_path
+    chmod +x $entrypoint_path
+  }
+
+  run-external $entrypoint_path ...$args
+}

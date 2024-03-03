@@ -6,7 +6,7 @@ screens:
     source: yafti.screen.title
     values:
       title: "Welcome to Atomic Studio"
-      icon: "/usr/share/pixmaps/atomic-studio-logo.png"
+      icon: "/usr/share/ublue-os/atomic-studio/icons/logo.png"
       description: |
         This guided installer will help you get started with your new system.
   configure-system:
@@ -22,7 +22,7 @@ screens:
           condition:
             run: rpm -qa | grep "^jack-audio-connection-kit"
           packages:
-            - Add jackuser group: pkexec sh -c "set -euo pipefail && for GROUP in jackuser ; do usermod -a -G $GROUP $USER done" 
+            - Add jackuser group: pkexec sh -c "for GROUP in jackuser realtime ; do usermod -a -G $GROUP $USER ; done" 
         Davinci Box:
           description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox.
           default: false
@@ -308,7 +308,7 @@ screens:
     source: yafti.screen.title
     values:
       title: "All done!"
-      icon: "/usr/share/pixmaps/atomic-studio-logo.png"
+      icon: "/usr/share/ublue-os/atomic-studio/icons/logo.png"
       links:
         - "Universal Blue Website":
           run: /usr/bin/xdg-open https://universal-blue.org
