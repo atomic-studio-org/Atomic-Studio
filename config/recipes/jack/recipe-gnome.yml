@@ -13,5 +13,6 @@ modules:
   - from-file: common/gnome/files.yml
   - from-file: common/audio/audinux.yml
   - from-file: common/audio/jack-packages.yml
+  - from-file: common/audio/jack-services.yml
   - type: yafti
   - type: signing

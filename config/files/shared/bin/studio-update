@@ -1,0 +1,46 @@
+#!/usr/bin/env -S nu
+
+# Show changelogs for the current system
+def "main changelog" [] {
+  rpm-ostree db diff --changelogs
+}
+
+# Toggle automatic upgrades
+#
+# Use 'enable' to Enable automatic updates.
+# Use 'disable' to Disable automatic updates.
+def "main toggle" [option?: string] {
+  CURRENT_STATE="disabled"
+  if systemctl is-enabled ublue-update.timer | grep -q enabled; then
+    CURRENT_STATE="enabled"
+  fi
+
+  mut opt = $option
+  if $option == null {
+    $opt = "prompt"
+  }
+
+  if "$OPTION" == "prompt" {
+    echo $"Automatic updates are currently: ($CURRENT_STATE)"
+    echo "Enable or Disable automatic updates?"
+    OPTION=$(gum choose Enable Disable)
+  }
+
+  pkexec systemctl (match ($opt | str downcase) {
+    "disable" | "enable" => ($opt | str downcase),
+    _ => { echo "Invalid option" ; exit } 
+  }) --now ublue-update.timer 
+}
+
+# Run topgrade transaction for general upgrades
+def "main" [
+  --config (-c) # Configuration file for Topgrade
+] {
+  mut config_file = $config
+  if $config == null {
+    $config_file = /usr/share/ublue-os/topgrade.toml
+  }
+
+  topgrade --config $config_file --keep
+}
+   

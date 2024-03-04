@@ -2,9 +2,13 @@ type: rpm-ostree
 repos:
   - https://copr.fedorainfracloud.org/coprs/atim/nushell/repo/fedora-%OS_VERSION%/atim-nushell-fedora-%OS_VERSION%.repo
 install:
+  - jq
   - nushell
   - netcat
   - espeak-ng
+  - qemu-audio-dbus
+  - qemu-audio-alsa
+  - qemu-audio-spice
   - papirus-icon-theme
   - materia-gtk-theme
   - krita

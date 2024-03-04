@@ -12,6 +12,7 @@ modules:
   - from-file: common/gnome/apps.yml
   - from-file: common/gnome/files.yml
   - from-file: common/audio/pipewire-flatpaks.yml
+  - from-file: common/audio/pipewire-services.yml
   - from-file: common/audio/audinux.yml
   - type: yafti
   - type: signing

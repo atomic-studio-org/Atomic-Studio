@@ -4,6 +4,7 @@ install:
   - jack-audio-connection-kit-dbus
   - csound-jack
   - qemu-audio-jack
+  - qemu-audio-pa
   - pulseaudio
 remove:
   - pipewire-utils

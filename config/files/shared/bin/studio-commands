@@ -1,0 +1,17 @@
+#!/usr/bin/env -S nu
+
+#TODO: Implement Verbose arg
+
+# List all Atomic Studio commands
+def "main" [
+  --verbose (-v) # Show all help
+  prefix?: string # Path where binaries are
+] {
+  mut folder_prefix = $"($prefix)"
+  if $prefix == null {
+    $folder_prefix = "/usr/bin"
+  }
+
+  let all_files = (ls $folder_prefix | where { |e| ($e.name | str starts-with "studio-") }) 
+    echo $all_files
+}

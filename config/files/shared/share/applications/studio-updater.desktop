@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=System Update
+Comment=Update Bazzite, Flatpaks, Distrobox containers, and more
+Icon=/usr/share/ublue-os/atomic-studio/update.svg
+Categories=ConsoleOnly;System;
+Terminal=true
+Exec=/usr/bin/konsole -e /usr/bin/studio-update

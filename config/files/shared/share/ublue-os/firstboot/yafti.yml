@@ -16,6 +16,17 @@ screens:
       show_terminal: true
       package_manager: yafti.plugin.run
       groups:
+        Nu Shell:
+          description: Change your user shell to the Nu shell
+          default: false 
+          packages:
+            - Change to Nushell: pkexec usermod $USER --shell /usr/bin/nu
+            - Add Nushell to Shells: pkexec sh -c "[ grep '/usr/bin/nu' /etc/shells ] || echo /usr/bin/nu /etc/shells"
+        Fish Shell:
+          description: Change your user shell to the Fish shell
+          default: true
+          packages:
+            - Change to Fish shell: pkexec usermod $USER --shell /usr/bin/fish 
         Jack User Groups:
           description: Add certain user groups for your user in order to use Jack realtime applications properly 
           default: false

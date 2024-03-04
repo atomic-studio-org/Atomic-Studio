@@ -90,6 +90,7 @@ def distrobox_installer_wrapper [yes: bool, export_path: string, packages: list<
     if (not (user_prompt $yes)) {
       exit 0
     }
+    echo "Installing, please wait."
     curl -s $DISTROBOX_DOWNLOAD_URL | pkexec sh
   }
 
@@ -117,7 +118,8 @@ def brew_install [yes: bool, packages: list<string>] {
     if (not (user_prompt $yes)) {
       exit 0
     }
-    /usr/libexec/brew-install out> /tmp/brew_install.log
+    echo "Installing, please wait. You can check logs in /tmp/brew_install.log"
+    { yes | /usr/libexec/brew-install } out> /tmp/brew_install.log
     echo "PLEASE IGNORE THE INSTRUCTIONS ABOVE. THEY WILL NOT HELP YOU! THE SYSTEM IS ALREADY CONFIGURED TO USE BREW PROPERLY BY DEFAULT :>" out> /tmp/brew_install.log
   }
   run-external $brew_path install ($packages | str join ' ')
@@ -129,6 +131,7 @@ def nix_install [yes: bool, packages: list<string>] {
     if (not (user_prompt $yes)) {
       exit 0
     }
+    echo "Installing, please wait. You can check logs in /tmp/nix_install.log"
     { yes | curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install } out> /tmp/nix_install.log
     echo "Nix installed successfully! Please reload your shell and run this program again."
     exit 0

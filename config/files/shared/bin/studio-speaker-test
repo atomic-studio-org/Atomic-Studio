@@ -29,8 +29,8 @@ def "main" [
     if $iterations == $exit {
       exit 0
     }
-    sleep $wait_time 
     espeak-ng -v en+13 ...$speak_text
+    sleep $wait_time 
     $iterations += 1
   }
 }

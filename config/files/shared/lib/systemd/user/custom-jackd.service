@@ -1,0 +1,17 @@
+[Unit]
+Description=Atomic Studio jackd server autostart service
+
+[Service]
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+RestrictNamespaces=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+Type=simple
+ExecStart=studio-custom-jackd
+Restart=on-failure
+Slice=session.slice
+
+[Install]
+WantedBy=default.target

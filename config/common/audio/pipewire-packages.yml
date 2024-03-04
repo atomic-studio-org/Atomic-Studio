@@ -3,5 +3,4 @@ install:
   - pipewire-jack-audio-connection-kit
   - pipewire-jack-audio-connection-kit-devel
   - pipewire-plugin-jack
-  - jack-audio-connection-kit
-
+  - qemu-audio-pipewire
