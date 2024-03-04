@@ -2,4 +2,5 @@ type: script
 scripts:
   - ptyxis.sh
   - extra-packages.sh
+  - tuned.sh
   #- rt-kernel.sh

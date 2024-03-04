@@ -5,7 +5,10 @@ base-image: ghcr.io/ublue-os/silverblue-main
 image-version: latest
 
 modules:
-  - from-file: common/shared/apps.yml
+  - from-file: common/shared/gui-apps.yml
+  - from-file: common/shared/packages.yml
+  - from-file: common/shared/amd/packages.yml
+  - from-file: common/shared/amd/scripts.yml
   - from-file: common/shared/files.yml
   - from-file: common/shared/scripts.yml
   - from-file: common/gnome/scripts.yml
