@@ -39,7 +39,7 @@ def "main remove" [
     exit 1 
   }
 
-  distrobox enter $install_box -- sh -c "add-davinci-launcher remove"
+  distrobox enter $install_box '--' sh -c "add-davinci-launcher remove"
 }
 
 # Install Davinci Resolve in a compatible distrobox
@@ -60,15 +60,16 @@ def "main" [
   if $box_name == null {
     $install_box = $INSTALLATION_BOX 
   }
+  let box_name = $install_box
 
-  try { distrobox ls | grep $install_box out> /dev/null } catch { 
+  try { distrobox ls | grep $box_name out> /dev/null } catch { 
     fancy_prompt_message "The Davinci container"
     if (not (user_prompt $yes)) {
       exit 0
     }
-    distrobox create -i $DAVINCI_IMAGE --name $install_box -Y --pull 
+    distrobox create -i $DAVINCI_IMAGE --name $box_name -Y --pull 
   }
   
-  distrobox enter $install_box -- sh -c $"setup-davinci ($script_path) distrobox && add-davinci-launcher"
+  distrobox enter $box_name -- sh -c $"setup-davinci ($script_path) distrobox && add-davinci-launcher"
 }
 

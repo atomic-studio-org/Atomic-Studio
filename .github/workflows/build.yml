@@ -31,6 +31,13 @@ jobs:
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
+        with:
+          remove-codeql: 'true'
+      #- name: Extra maximize build disk space
+      #  shell: bash
+      #  run: |
+      #    sudo rm -rf "/usr/local/share/boost"
+      #    sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - name: Build Custom Image
         uses: blue-build/github-action@v1.1
         with:

@@ -10,10 +10,10 @@ def "main changelog" [] {
 # Use 'enable' to Enable automatic updates.
 # Use 'disable' to Disable automatic updates.
 def "main toggle" [option?: string] {
-  CURRENT_STATE="disabled"
-  if systemctl is-enabled ublue-update.timer | grep -q enabled; then
-    CURRENT_STATE="enabled"
-  fi
+  mut CURRENT_STATE = "disabled"
+  if (run-external --redirect-combine systemctl is-enabled ublue-update.timer | complete).stdout == "enabled" {
+    $CURRENT_STATE = "enabled"
+  }
 
   mut opt = $option
   if $option == null {
@@ -23,7 +23,7 @@ def "main toggle" [option?: string] {
   if "$OPTION" == "prompt" {
     echo $"Automatic updates are currently: ($CURRENT_STATE)"
     echo "Enable or Disable automatic updates?"
-    OPTION=$(gum choose Enable Disable)
+    $opt = (gum choose Enable Disable)
   }
 
   pkexec systemctl (match ($opt | str downcase) {
@@ -38,7 +38,7 @@ def "main" [
 ] {
   mut config_file = $config
   if $config == null {
-    $config_file = /usr/share/ublue-os/topgrade.toml
+    $config_file = "/usr/share/ublue-os/topgrade.toml"
   }
 
   topgrade --config $config_file --keep

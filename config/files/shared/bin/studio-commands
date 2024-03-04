@@ -12,6 +12,5 @@ def "main" [
     $folder_prefix = "/usr/bin"
   }
 
-  let all_files = (ls $folder_prefix | where { |e| ($e.name | str starts-with "studio-") }) 
-    echo $all_files
+  echo (ls $folder_prefix | where { |e| ($e.name | str starts-with "studio-") }) 
 }

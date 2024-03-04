@@ -1,10 +1,11 @@
 #!/usr/bin/env -S nu
-CURRENT_IMAGE=(rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"')
 
 def user_prompt [yes: bool] {
   let user_response = input "[Y/n]> "
   return (($user_response =~ "(?i)yes") or ($user_response =~ "(?i)y"))
 }
+
+let CURRENT_IMAGE = (rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"')
 
 if ($CURRENT_IMAGE | grep -q "/var/ublue-os/image") {
     echo "Before we can switch to the Jack image,the current system needs an update. Do you wish to update?"

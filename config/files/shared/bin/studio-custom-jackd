@@ -1,8 +1,8 @@
 #!/usr/bin/env -S nu
 
-let USER_JACKD_ENABLED = $"($env.XDG_CONFIG_HOME)/atomic-studio/jack/user_custom_jackd"
+let USER_JACKD_ENABLED = $"($env.HOME)/.config/atomic-studio/jack/user_custom_jackd"
 let SYSTEM_JACKD_SCRIPT_PATH = "/usr/libexec/studio-jackd-default"
-let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.XDG_CONFIG_HOME)/atomic-studio/jack/custom-jackd.nu"
+let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.HOME)/.config/atomic-studio/jack/custom-jackd.nu"
 
 let DEFAULT_SCRIPT = "#!/usr/bin/env -S nu
 jack_control start

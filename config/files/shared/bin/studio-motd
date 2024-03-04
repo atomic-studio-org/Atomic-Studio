@@ -10,7 +10,7 @@ let escape_patterns = [
   ["&", "\&"]
 ]
 
-let MOTD_ENABLED_FILE = $"($env.XDG_CONFIG_PATH)/atomic-studio/motd_enabled"
+let MOTD_ENABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
 
 def replace_format [
   replacers: table<source: string, output: string> # Sources and outputs for the templates
