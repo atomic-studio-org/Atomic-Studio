@@ -3,7 +3,7 @@
 def "main" [
     yaml_file: string
 ] {
-  chmod +x $"($env.PWD)/scripts/*"
+  chmod +x "/tmp/config/scripts/*"
   ($yaml_file | from yaml).scripts | each {
     | script | { run-external $script }
   }
