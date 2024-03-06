@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S nu
 rpm-ostree override remove power-profiles-daemon || true
 rpm-ostree override remove tlp tlp-rdw || true
 
