@@ -4,7 +4,7 @@ def "main" [
     yaml_file: string
 ] {
   chmod +x $"($env.PWD)/scripts/*"
-  (open $yaml_file).scripts | each {
+  ($yaml_file | from yaml).scripts | each {
     | script | { run-external $script }
   }
 }
