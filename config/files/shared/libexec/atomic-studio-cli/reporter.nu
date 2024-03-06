@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nu
 
-let fetch_info = ["hw", "audio", "packages", "podman", "systemd", "env"]
+const fetch_info = ["hw", "audio", "packages", "podman", "systemd", "env"]
 
 def table_commands [...commands: string] {
   return ($commands | par-each {
@@ -13,16 +13,12 @@ def table_commands [...commands: string] {
 }
 
 # List all available modules to export
-def "main list" [] {
+export def "main reporter list" [] {
   echo $"($fetch_info | table)"
 }
 
 # Report system information to facilitate Atomic Studio development
-# Usage example:
-# 
-# studio-reporter --method fpaste hw env podman (returns a fpaste URL) 
-# lshw | studio-reported --method termbin
-def "main" [
+export def "main reporter" [
   --method (-m): string # Method used for reporting, allowed values: ["fpaste", "termbin", "loopback"]
   --fetch_only # Only fetch, do not post anything anywhere
   ...fetch # Data that will be fetched (default: none)

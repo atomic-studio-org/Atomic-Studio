@@ -1,8 +1,8 @@
 #!/usr/bin/env -S nu
 
-let DISTROBOX_DOWNLOAD_URL = "https://raw.githubusercontent.com/89luca89/distrobox/main/install"
-let INSTALLATION_BOX = "davincibox"
-let DAVINCI_IMAGE = "ghcr.io/zelikos/davincibox:latest"
+const DISTROBOX_DOWNLOAD_URL = "https://raw.githubusercontent.com/89luca89/distrobox/main/install"
+const INSTALLATION_BOX = "davincibox"
+const DAVINCI_IMAGE = "ghcr.io/zelikos/davincibox:latest"
 
 def user_prompt [yes: bool] {
   if $yes {
@@ -17,7 +17,7 @@ def fancy_prompt_message [package_manager: string] {
 }
 
 # Delete Davinci Resolve in a from a distrobox
-def "main remove" [
+export def "main davinci remove" [
   --yes (-y) # Skip all confirmation prompts, 
   --box_name: string # Name of the distrobox where davinci-installer will be run from
 ] {
@@ -43,7 +43,7 @@ def "main remove" [
 }
 
 # Install Davinci Resolve in a compatible distrobox
-def "main" [
+export def "main davinci" [
   --yes (-y) # Skip all confirmation prompts, 
   --box_name: string # Name of the distrobox where davinci-installer will be run from
   script_path: string # The script that will be run to install Davinci Resolve

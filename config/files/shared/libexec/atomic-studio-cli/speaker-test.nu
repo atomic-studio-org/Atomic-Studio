@@ -1,6 +1,7 @@
 #!/usr/bin/env -S nu
 
-def "main" [
+# Test your speakers with espeak
+export def "main speaker-test" [
   --wait (-w): duration # Amount of time to wait between tests
   --voice (-v): string # Espeak voice that will be used
   --exit (-e): int # Exit after "X" tests

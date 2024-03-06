@@ -1,10 +1,8 @@
 #!/usr/bin/env -S nu
 
-$env.DBX_SUDO_PROGRAM = "pkexec"
-let DISTROBOX_DOWNLOAD_URL = "https://raw.githubusercontent.com/89luca89/distrobox/main/install"
-
-let valid_package_managers = ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman"]
-let distroboxes = [
+const DISTROBOX_DOWNLOAD_URL = "https://raw.githubusercontent.com/89luca89/distrobox/main/install"
+const valid_package_managers = ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman"]
+const distroboxes = [
   ["aliases","name", "image"];
   ["ubuntu", "ubuntubox", "ghcr.io/ublue-os/ubuntu-toolbox:latest"]
   ["arch", "archbox", "ghcr.io/ublue-os/arch-distrobox:latest"]
@@ -12,12 +10,11 @@ let distroboxes = [
 ]
 
 # Export selected packages from selected subsystem to the host system
-def "main export" [
+export def "main add export" [
     --export (-e): string # Path where packages will be exported to (default: ~/.local/bin),
     box_or_subsystem: string, 
     ...packages: string
   ] {
-
   mut exportPath = ""
   if ($export == null) or ($export == "") {
     $exportPath = $"($env.HOME)/.local/bin"
@@ -34,12 +31,12 @@ def "main export" [
 }
 
 # List all available commands and subsystems
-def "main list" [] {
+export def "main add list" [] {
   echo $"Valid package managers:\n($valid_package_managers | table)\nSubsystems \(Distroboxes\):\n($distroboxes| table)"
 }
 
 # Add a package to your Atomic Studio system by using package subsystems or host-based package managers.
-def "main" [
+export def "main add" [
     --yes (-y) # Skip all confirmation prompts, 
     --export (-e): string # Path where packages will be exported to (default: ~/.local/bin)
     --manager (-m): string # Package manager that will be used (default: brew)

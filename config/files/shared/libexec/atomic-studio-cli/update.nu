@@ -1,7 +1,7 @@
 #!/usr/bin/env -S nu
 
 # Show changelogs for the current system
-def "main changelog" [] {
+export def "main update changelog" [] {
   rpm-ostree db diff --changelogs
 }
 
@@ -9,7 +9,7 @@ def "main changelog" [] {
 #
 # Use 'enable' to Enable automatic updates.
 # Use 'disable' to Disable automatic updates.
-def "main toggle" [option?: string] {
+export def "main update toggle" [option?: string] {
   mut CURRENT_STATE = "disabled"
   if (run-external --redirect-combine systemctl is-enabled ublue-update.timer | complete).stdout == "enabled" {
     $CURRENT_STATE = "enabled"
@@ -33,7 +33,7 @@ def "main toggle" [option?: string] {
 }
 
 # Run topgrade transaction for general upgrades
-def "main" [
+export def "main update" [
   --config (-c) # Configuration file for Topgrade
 ] {
   mut config_file = $config
@@ -43,4 +43,3 @@ def "main" [
 
   topgrade --config $config_file --keep
 }
-   
