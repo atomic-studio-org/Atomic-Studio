@@ -1,4 +1,4 @@
-#!/usr/bin/env -S nu
+#!/usr/bin/env -S nu --stdin
 
 use ../libexec/atomic-studio-cli/mod.nu *
 

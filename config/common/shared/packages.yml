@@ -10,3 +10,4 @@ install:
   - qemu-audio-alsa
   - qemu-audio-spice
   - ffmpeg
+  - fish

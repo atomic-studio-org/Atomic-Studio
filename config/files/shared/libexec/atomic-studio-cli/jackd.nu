@@ -47,20 +47,20 @@ export def "main jackd toggle" [
   let OPTION = (gum choose Enable Disable)
   
   if "$OPTION" == "Enable" {
-      if "$CURRENT_STATE" == "enabled" {
-          echo "You are already on a jack image"
-      } else {
-          echo "Rebasing to a pipewire image"
-          let base_image_name = ($CURRENT_IMAGE | sed 's|^ostree-image-signed:docker://ghcr.io/.*/||')
-          rpm-ostree rebase $"ostree-image-signed:docker://($base_image_name)-jack:latest"
-      }
+    if "$CURRENT_STATE" == "enabled" {
+        echo "You are already on a jack image"
+    } else {
+        echo "Rebasing to a pipewire image"
+        let base_image_name = ($CURRENT_IMAGE | sed 's|^ostree-image-signed:docker://ghcr.io/.*/||')
+        run-external rpm-ostree rebase $"ostree-image-signed:docker://($base_image_name)-jack:latest"
+    }
   } else if "$OPTION" == "Disable" {
-      if "$CURRENT_STATE" == "enabled" {
-          echo "Rebasing to a pipewire image"
-          rpm-ostree rebase ($CURRENT_IMAGE | str replace --all "-jack" "")
-      } else {
-          echo "You are currently not on a pipewire image"
-      }
+    if "$CURRENT_STATE" == "enabled" {
+        echo "Rebasing to a pipewire image"
+        run-external rpm-ostree rebase $"($CURRENT_IMAGE | str replace --all "-jack" "")"
+    } else {
+        echo "You are currently not on a pipewire image"
+    }
   }
 }
 
@@ -73,7 +73,7 @@ export def "main jackd disable-user" [] {
   }
 
   rm $USER_JACKD_ENABLED
-  echo "Sucessfully disabled custom user jack script"
+  echo "Sucessfully disabled custom user JackD script"
 }
 
 # Use the users jackd script instead of the predefined system script
@@ -88,7 +88,7 @@ export def "main jackd enable-user" [] {
   mkdir ($DEFAULT_CUSTOM_SCRIPT_PATH | path dirname)
   touch $USER_JACKD_ENABLED
   $DEFAULT_SCRIPT | save -f $DEFAULT_CUSTOM_SCRIPT_PATH
-  echo "Sucessfully enabled custom user jack script"
+  echo "Sucessfully enabled custom user JackD script"
 }
 
 # Run jackd with a specific script
@@ -101,8 +101,8 @@ export def "main jackd" [
 
   mut entrypoint_path = ""
   if $entrypoint == null {
-    # There is something very... wrong with this but it seems to work?
-    if ($USER_JACKD_ENABLED | path exists) {   
+    # There is something very... wrong... with this but it seems to work?
+    if not ($USER_JACKD_ENABLED | path exists) {   
       $entrypoint_path = $SYSTEM_JACKD_SCRIPT_PATH 
     } else {
       $entrypoint_path = $DEFAULT_CUSTOM_SCRIPT_PATH
@@ -112,7 +112,7 @@ export def "main jackd" [
   if not ($entrypoint_path | path exists) {
     mkdir ($entrypoint_path | path dirname)
     $DEFAULT_SCRIPT | save -f $entrypoint_path
-    chmod +x $entrypoint_path
+    run-external chmod +x $entrypoint_path
   }
 
   run-external $entrypoint_path ...$args

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S nu
+#!/usr/bin/env -S nu --stdin
 
 const fetch_info = ["hw", "audio", "packages", "podman", "systemd", "env"]
 
@@ -31,6 +31,11 @@ export def "main reporter" [
   }
   if $method == null {
     $method_command = "fpaste"
+  }
+
+  if not (is-terminal -i) {
+    $in | nu --stdin -c $"($method_command)"
+    return
   }
 
   $fetch | each { |fetch_arg|

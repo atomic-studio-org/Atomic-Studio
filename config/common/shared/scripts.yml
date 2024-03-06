@@ -1,4 +1,4 @@
-type: script
+type: script-nu
 scripts:
   - ptyxis.sh
   - extra-packages.sh

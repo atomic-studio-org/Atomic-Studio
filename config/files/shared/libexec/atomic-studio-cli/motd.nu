@@ -9,7 +9,6 @@ const escape_patterns = [
   ["&", '\&']
 ]
 
-
 def replace_format [
   replacers: table<source: string, output: string> # Sources and outputs for the templates
   values: list<string> # The table where the values will be replaced
@@ -34,10 +33,10 @@ export def "main motd toggle" [] {
   let MOTD_ENABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
   if ($MOTD_ENABLED_FILE | path exists) {
     rm $MOTD_ENABLED_FILE
-    echo "Disabled MOTD"
+    echo "Disabled MOTD for the current user"
   } else {
     touch $MOTD_ENABLED_FILE
-    echo "Enabled MOTD"
+    echo "Enabled MOTD for the current user"
   }
 }
 
@@ -68,9 +67,9 @@ export def "main motd" [
   mut TIP = "󰋼 (open ($CURRENT_TIP_FILE) | lines | shuffle | get 0)"
   
   let IMAGE_DATE = (rpm-ostree status --booted | sed -n 's/.*Timestamp: \(.*\)/\1/p')
-  let IMAGE_DATE_SECONDS = (/usr/bin/date -d "$IMAGE_DATE" +%s)
+  let IMAGE_DATE_SECONDS = (run-external date '-d' "$IMAGE_DATE" +%s --redirect-combine | capture).stdout
 
-  let CURRENT_SECONDS = (/usr/bin/date +%s)
+  let CURRENT_SECONDS = (run-external date +%s | capture).stdout
   let DIFFERENCE = ($CURRENT_SECONDS - $IMAGE_DATE_SECONDS)
   let MONTH = (30 * 24 * 60 * 60)
   if $DIFFERENCE >= $MONTH {

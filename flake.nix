@@ -21,19 +21,16 @@
 
       checks = forEachSupportedSystem ({system, pkgs,...}: {
         pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
-          src = pkgs.lib.cleanSource ./.;
-          # If your hooks are intrusive, avoid running on each commit with a default_states like this:
-          # default_stages = ["manual" "push"];
+          src = ./.;
+          
+          default_stages = ["manual" "push"];
           hooks = {
-            elm-format.enable = true;
-            ormolu.enable = true;
+            alejandra.enable = true;
             shellcheck.enable = true;
+            markdownlint.enable = true;
+            yamllint.enable = true;
+            commitizen.enable = true;
           };
- 
-          # Some hooks offer custom settings that affect how they execute
-          settings = {
-            ormolu.defaultExtensions = [ "lhs" "hs" ];
-          };          
         };
       });
 
@@ -50,7 +47,7 @@
           def "main" [inputFile: string, outputFolder: string, outputName: string, extension: string, ...rest] {
           mkdir $outputFolder
           [ 16 32 64 128 256 ] | par-each { 
-            |size| do { ${lib.getExe pkgs.ffmpeg} -y -i $inputFile -vf $"scale=($size):($size)" $"($outputFolder)/($outputName)-($size)x($size).($extension)" } & 
+            |size| do { ${lib.getExe pkgs.ffmpeg} -y -i $inputFile -vf $"scale=($size):($size)" $"($outputFolder)/($outputName)-($size)x($size).($extension)" } 
           }
           ${lib.getExe pkgs.ffmpeg} -y -i $inputFile $"($outputFolder)/($outputName).($extension)" &
         }
