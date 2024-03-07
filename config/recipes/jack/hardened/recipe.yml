@@ -1,7 +1,7 @@
 name: atomic-studio-jack-hardened
 description: Operating system based on Fedora Atomic meant for content creators and artists
 
-base-image: ghcr.io/secureblue/kinoite-main-hardened
+base-image: ghcr.io/secureblue/kinoite-main-userns-hardened
 image-version: latest
 
 modules:
