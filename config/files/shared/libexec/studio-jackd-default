@@ -1,4 +1,6 @@
 #!/usr/bin/env -S nu
+pulseaudio -k
+pactl load-module module-jack-source
 jack_control start
 jack_control ds alsa
 jack_control dps rate 48000
@@ -9,3 +11,4 @@ a2j_control --ehw
 a2j_control --start
 sleep 5sec
 qjackctl &
+pactl load-module module-jack-sink

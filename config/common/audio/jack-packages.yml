@@ -6,6 +6,10 @@ install:
   - qemu-audio-jack
   - qemu-audio-pa
   - pulseaudio
+  - pulseaudio-utils
+  - pulseaudio-module-jack
+  - pulseaudio-module-bluetooth
+  - pulseaudio-libs
 remove:
   - pipewire-utils
   - pipewire-pulseaudio
