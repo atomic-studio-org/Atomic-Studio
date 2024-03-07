@@ -9,7 +9,8 @@ modules:
   - from-file: common/shared/packages.yml
   - from-file: common/shared/nvidia/scripts.yml
   - from-file: common/shared/files.yml
-  - from-file: common/shared/scripts.yml
+  - from-file: common/shared/scripts-noptyxis.yml
+  - from-file: common/shared/hardened-ptyxis-flatpak.yml
   - from-file: common/shared/bling.yml
   - from-file: common/gnome/scripts.yml
   - from-file: common/gnome/apps.yml
