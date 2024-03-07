@@ -29,7 +29,7 @@ export def "main jackd toggle" [
   if ($CURRENT_IMAGE | grep -q "/var/ublue-os/image") {
       echo "Before we can switch to the Jack image,the current system needs an update. Do you wish to update?"
       
-      if (not (user_prompt $yes)) {
+      if not (user_prompt $yes) {
         exit 0
       }
   

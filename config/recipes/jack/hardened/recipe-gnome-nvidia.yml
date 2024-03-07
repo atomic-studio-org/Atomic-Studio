@@ -1,7 +1,7 @@
-name: atomic-studio-gnome-nvidia-jack
+name: atomic-studio-gnome-nvidia-jack-hardened
 description: Operating system based on Fedora Atomic meant for content creators and artists
 
-base-image: ghcr.io/ublue-os/silverblue-nvidia
+base-image: ghcr.io/secureblue/silverblue-nvidia-hardened
 image-version: latest
 
 modules:

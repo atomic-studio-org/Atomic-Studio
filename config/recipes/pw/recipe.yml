@@ -11,6 +11,7 @@ modules:
   - from-file: common/shared/amd/scripts.yml
   - from-file: common/shared/files.yml
   - from-file: common/shared/scripts.yml
+  - from-file: common/shared/bling.yml
   - from-file: common/plasma/apps.yml
   - from-file: common/plasma/files.yml
   - from-file: common/audio/pipewire-flatpaks.yml
