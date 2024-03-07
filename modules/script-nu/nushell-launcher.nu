@@ -3,6 +3,6 @@ def "main" [
     yaml_file: string
 ] {
   for $script in ($yaml_file | from yaml).scripts {
-    run-external $"/tmp/config/scripts/($script)"
+    NU_LOG_LEVEL=DEBUG run-external $"/tmp/config/scripts/($script)"
   }
 }
