@@ -9,7 +9,7 @@ RestrictNamespaces=yes
 SystemCallArchitectures=native
 SystemCallFilter=@system-service
 Type=simple
-ExecStart=studio-custom-jackd
+ExecStart=/usr/bin/studio jackd
 Restart=on-failure
 Slice=session.slice
 
