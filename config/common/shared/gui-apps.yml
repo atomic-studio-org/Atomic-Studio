@@ -76,6 +76,3 @@ install:
   - scribus
   - openshot
   - furnace
-remove:
-  - firefox
-  - firefox-langpacks

@@ -1,7 +1,7 @@
 name: atomic-studio-gnome-nvidia
 description: Operating system based on Fedora Atomic meant for content creators and artists
 
-base-image: ghcr.io/secureblue/kinoite-hardened
+base-image: ghcr.io/ublue-os/silverblue-nvidia
 image-version: latest
 
 modules:

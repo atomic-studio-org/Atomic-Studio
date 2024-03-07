@@ -1,7 +1,7 @@
 name: atomic-studio-gnome-jack-hardened
 description: Operating system based on Fedora Atomic meant for content creators and artists
 
-base-image: ghcr.io/secureblue/silverblue-hardened
+base-image: ghcr.io/secureblue/silverblue-main-hardened
 image-version: latest
 
 modules:
