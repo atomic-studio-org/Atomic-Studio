@@ -4,13 +4,12 @@ let ZLUDA_LATEST = (http get https://api.github.com/repos/vosen/ZLUDA/releases/l
 
 http get $ZLUDA_LATEST | save -f /tmp/zluda.tar.gz
 
-mkdir /tmp/zluda
+mkdir /usr/lib64/zluda
 
 try {
-  tar --strip-components 1 -xvzf /tmp/zluda.tar.gz -C /tmp/zluda
+  tar --strip-components 1 -xvzf /tmp/zluda.tar.gz -C /usr/lib64/zluda
 } catch {
   echo "Failed extracting the entire zluda file for some reason."
 }
 
 rm -f /tmp/zluda.tar.gz
-mv /tmp/zluda /usr/lib64/zluda
