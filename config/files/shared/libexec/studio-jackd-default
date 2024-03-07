@@ -1,4 +1,4 @@
-#!/usr/bin/env -S nu
+#!/usr/bin/env bash 
 pulseaudio -k
 pactl load-module module-jack-source
 jack_control start

@@ -3,6 +3,7 @@
 const TARGET_CONFIG_PATH = "/etc/profile.d/atomic-pwjack.sh"
 const VALID_BFSIZES = [8,16,32,64,128,256,512,1024,2048,4096]
 
+# Set specific buffersize for PIPEWIRE_QUANTUM variable
 export def "main pw-jack set" [--buffersize (-b): int] {
   mut is_valid_thing: bool = false
   mut iter = 0
@@ -27,6 +28,7 @@ export def "main pw-jack set" [--buffersize (-b): int] {
   exit 0
 }
 
+# Enable custom pipewire-jack configuration
 export def "main pw-jack enable" [] {
   ln -fs /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*-linux-gnu.conf \
 			/etc/ld.so.conf.d/pipewire-jack.conf
@@ -36,6 +38,7 @@ export def "main pw-jack enable" [] {
   exit 0
 }
 
+# Disables custom pipewire-jack configuration
 export def "main pw-jack disable" [] {
   rm -f /etc/ld.so.conf.d/pipewire-jack.conf
   ldconfig

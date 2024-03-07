@@ -2,19 +2,6 @@
 
 const SYSTEM_JACKD_SCRIPT_PATH = "/usr/libexec/studio-jackd-default"
 
-const DEFAULT_SCRIPT = "#!/usr/bin/env -S nu
-jack_control start
-jack_control ds alsa
-jack_control dps rate 48000
-jack_control dps nperiods 2
-jack_control dps period 64
-sleep 5sec
-a2j_control --ehw
-a2j_control --start
-sleep 5sec
-qjackctl &"
-
-
 def user_prompt [yes: bool] {
   let user_response = input "[Y/n]> "
   return (($user_response =~ "(?i)yes") or ($user_response =~ "(?i)y"))
@@ -78,7 +65,7 @@ export def "main jackd disable-user" [] {
 
 # Use the users jackd script instead of the predefined system script
 export def "main jackd enable-user" [] {
-  let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.HOME)/.config/atomic-studio/jack/custom-jackd.nu"
+  let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.HOME)/.config/atomic-studio/jack/custom-jackd"
   let USER_JACKD_ENABLED = $"($env.HOME)/.config/atomic-studio/jack/user_custom_jackd"
   if ($USER_JACKD_ENABLED | path exists) {
     echo "Custom JackD script for the user already is enabled"
@@ -87,7 +74,7 @@ export def "main jackd enable-user" [] {
 
   mkdir ($DEFAULT_CUSTOM_SCRIPT_PATH | path dirname)
   touch $USER_JACKD_ENABLED
-  $DEFAULT_SCRIPT | save -f $DEFAULT_CUSTOM_SCRIPT_PATH
+  cp $SYSTEM_JACKD_SCRIPT_PATH $DEFAULT_CUSTOM_SCRIPT_PATH
   echo "Sucessfully enabled custom user JackD script"
 }
 
@@ -96,12 +83,11 @@ export def "main jackd" [
   --entrypoint (-e): string # Entrypoint script for running jackd (default: ~/.config/atomic-studio/jack/custom-jackd.nu)
   ...args # Arguments that will be passed to the script
 ] {
-  let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.HOME)/.config/atomic-studio/jack/custom-jackd.nu"
+  let DEFAULT_CUSTOM_SCRIPT_PATH = $"($env.HOME)/.config/atomic-studio/jack/custom-jackd"
   let USER_JACKD_ENABLED = $"($env.HOME)/.config/atomic-studio/jack/user_custom_jackd"
 
   mut entrypoint_path = ""
   if $entrypoint == null {
-    # There is something very... wrong... with this but it seems to work?
     if not ($USER_JACKD_ENABLED | path exists) {   
       $entrypoint_path = $SYSTEM_JACKD_SCRIPT_PATH 
     } else {
@@ -111,7 +97,7 @@ export def "main jackd" [
 
   if not ($entrypoint_path | path exists) {
     mkdir ($entrypoint_path | path dirname)
-    $DEFAULT_SCRIPT | save -f $entrypoint_path
+    cp $SYSTEM_JACKD_SCRIPT_PATH $entrypoint_path
     run-external chmod +x $entrypoint_path
   }
 
