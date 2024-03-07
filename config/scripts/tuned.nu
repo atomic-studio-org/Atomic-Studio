@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nu
-rpm-ostree override remove power-profiles-daemon || true
-rpm-ostree override remove tlp tlp-rdw || true
+try { rpm-ostree override remove power-profiles-daemon } catch { echo "Failed removing ppd" }
+try { rpm-ostree override remove tlp tlp-rdw } catch { echo "Failed removing TLP" }
 
 rpm-ostree install \
   tuned \

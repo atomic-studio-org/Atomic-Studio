@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-
+#!/usr/bin/env -S nu
+#
 use lib/std.nu [FEDORA_MAJOR_VERSION, ARCH]
 
 const COPR_FILE = "/etc/yum.repos.d/_copr_gloriouseggroll-nvidia-explicit-sync.repo"

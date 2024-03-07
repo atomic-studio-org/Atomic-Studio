@@ -4,7 +4,7 @@ let ZLUDA_LATEST = (http get https://api.github.com/repos/vosen/ZLUDA/releases/l
 
 http get $ZLUDA_LATEST | save -f /tmp/zluda.tar.gz
 
-mkdir -p /tmp/zluda
+mkdir /tmp/zluda
 tar --strip-components 1 -xvzf /tmp/zluda.tar.gz -C /tmp/zluda
 mv /tmp/zluda /usr/lib64/zluda
 
