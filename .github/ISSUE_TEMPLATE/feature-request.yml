@@ -23,7 +23,9 @@ body:
       description: Which specific image do you want?
       options:
         - All Images
-        - Standard images 
+        - Standard images
+        - Non-nvidia images (-main ones)
+        - Nvidia images
         - Jack images
         - Hardened images
         - Hardened jack images
