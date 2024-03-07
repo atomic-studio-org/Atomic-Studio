@@ -1,6 +1,6 @@
 type: script-nu
 scripts:
-  - ptyxis.sh
-  - extra-packages.sh
-  - tuned.sh
-  #- rt-kernel.sh
+  - ptyxis.nu
+  - extra-packages.nu
+  - tuned.nu
+  #- rt-kernel.nu

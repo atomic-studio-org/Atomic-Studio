@@ -11,3 +11,4 @@ install:
   - qemu-audio-spice
   - ffmpeg
   - fish
+  - switcheroo-control

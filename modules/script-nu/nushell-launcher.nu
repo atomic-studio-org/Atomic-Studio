@@ -2,7 +2,7 @@
 def "main" [
     yaml_file: string
 ] {
-  ($yaml_file | from yaml).scripts | par-each {
-    | script | do { run-external $"/tmp/config/scripts/($script)" | complete }
+  for $script in ($yaml_file | from yaml).scripts {
+    $"/tmp/config/scripts/($script)"
   }
 }
