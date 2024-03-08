@@ -9,5 +9,4 @@ install:
   - gnome-shell-extension-blur-my-shell
   - gnome-shell-extension-logo-menu
 remove:
-  - gnome-tour
   - gnome-software-rpm-ostree 
