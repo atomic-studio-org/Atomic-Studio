@@ -1,7 +1,9 @@
 name: Issue Management
 on:
   issues:
+    types: [opened]
   pull_request:
+    types: [opened]
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -9,7 +11,7 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-    - name: 'Auto-assign issue'
+    - name: Auto-assign issue
       uses: pozil/auto-assign-issue@v1
       with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -19,6 +21,6 @@ jobs:
       uses: actions/add-to-project@v0.5.0
       with:
         project-url: https://github.com/orgs/atomic-studio-org/projects/3
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
     - name: Summary Issues
       uses: sourcegraph/summary-issues@v1.2.1
