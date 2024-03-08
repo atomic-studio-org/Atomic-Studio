@@ -7,9 +7,9 @@ accel-profile="flat"
 [org/gnome/desktop/interface]
 enable-hot-corners=true
 clock-show-weekday=true
-font-name="Inter 12"
-document-font-name="Inter 12"
-monospace-font-name="FiraCode Mono 18"
+font-name="Ubuntu 12"
+document-font-name="Ubuntu 12"
+monospace-font-name="Ubuntu Mono 18"
 cursor-theme="Adwaita"
 icon-theme="Papirus-Dark"
 gtk-theme="Materia-Dark"
@@ -23,7 +23,7 @@ theme-name="freedesktop"
 [org/gnome/desktop/wm/preferences]
 button-layout=":minimize,maximize,close"
 num-workspaces='4'
-titlebar-font="Inter Bold 12"
+titlebar-font="Ubuntu Bold 12"
 
 [org/gnome/desktop/wm/keybindings]
 switch-applications = ['<Super>Tab']
