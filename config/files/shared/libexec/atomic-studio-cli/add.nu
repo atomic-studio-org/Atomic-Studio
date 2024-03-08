@@ -3,7 +3,7 @@
 use lib/distrobox.nu [gen_export_string, DISTROBOX_DOWNLOAD_URL]
 use lib/std.nu [fancy_prompt_message, user_prompt]
 
-const valid_package_managers = ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman"]
+const valid_package_managers = ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman", "pipx"]
 const distroboxes = [
   ["aliases","name", "image", "description"];
   ["ubuntu", "ubuntubox", "ghcr.io/ublue-os/ubuntu-toolbox:latest", "Ubuntu based distrobox"]
@@ -69,6 +69,7 @@ export def "main add" [
   match $package_manager {
     nix => { nix_install $yes $packages },
     brew => { brew_install $yes $packages },
+    pipx => { pipx_install $yes $packages }
     apt | paru | pacman | dnf | yum => {
       distrobox_installer_wrapper $package_data (match $package_manager {
         apt => { box_distro: "ubuntu", installer_command: "sudo apt install -y" },
@@ -108,6 +109,12 @@ def distrobox_installer_wrapper [
   
   let packages_export = ($package_data.packages | each {|package| gen_export_string $package $package_data.export_path } | str join " ; ")
   distrobox enter $box_name -- sh -c $"($manager.installer_command) ($package_data.packages | str join ' ') && ($packages_export) 2> /dev/null" err> /dev/null
+}
+
+def pipx_install [yes: bool, packages: list<string>] {
+  for $package in $packages {
+    run-external pipx install $package
+  }
 }
 
 def brew_install [yes: bool, packages: list<string>] {

@@ -21,17 +21,16 @@ screens:
           default: false 
           packages:
             - Change to Nushell: pkexec usermod $USER --shell /usr/bin/nu
-            - Add Nushell to Shells: pkexec sh -c "[ grep '/usr/bin/nu' /etc/shells ] || echo /usr/bin/nu /etc/shells"
         Fish Shell:
           description: Change your user shell to the Fish shell
           default: true
           packages:
             - Change to Fish shell: pkexec usermod $USER --shell /usr/bin/fish 
-        Realtime User Groups:
-          description: Add certain user groups for your user in order to use realtime applications properly 
+        Realtime:
+          description: Add certain user groups and kernel arguments for your user in order to use realtime applications properly 
           default: false
           packages:
-            - Add realtime group: pkexec sh -c "for GROUP in realtime pipewire ; do usermod -a -G $GROUP $USER ; done" 
+            - Add realtime group: pkexec studio pw enable realtime 
         Davinci Box:
           description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox.
           default: false

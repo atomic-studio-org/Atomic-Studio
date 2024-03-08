@@ -2,7 +2,7 @@ export def user_prompt [yes: bool] {
   if $yes {
     return true 
   }
-  let user_response = input "[Y/n]> "
+  let user_response = input "[y/n]> "
   return (($user_response =~ "(?i)yes") or ($user_response =~ "(?i)y"))
 }
 
