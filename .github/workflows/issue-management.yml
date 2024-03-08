@@ -22,5 +22,3 @@ jobs:
       with:
         project-url: https://github.com/orgs/atomic-studio-org/projects/3
         github-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
-    - name: Summary Issues
-      uses: sourcegraph/summary-issues@v1.2.1
