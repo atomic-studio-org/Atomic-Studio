@@ -41,5 +41,5 @@ export def "main update" [
     $config_file = "/usr/share/ublue-os/topgrade.toml"
   }
 
-  run-external topgrade '--config' '--keep' $config_file 
+  topgrade --keep --config $config_file 
 }
