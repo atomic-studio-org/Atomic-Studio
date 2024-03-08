@@ -1,7 +1,0 @@
-type: systemd
-user:
-  enabled:
-    - pipewire.service
-    - pipewire.socket
-  masked:
-    - studio-custom-jackd.service

@@ -1,0 +1,5 @@
+type: systemd
+system:
+  enabled:
+    - realtime-entsk
+    - realtime-setup

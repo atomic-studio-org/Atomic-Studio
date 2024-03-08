@@ -12,3 +12,6 @@ install:
   - ffmpeg
   - fish
   - switcheroo-control
+  - realtime-setup
+  - realtime-tests
+  - pulseaudio-utils

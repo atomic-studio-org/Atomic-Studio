@@ -7,7 +7,7 @@ const COPR_FILE = "/etc/yum.repos.d/_copr_ublue-os_staging.repo"
 
 http get $"https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-($FEDORA_MAJOR_VERSION)/ublue-os-staging-fedora-($FEDORA_MAJOR_VERSION).repo" | save -f $COPR_FILE 
 
-rpm-ostree install tuned tuned-ppd tuned-utils tuned-utils-systemtap tuned-gtk tuned-profiles-atomic tuned-profiles-cpu-partitioning powertop
+rpm-ostree install tuned tuned-ppd tuned-utils tuned-utils-systemtap tuned-gtk tuned-profiles-atomic tuned-profiles-cpu-partitioning tuned-profiles-realtime powertop
 
 systemctl enable tuned.service
 

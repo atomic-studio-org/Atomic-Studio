@@ -9,7 +9,7 @@ Want a reproducible and atomic environment for all your content creation needs? 
 
 This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the (current netinstall) ISO in [Releases](https://github.com/atomic-studio-org/Atomic-Studio/releases) or by rebasing your system to one of them.
 
-You can use Jack-only images that do not have pipewire enabled by default and you can use hardened images that have less hardware compatibility but have much better security!
+You can also use hardened images that have less hardware compatibility but have much better security!
 
 ### Rebasing
 
@@ -26,15 +26,8 @@ rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-
 # Latest Gnome version + Nvidia
 rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia:latest
 
-# Add -jack or -hardened or both on your images to get the jack-only, or hardened image versions.
+# Add -hardened to get the hardened image versions. E.g.:
 rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-hardened:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-jack-hardened:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-hardened:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-jack:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-jack-hardened:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia-hardened:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia-jack:latest
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia-jack-hardened:latest
 ```
 
 > Note: If these commands do not work first time, you are probably on a vanilla Fedora Atomic system, please run these but, instead of `ostree-image-signed:docker://`, use `ostree-unverified-registry:`, like the follwing command:

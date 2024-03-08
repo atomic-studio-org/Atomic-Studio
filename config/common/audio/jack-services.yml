@@ -1,8 +1,0 @@
-type: systemd
-user:
-  enabled:
-    - pulseaudio.service
-    - custom-jackd.service
-  masked:
-    - pipewire.service
-    - pipewire.socket

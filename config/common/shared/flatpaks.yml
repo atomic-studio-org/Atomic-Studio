@@ -11,3 +11,5 @@ system:
     - org.hydrogenmusic.Hydrogen
     - com.mattjakeman.ExtensionManager
     - io.missioncenter.MissionCenter
+    - it.mijorus.whisper
+    - io.github.dimtpap.coppwr
