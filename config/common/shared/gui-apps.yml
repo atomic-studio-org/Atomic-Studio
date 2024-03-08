@@ -1,5 +1,6 @@
 type: rpm-ostree
 install:
+  - fira-code-fonts
   - papirus-icon-theme
   - materia-gtk-theme
   - krita

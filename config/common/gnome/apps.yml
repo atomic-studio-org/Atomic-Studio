@@ -1,3 +1,12 @@
 type: rpm-ostree
 install:
   - helvum
+  - gnome-shell-extension-gsconnect
+  - gnome-shell-extension-dash-to-dock
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-blur-my-shell
+  - gnome-shell-extension-logo-menu
+remove:
+  - gnome-extensions-app
+  - gnome-tour
+  - gnome-software-rpm-ostree 

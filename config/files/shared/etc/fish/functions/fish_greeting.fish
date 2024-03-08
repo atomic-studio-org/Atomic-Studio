@@ -1,9 +1,7 @@
 function fish_greeting
 	if test -d "$HOME"
-		if test ! -e "$HOME"/.config/no-show-user-motd
-			if test -x "/usr/bin/studio-motd"
-				/usr/bin/studio-motd
-			end
+		if test -x "/usr/bin/studio"
+			/usr/bin/studio motd
 		end
 	end
 

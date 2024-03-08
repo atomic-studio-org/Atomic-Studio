@@ -1,6 +1,7 @@
 #!/usr/bin/env bash 
 pulseaudio -k
 pactl load-module module-jack-source
+pactl load-module module-jack-sink
 jack_control start
 jack_control ds alsa
 jack_control dps rate 48000
@@ -9,6 +10,8 @@ jack_control dps period 64
 sleep 5sec
 a2j_control --ehw
 a2j_control --start
-sleep 5sec
-qjackctl &
-pactl load-module module-jack-sink
+
+# Prevents the service from restarting a bunch of times for some reason 
+while true ; do
+    sleep 10000
+done

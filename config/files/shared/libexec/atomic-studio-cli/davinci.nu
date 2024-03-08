@@ -52,9 +52,9 @@ export def "main davinci" [
   }
   let box_name = $install_box
 
-  try { distrobox ls | grep $box_name out> /dev/null } catch { 
+  try { distrobox ls | grep $box_name } catch { 
     fancy_prompt_message "The Davinci container"
-    if (not (user_prompt $yes)) {
+    if not (user_prompt $yes) {
       return 
     }
     distrobox create -i $DAVINCI_IMAGE --name $box_name -Y --pull 

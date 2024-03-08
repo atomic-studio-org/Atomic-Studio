@@ -34,7 +34,7 @@ export def "main update toggle" [option?: string] {
 
 # Run topgrade transaction for general upgrades
 export def "main update" [
-  --config (-c) # Configuration file for Topgrade
+  --config (-c): string # Configuration file for Topgrade
 ] {
   mut config_file = $config
   if $config == null {

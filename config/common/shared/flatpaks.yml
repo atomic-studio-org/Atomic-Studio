@@ -9,3 +9,5 @@ system:
     - io.github.fabrialberio.pinapp
     - org.rncbc.qtractor
     - org.hydrogenmusic.Hydrogen
+    - com.mattjakeman.ExtensionManager
+    - io.missioncenter.MissionCenter
