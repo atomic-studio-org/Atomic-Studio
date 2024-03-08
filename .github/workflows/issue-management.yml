@@ -1,4 +1,4 @@
-name: I
+name: Issue Management
 on:
   issues:
   pull_request:
