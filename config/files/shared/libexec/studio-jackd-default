@@ -1,14 +1,19 @@
 #!/usr/bin/env bash 
-jack_control start
-jack_control ds alsa
-jack_control dps rate 48000
-jack_control dps nperiods 2
-jack_control dps period 64
-sleep 10
-a2j_control --ehw
-a2j_control --start
-sleep 10
-pulseaudio -k
-qjackctl &
-pactl load-module module-jack-source
-pactl load-module module-jack-sink
+unload() {
+    SINKID=$(LANG=C.UTF-8 pactl list | grep -B 1 "Name: module-jack-sink" | grep Module | sed 's/[^0-9]//g')
+    SOURCEID=$(LANG=C.UTF-8 pactl list | grep -B 1 "Name: module-jack-source" | grep Module | sed 's/[^0-9]//g')
+    pactl unload-module "$SINKID"
+    pactl unload-module "$SOURCEID"
+    sleep 5
+    pacmd suspend false
+}
+
+trap unload EXIT
+
+pacmd suspend true
+jackd -r -dalsa -dhw:0 -r48000 -p1024 -n2 &
+sleep 3
+pactl load-module module-jack-sink channels=2
+pactl load-module module-jack-source channels=2
+pacmd set-default-sink jack_out
+pacmd set-default-source jack_in
