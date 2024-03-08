@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nu
 let FEDORA_MAJOR_VERSION = (rpm -E %fedora)
-let REPO_FILE_PATH= "/etc/yum.repos.d/_copr_sentry-kernel-fsync.repo"
+let REPO_FILE_PATH = "/etc/yum.repos.d/_copr_sentry-kernel-fsync.repo"
   
 wget $"https://copr.fedorainfracloud.org/coprs/sentry/kernel-fsync/repo/fedora-($FEDORA_MAJOR_VERSION)/sentry-kernel-fsync-fedora-($$FEDORA_MAJOR_VERSION).repo" -O $REPO_FILE_PATH
 
