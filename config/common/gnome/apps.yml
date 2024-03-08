@@ -1,4 +1,6 @@
 type: rpm-ostree
+repos:
+  - https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-%OS_VERSION%/ublue-os-staging-fedora-%OS_VERSION%.repo
 install:
   - helvum
   - gnome-shell-extension-gsconnect
