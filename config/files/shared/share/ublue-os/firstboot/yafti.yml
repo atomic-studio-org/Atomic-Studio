@@ -30,9 +30,14 @@ screens:
           description: Add certain user groups and kernel arguments for your user in order to use realtime applications properly 
           default: false
           packages:
-            - Add realtime group: pkexec studio pw enable realtime 
+            - Add realtime group: pkexec studio pw enable realtime
+        OpenTabletDriver:
+          description: Setup OpenTabletDriver, a FOSS alternative to the proprietary wacom drivers 
+          default: true
+          packages:
+            - Setup OTD: studio setup opentabletdriver 
         Davinci Box:
-          description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox.
+          description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox with the "studio davinci" command.
           default: false
           condition:
             run: distrobox list | grep -v davincibox

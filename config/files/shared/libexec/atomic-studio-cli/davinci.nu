@@ -34,7 +34,7 @@ export def "main davinci remove" [
 
 # Install Davinci Resolve in a compatible distrobox
 export def "main davinci" [
-  --yes (-y) # Skip all confirmation prompts, 
+  --yes (-y) # Skip all confirmation prompts
   --box_name: string # Name of the distrobox where davinci-installer will be run from
   script_path: string # The script that will be run to install Davinci Resolve
 ] {

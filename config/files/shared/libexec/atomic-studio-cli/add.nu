@@ -1,15 +1,9 @@
 #!/usr/bin/env -S nu
 
-use lib/distrobox.nu [gen_export_string, DISTROBOX_DOWNLOAD_URL]
+use lib/distrobox.nu [gen_export_string, DISTROBOX_DOWNLOAD_URL, distroboxes]
 use lib/std.nu [fancy_prompt_message, user_prompt]
 
 const valid_package_managers = ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman", "pipx"]
-const distroboxes = [
-  ["aliases","name", "image", "description"];
-  ["ubuntu", "ubuntubox", "ghcr.io/ublue-os/ubuntu-toolbox:latest", "Ubuntu based distrobox"]
-  ["arch", "archbox", "ghcr.io/ublue-os/arch-distrobox:latest", "Arch Linux based distrobox with paru pre-installed"]
-  ["fedora", "fedorabox", "ghcr.io/ublue-os/fedora-toolbox", "Fedora based distrobox"]
-]
 
 # Export selected packages from selected subsystem to the host system
 export def "main add export" [

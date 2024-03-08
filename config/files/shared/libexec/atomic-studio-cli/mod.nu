@@ -5,3 +5,4 @@ export use reporter.nu *
 export use speaker-test.nu *
 export use update.nu *
 export use pw.nu *
+export use setup.nu *
