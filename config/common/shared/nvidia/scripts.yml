@@ -1,4 +1,3 @@
 type: script-nu
 scripts:
   - nvidia-explicit-sync.nu
-  - cuda-toolkit.nu
