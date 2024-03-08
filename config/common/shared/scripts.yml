@@ -3,4 +3,3 @@ scripts:
   - ptyxis.nu
   - extra-packages.nu
   - tuned.nu
-  - fsync-kernel.nu
