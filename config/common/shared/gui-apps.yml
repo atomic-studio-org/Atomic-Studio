@@ -3,6 +3,8 @@ install:
   - fira-code-fonts
   - papirus-icon-theme
   - materia-gtk-theme
+  - librecad
+  - freecad
   - krita
   - blender
   - inkscape
