@@ -1,35 +1,35 @@
 #!/usr/bin/env -S nu
 
+# Unpin a certain system version
+export def "main update unpin" [
+  number: int # Which deployment will be unpinned
+] {
+  ostree admin pin --unpin $number
+}
+
+# Pin a certain system version
+export def "main update pin" [
+  number: int # Which deployment will be pinned
+] {
+  ostree admin pin $number
+}
+
+# Rollback an update 
+export def "main update rollback" [] {
+  rpm-ostree rollback 
+}
+
 # Show changelogs for the current system
 export def "main update changelog" [] {
   rpm-ostree db diff --changelogs
 }
 
-# Toggle automatic upgrades
-#
-# Use 'enable' to Enable automatic updates.
-# Use 'disable' to Disable automatic updates.
-export def "main update toggle" [option?: string] {
-  mut CURRENT_STATE = "disabled"
-  if (run-external --redirect-combine systemctl is-enabled ublue-update.timer | complete).stdout == "enabled" {
-    $CURRENT_STATE = "enabled"
-  }
+export def "main update auto off" [] {
+  systemctl disable --now ublue-update.timer
+}
 
-  mut opt = $option
-  if $option == null {
-    $opt = "prompt"
-  }
-
-  if "$OPTION" == "prompt" {
-    echo $"Automatic updates are currently: ($CURRENT_STATE)"
-    echo "Enable or Disable automatic updates?"
-    $opt = (gum choose Enable Disable)
-  }
-
-  pkexec systemctl (match ($opt | str downcase) {
-    "disable" | "enable" => ($opt | str downcase),
-    _ => { echo "Invalid option" ; exit } 
-  }) --now ublue-update.timer 
+export def "main update auto on" [] {
+  systemctl enable --now ublue-update.timer
 }
 
 # Run topgrade transaction for general upgrades
@@ -41,5 +41,6 @@ export def "main update" [
     $config_file = "/usr/share/ublue-os/topgrade.toml"
   }
 
-  topgrade --keep --config $config_file 
+  run-external ublue-update '--wait'
+  run-external topgrade '--keep' '--config' $config_file
 }

@@ -51,6 +51,27 @@ screens:
           packages:
             - Setup obs-studio-portable: distrobox create --image ghcr.io/ublue-os/obs-studio-portable:latest --name obs-studio-portable --pull --additional-packages nvidia-driver-535
             - Installing obs-portable launcher: sh -c "mkdir -p $HOME/.local/bin && echo distrobox enter --name obs -- /opt/obs-portable/obs-portable | tee $HOME/.local/bin"
+        amd-additions:
+          source: yafti.screen.package
+          values:
+            title: AMD Additions
+            condition:
+              run: grep -qv 'nvidia' <<< $(jq -r '."image-flavor"' < /usr/share/ublue-os/image-info.json)
+            show_terminal: true
+            package_manager: yafti.plugin.run
+            packages:
+              - LACT (GPU Overclocking): studio setup amd-lact
+        nvidia-additions:
+          source: yafti.screen.package
+          values:
+            title: Nvidia Additions
+            condition:
+              run: grep -q 'nvidia' <<< $(jq -r '."image-flavor"' < /usr/share/ublue-os/image-info.json)
+            show_terminal: true
+            package_manager: yafti.plugin.run
+            packages:
+              - GreenWithEnvy (GPU Overclocking): flatpak install --user --noninteractive com.leinardi.gwe
+              - Supergfxctl (Hybrid GPU Switching): studio setup supergfxctl
   check-user-flathub:
     source: yafti.screen.consent
     values:

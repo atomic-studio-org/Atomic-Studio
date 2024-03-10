@@ -1,7 +1,8 @@
 #!/usr/bin/env -S nu
 
-use lib/distrobox.nu [DISTROBOX_DOWNLOAD_URL]
-use lib/std.nu [fancy_prompt_message, user_prompt]
+use lib/user_interaction.nu [fancy_prompt_message, user_prompt]
+use lib/generic_install.nu [generic_script_installation]
+use lib/distrobox.nu [create_container_optional]
 
 const INSTALLATION_BOX = "davincibox"
 const DAVINCI_IMAGE = "ghcr.io/zelikos/davincibox:latest"
@@ -10,15 +11,16 @@ const DAVINCI_IMAGE = "ghcr.io/zelikos/davincibox:latest"
 export def "main davinci remove" [
   --yes (-y) # Skip all confirmation prompts, 
   --box_name: string # Name of the distrobox where davinci-installer will be run from
+  --delete-box # Also delete container
 ] {
   if (which distrobox | length) == 0 {
-    fancy_prompt_message "Distrobox"
-    if (not (user_prompt $yes)) {
+    fancy_prompt_message "Distrobox" 
+    if not (user_prompt $yes) {
       exit 0
     }
-    curl -s $DISTROBOX_DOWNLOAD_URL | pkexec sh
+    generic_script_installation $yes "Distrobox" (distrobox_installer)
   }
-  
+
   mut install_box = ""
   if $box_name == null {
     $install_box = $INSTALLATION_BOX 
@@ -30,6 +32,9 @@ export def "main davinci remove" [
   }
 
   distrobox enter $install_box '--' sh -c "add-davinci-launcher remove"
+  if $delete_box != null {
+    distrobox rm $install_box
+  }
 }
 
 # Install Davinci Resolve in a compatible distrobox
@@ -39,11 +44,11 @@ export def "main davinci" [
   script_path: string # The script that will be run to install Davinci Resolve
 ] {
   if (which distrobox | length) == 0 {
-    fancy_prompt_message "Distrobox"
-    if (not (user_prompt $yes)) {
-      return 
+    fancy_prompt_message "Distrobox" 
+    if not (user_prompt $yes) {
+      exit 0
     }
-    curl -s $DISTROBOX_DOWNLOAD_URL | pkexec sh
+    generic_script_installation $yes "Distrobox" (distrobox_installer)
   }
 
   mut install_box = ""
@@ -52,13 +57,7 @@ export def "main davinci" [
   }
   let box_name = $install_box
 
-  try { distrobox ls | grep $box_name } catch { 
-    fancy_prompt_message "The Davinci container"
-    if not (user_prompt $yes) {
-      return 
-    }
-    distrobox create -i $DAVINCI_IMAGE --name $box_name -Y --pull 
-  }
+  create_container_optional $yes {name: $box_name, description: "Davinci container", image: $DAVINCI_IMAGE}
   
   distrobox enter $box_name -- sh -c $"setup-davinci ($script_path) distrobox && add-davinci-launcher"
 }

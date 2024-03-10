@@ -28,16 +28,18 @@ def replace_format [
   return final_value
 }
 
-# Toggle MOTD on and off
-export def "main motd toggle" [] {
-  let MOTD_ENABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
-  if ($MOTD_ENABLED_FILE | path exists) {
-    rm $MOTD_ENABLED_FILE
-    echo "Disabled MOTD for the current user"
-  } else {
-    touch $MOTD_ENABLED_FILE
-    echo "Enabled MOTD for the current user"
-  }
+# Turn MOTD off
+export def "main motd off" [] {
+  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
+  rm $MOTD_DISABLED_FILE
+  echo "Disabled MOTD for the current user"
+}
+
+# Turn MOTD on
+export def "main motd on" [] {
+  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
+  touch $MOTD_DISABLED_FILE
+  echo "Enabled MOTD for the current user"
 }
 
 # Display current MOTD text
@@ -47,6 +49,11 @@ export def "main motd" [
   --template_path (-t): string # Which template will be used for displaying the MOTD
   --no-tip (-n) # Do not display tip 
 ] {
+  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_disabled"
+  if ($MOTD_DISABLED_FILE | path exists) {
+    exit 0
+  }
+
   mut TEMPLATE_PATH = $template_path
   if $template_path == null {
     $TEMPLATE_PATH = $STUDIO_TEMPLATE_PATH 
@@ -63,7 +70,6 @@ export def "main motd" [
   let CURRENT_TIP_FILE = (ls $MOTD_PATH | where { |e| ($e.type == "file") and ($e.name | str ends-with md) } | shuffle | get 0.name)
   let IMAGE_INFO = (open $IMAGE_INFO_PATH | from json)
   let IMAGE_NAME = ($IMAGE_INFO).image-ref | sed -e 's|ostree-image-signed:docker://ghcr.io/.*/||' -e 's|ostree-unverified-registry:ghcr.io/.*/||' )
-  let IMAGE_TAG = ($IMAGE_INFO).image-tag
   mut TIP = "󰋼 (open ($CURRENT_TIP_FILE) | lines | shuffle | get 0)"
   
   let IMAGE_DATE = (rpm-ostree status --booted | sed -n 's/.*Timestamp: \(.*\)/\1/p')
@@ -83,8 +89,8 @@ export def "main motd" [
   (replace_format [
     ["source", "output"]; 
     ["%IMAGE_NAME%" (replace_format $escape_patterns $IMAGE_NAME)]
-    ["%IMAGE_TAG%" (replace_format $escape_patterns $IMAGE_TAG)] 
+    ["%IMAGE_TAG%" (replace_format $escape_patterns ($IMAGE_INFO).image-tag)] 
     ["%TIP%" (replace_format $escape_patterns ($TIP | lines))]
-  ] (open $TEMPLATE_PATH | lines -s)) | str join "\n" | glow -s auto -
+  ] (open $TEMPLATE_PATH | lines -s)) | str join "\n" | run-external glow '-s' auto '-'
 }
 

@@ -7,3 +7,6 @@ no_retry = false
 
 [linux]
 rpm_ostree = true
+
+[commands]
+"Linux AMDGPU Control Application" = "/usr/libexec/topgrade/lact-update"

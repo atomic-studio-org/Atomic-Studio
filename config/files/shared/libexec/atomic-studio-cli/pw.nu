@@ -1,8 +1,30 @@
 #!/usr/bin/env -S nu
 
+use lib/user_interaction.nu [GENERIC_RESET_SESSION_MESSAGE]
+
 const TARGET_CONFIG_PATH = "/etc/profile.d/atomic-pwjack.sh"
 const VALID_BFSIZES = [8,16,32,64,128,256,512,1024,2048,4096]
 const REALTIME_GROUPS = ["realtime", "pipewire"]
+
+def default_reset_message [message: string] {
+  return $"($message) should be reset now."
+}
+
+export def "main pw reset config" [] {
+  let pipewire_config_path = $"($env.HOME)/.config/pipewire"
+  rm -f $pipewire_config_path
+  systemctl restart --user pipewire.service
+  echo (default_reset_message "Pipewire user config")
+}
+
+# Resets PIPEWIRE_QUANTUM variable back to its default 
+export def "main pw reset quantum-buffersize" [] {
+  rm -f $TARGET_CONFIG_PATH
+  pw-metadata -n settings 0 clock.force-quantum 0 
+  systemctl restart --user pipewire.service
+  echo (default_reset_message "PIPEWIRE_QUANTUM buffer size")
+  echo $GENERIC_RESET_SESSION_MESSAGE
+}
 
 # Set specific buffersize for PIPEWIRE_QUANTUM variable (fixes ardour and carla crashes)
 export def "main pw set quantum-buffersize" [--buffersize (-b): int] {
@@ -23,15 +45,14 @@ export def "main pw set quantum-buffersize" [--buffersize (-b): int] {
     exit 2
   }
   
-  $"export PIPEWIRE_QUANTUM=\"($buffersize)/48000\"" | save -f /etc/profile.d/atomic-pwjack.sh
+  $"export PIPEWIRE_QUANTUM=\"($buffersize)/48000\"" | save -f $TARGET_CONFIG_PATH 
   pw-metadata -n settings 0 clock.force-quantum $buffersize
   
-  echo "Log out and in for changes to take effect."
-  exit 0
+  echo $GENERIC_RESET_SESSION_MESSAGE
 }
 
 # Edit your own custom configuration for pipewire
-export def "main pw edit" [
+export def "main pw set config" [
   --system (-s) # Select system configurations to override
   --user (-u) # Select user configs
 ] {
@@ -58,13 +79,6 @@ export def "main pw edit" [
     $editor = $env.EDITOR 
   }
   run-external $editor $"($selected_config_file)"
-}
-
-# Installs RTCQS in the host system for checking realtime perms
-export def "main pw rtcqs" [] {
-  pipx install rtcqs
-  pipx ensurepath
-  echo "Restart your shell and run rtcqs_gui"
 }
 
 # Enables realtime in linux kernel arguments
