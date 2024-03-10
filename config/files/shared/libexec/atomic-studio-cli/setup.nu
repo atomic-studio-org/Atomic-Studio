@@ -14,7 +14,7 @@ export def "main uninstall supergfxctl" [] {
 # Uninstall LACT, an overclocking utility for AMD cards
 export def "main uninstall amd-lact" [] {
   systemctl disable --now lactd
-  rpm-ostree uninstall lact
+  rpm-ostree remove (rpm -qa | grep lact) -y
 }
 
 # Removes OpenTabletDriver services and the installation from container (does not delete the container itself.)
