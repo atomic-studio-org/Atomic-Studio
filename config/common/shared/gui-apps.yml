@@ -4,7 +4,6 @@ install:
   - papirus-icon-theme
   - materia-gtk-theme
   - librecad
-  - freecad
   - krita
   - blender
   - inkscape
