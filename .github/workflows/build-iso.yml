@@ -54,7 +54,7 @@ jobs:
         id: build
         with:
           ARCH: x86_64
-          IMAGE_NAME: ${{ matrix.image_name }}
+          IMAGE_NAME: ${{ matrix.image.name }}
           IMAGE_REPO: ghcr.io/atomic-studio-org
           VARIANT: ${{ matrix.image.variant }} 
           VERSION: ${{ matrix.major_version }}
