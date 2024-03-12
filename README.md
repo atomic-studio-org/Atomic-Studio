@@ -1,11 +1,10 @@
 <div align="center">
     <img src="./assets/studio-blob.png" alt="drawing" width="200rem"/> 
     <h1 style="font-size: 48px; margin-left: 0.1em; text-align: center;">Atomic Studio</h1>
+    [![Build Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg)](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml)
+    [![License](https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio)](https://github.com/atomic-studio-org/Atomic-Studio)
 </div>
 
-[![Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio)](https://img.shields.io/badge/Atomic%20Studio-6699ff?logo=1001tracklists&logoColor=FFFFFF)
-[![Build Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg)](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml)
-[![License](https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio)](https://github.com/atomic-studio-org/Atomic-Studio)
 
 Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
 
