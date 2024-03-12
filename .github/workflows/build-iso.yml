@@ -49,11 +49,6 @@ jobs:
         major_version: [39]
         image_tag: [latest]
     steps:
-      - name: Maximize build space
-        uses: ublue-os/remove-unwanted-software@v6
-        with:
-          remove-codeql: 'true'
-
       - name: Build ISOs
         uses: ublue-os/isogenerator@1.0.9
         id: build
