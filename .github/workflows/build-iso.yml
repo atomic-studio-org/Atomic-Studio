@@ -29,20 +29,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_name:
-            - atomic-studio
-            - atomic-studio-gnome-nvidia
-            - atomic-studio-nvidia
-            - atomic-studio-nvidia-hardened
-            - atomic-studio-gnome
-            - atomic-studio-hardened
-            - atomic-studio-gnome-hardened
-            - atomic-studio-gnome-nvidia-hardened
+        image:
+          - name: atomic-studio
+            variant: Kinoite
+          - name: atomic-studio-hardened
+            variant: Kinoite
+          - name: atomic-studio-nvidia
+            variant: Kinoite
+          - name: atomic-studio-nvidia-hardened
+            variant: Kinoite
+          - name: atomic-studio-gnome
+            variant: Silverblue
+          - name: atomic-studio-gnome-nvidia
+            variant: Silverblue
+          - name: atomic-studio-gnome-hardened
+            variant: Silverblue
+          - name: atomic-studio-gnome-nvidia-hardened
+            variant: Silverblue
         major_version: [39]
         image_tag: [latest]
-        exclude:
-          - major_version: 39
-            image_tag: latest 
     steps:
       - name: Build ISOs
         uses: ublue-os/isogenerator@1.0.9
@@ -51,11 +56,12 @@ jobs:
           ARCH: x86_64
           IMAGE_NAME: ${{ matrix.image_name }}
           IMAGE_REPO: ghcr.io/atomic-studio-org
-          VARIANT: 'Silverblue'
+          VARIANT: ${{ matrix.image.variant }} 
           VERSION: ${{ matrix.major_version }}
           IMAGE_TAG: ${{ matrix.image_tag }}
           SECURE_BOOT_KEY_URL: 'https://github.com/ublue-os/akmods/raw/main/certs/public_key.der'
           ENROLLMENT_PASSWORD: 'ublue-os'
+          WEB_UI: true
 
       - name: Upload ISOs and Checksum to Job Artifacts
         if: github.event_name == 'pull_request'

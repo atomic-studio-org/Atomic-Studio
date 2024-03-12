@@ -1,4 +1,4 @@
-name: Build AStudio
+name: Build Atomic Studio
 on:
   schedule:
     - cron: "00 17 * * *" # build at 17:00 UTC every day 
