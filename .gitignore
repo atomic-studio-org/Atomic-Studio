@@ -2,3 +2,4 @@ cosign.key
 cosign.private
 /Containerfile
 .direnv
+.pre-commit-hooks.yml
