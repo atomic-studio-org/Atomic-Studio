@@ -3,8 +3,41 @@
     <h1 style="font-size: 48px; margin-left: 0.1em; text-align: center;">Atomic Studio</h1>
 </div>
 
-[![Build AStudio](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg)](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml)
+[![Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio)](https://img.shields.io/badge/Atomic%20Studio-6699ff?style=for-the-badge&logo=1001tracklists&logoColor=FFFFFF)
+[![Build Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg)](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio)](https://github.com/atomic-studio-org/Atomic-Studio)
 
+Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
+
+This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the (current netinstall) ISO in [Releases](https://github.com/atomic-studio-org/Atomic-Studio/releases) or by rebasing your system to one of them.
+
+You can also use hardened images that have less hardware compatibility but have much better security!
+
+### Rebasing
+
+```shell
+# Latest Plasma version
+rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio:latest
+
+# Latest Plasma version + Nvidia
+rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-nvidia:latest
+
+# Latest Gnome version
+rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome:latest
+
+# Latest Gnome version + Nvidia
+rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia:latest
+
+# Add -hardened to get the hardened image versions. E.g.:
+rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-hardened:latest
+```
+
+> Note: If these commands do not work first time, you are probably on a vanilla Fedora Atomic system, please run these but, instead of `ostree-image-signed:docker://`, use `ostree-unverified-registry:`, like the follwing command:
+>```shell
+># Unsigned version, please refrain from using this! - Only rebase to this first, then rebase to a signed image if you arent on a Universal Blue system
+>rpm-ostree rebase ostree-unverified-registry:ghcr.io/atomic-studio-org/atomic-studio:latest
+>```
+[![Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio)](https://img.shields.io/badge/Atomic%20Studio-6699ff)
 Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
 
 This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the (current netinstall) ISO in [Releases](https://github.com/atomic-studio-org/Atomic-Studio/releases) or by rebasing your system to one of them.
