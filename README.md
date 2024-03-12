@@ -3,7 +3,7 @@
     <h1 style="font-size: 48px; margin-left: 0.1em; text-align: center;">Atomic Studio</h1>
 </div>
 
-[![Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio)](https://img.shields.io/badge/Atomic%20Studio-6699ff?style=for-the-badge&logo=1001tracklists&logoColor=FFFFFF)
+[![Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio)](https://img.shields.io/badge/Atomic%20Studio-6699ff?logo=1001tracklists&logoColor=FFFFFF)
 [![Build Atomic Studio](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg)](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio)](https://github.com/atomic-studio-org/Atomic-Studio)
 
