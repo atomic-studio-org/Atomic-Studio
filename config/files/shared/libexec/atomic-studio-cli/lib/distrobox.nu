@@ -1,4 +1,4 @@
-use user_interaction.nu [fancy_prompt_message]
+use user_interaction.nu [fancy_prompt_message, user_prompt]
 
 export def gen_export_string [packages: list<string>, export_Path: string] {
     return ($packages | each {|package| $"distrobox-export --app ($package) ; distrobox-export --export-path ($export_Path) --bin /usr/bin/($package)" } | str join " ; ")

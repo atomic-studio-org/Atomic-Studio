@@ -26,7 +26,7 @@ export def "main davinci remove" [
     $install_box = $INSTALLATION_BOX 
   }
   
-  try { distrobox ls | grep $install_box out> /dev/null } catch { 
+  try { distrobox ls | grep $install_box } catch { 
     echo "The selected box ($install_box) is not created yet."
     exit 1 
   }
@@ -55,9 +55,13 @@ export def "main davinci" [
   if $box_name == null {
     $install_box = $INSTALLATION_BOX 
   }
-  let box_name = $install_box
+  let box_name = $install_box 
 
   create_container_optional $yes {name: $box_name, description: "Davinci container", image: $DAVINCI_IMAGE}
-  
-  distrobox enter $box_name -- sh -c $"setup-davinci ($script_path) distrobox && add-davinci-launcher"
+
+  mkdir $"($env.HOME)/.cache/davincibox"
+  cp -f $script_path $"($env.HOME)/.cache/davincibox/dresolve.run"
+  distrobox enter $box_name -- bash -c $"pushd ($env.HOME)/.cache/davincibox && ./dresolve.run --appimage-extract && popd"
+  distrobox enter $box_name -- sh -c $"setup-davinci ($env.HOME)/.cache/davincibox/squashfs-root/AppRun distrobox && add-davinci-launcher distrobox"
+  rm -rf $"($env.HOME)/.cache/davincibox"
 }

@@ -1,5 +1,0 @@
-ublue_variants:
-  - label: tulilirockz/atomic-studio
-    ks: /kickstart/ublue-os.ks
-    flavors:
-      - label: Atomic Studio

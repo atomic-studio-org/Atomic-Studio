@@ -1,4 +1,4 @@
-export use add.nu *
+export use manager.nu *
 export use davinci.nu *
 export use motd.nu *
 export use reporter.nu *

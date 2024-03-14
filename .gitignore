@@ -2,4 +2,4 @@ cosign.key
 cosign.private
 /Containerfile
 .direnv
-.pre-commit-config.yml
+/.pre-commit-config.yaml
