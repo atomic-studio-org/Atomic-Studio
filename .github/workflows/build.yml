@@ -33,7 +33,7 @@ jobs:
         uses: ublue-os/remove-unwanted-software@v6
         with:
           remove-codeql: 'true'
-      - name: Build Custom Image
+      - name: Build Image
         uses: blue-build/github-action@v1.2.0
         with:
           recipe: ${{ matrix.recipe }}

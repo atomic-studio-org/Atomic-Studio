@@ -4,6 +4,7 @@
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg" alt="Build Status" /></a>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml)"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO Status"/></a>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/main/LICENSE.md"><img src="https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio?style=plastic&style=social" alt="Image License: APACHE 2.0"/></a>
+    <a href="https://artifacthub.io/packages/search?repo=atomic-studio"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/atomic-studio" alt="Atomic Studio on ArtifactHub" /></a>
 </div>
 
 <br/>
