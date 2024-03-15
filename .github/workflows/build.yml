@@ -107,8 +107,7 @@ jobs:
         id: push
         with:
           image: ${{ github.repository_owner }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          tags: latest 
-          registry: ${{ steps.registry_case.outputs.lowercase }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
           extra-args: |
