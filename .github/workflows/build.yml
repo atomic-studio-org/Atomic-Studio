@@ -10,7 +10,7 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
   workflow_dispatch:
 env:
-    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 jobs:
   bluebuild:
     name: Build Custom Image
