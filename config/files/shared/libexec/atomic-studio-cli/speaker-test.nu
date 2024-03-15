@@ -25,13 +25,15 @@ export def "main speaker-test" [
     $speak_text = $text 
   }
 
+  echo "Running audio test, input CTRL+C to exit this program"
   mut iterations = 0
   loop {
     if $iterations == $exit {
       exit 0
     }
+    sleep $wait_time
+    echo $"Running espeak: ($speak_text | str join ' ')"
     espeak-ng -v en+13 ...$speak_text
-    sleep $wait_time 
     $iterations += 1
   }
 }

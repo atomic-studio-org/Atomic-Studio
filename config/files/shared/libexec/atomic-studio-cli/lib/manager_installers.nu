@@ -11,7 +11,12 @@ export def distrobox_install [
   manager: record<box_distro: string, installer_command: string>
 ] {
   if (which distrobox | length) == 0 {
+    fancy_prompt_message "Distrobox"
+    if not (user_prompt $package_data.no_confirm) {
+      exit 0
+    }
     generic_script_installation $package_data.no_confirm "distrobox" (distrobox_installer)
+    exit 0
   }
 
   let box_name: string = ($DISTROBOXES_META | where aliases == $manager.box_distro | get name).0

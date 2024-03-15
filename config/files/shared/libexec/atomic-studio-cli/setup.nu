@@ -1,42 +1,53 @@
 use lib/user_interaction.nu [user_prompt, fancy_prompt_message]
 use lib/distrobox.nu [DISTROBOXES_META, create_container_optional]
 
+const INSTALLATION_BOX = "davincibox"
+const DAVINCI_IMAGE = "ghcr.io/zelikos/davincibox:latest"
+
 # Setup Atomic Studio supported apps
 export def "main setup" [] {
   echo "Usage setup <subcommand>."
 }
 
+# This only works for Nvidia!
 # Disable Supergfxctl, a GPU switcher for hybrid laptops
-export def "main uninstall supergfxctl" [] {
+export def "main setup remove supergfxctl" [] {
   systemctl disable --now supergfxd.service
 }
 
 # Uninstall LACT, an overclocking utility for AMD cards
-export def "main uninstall amd-lact" [] {
+export def "main setup remove amd-lact" [] {
   systemctl disable --now lactd
-  rpm-ostree remove (rpm -qa | grep lact) -y
+  rpm-ostree remove (rpm -qa | grep lact) -y --apply-live
 }
 
 # Removes OpenTabletDriver services and the installation from container (does not delete the container itself.)
-export def "main uninstall opentabletdriver" [] {
+export def "main setup remove opentabletdriver" [] {
   let archbox_entry = ($DISTROBOXES_META | select aliases name image | where aliases == arch).0
   rm -f $"($env.HOME)/.config/systemd/user/($archbox_entry.name)-opentabletdriver.service"
   systemctl --user daemon-reload
   systemctl enable --user --now $"($archbox_entry.name)-opentabletdriver.service"
-  distrobox enter -n $archbox_entry.name -- ' paru -Rns opentabletdriver --noconfirm'
+  distrobox enter -n $archbox_entry.name -- 'paru -Rns opentabletdriver --noconfirm'
 }
 
 # Removes RTCQS from the host system
-export def "main uninstall rtcqs" [] {
+export def "main setup remove rtcqs" [] {
   pipx uninstall rtcqs
 }
 
 # Install OpenTabletDriver in a container
-export def "main setup opentabletdriver" [
+export def "main setup install opentabletdriver" [
   --yes (-y) # Skip all confirmation prompts
 ] {
-  install_distrobox_if_not_exists $yes
-  
+  if (which distrobox | length) == 0 {
+    fancy_prompt_message "Distrobox"
+    if not (user_prompt $yes) {
+      exit 0
+    }
+    generic_script_installation $yes "distrobox" (distrobox_installer)
+    exit 0
+  }
+
   let archbox_entry = ($DISTROBOXES_META | select aliases name image | where aliases == arch).0
 
   let opentabletdriver_service = $"
@@ -58,7 +69,7 @@ export def "main setup opentabletdriver" [
 
   create_container_optional $yes {name: $archbox_entry.name, description: "Arch Linux subsystem", image: $archbox_entry.image}
   
-  distrobox enter -n $archbox_entry.name -- ' paru -S opentabletdriver --noconfirm'
+  distrobox enter -n $archbox_entry.name -- 'paru -S opentabletdriver --noconfirm'
   mkdir $"($env.HOME)/.config/systemd/user"
   try { rm -f $"($env.HOME)/.config/systemd/user/($archbox_entry.name)-opentabletdriver.service" } catch { }
   
@@ -71,26 +82,86 @@ export def "main setup opentabletdriver" [
 }
 
 # Installs RTCQS in the host system for checking realtime perms
-export def "main setup rtcqs" [] {
+export def "main setup install rtcqs" [] {
   pipx install rtcqs
   echo "Restart your shell and run rtcqs_gui"
 }
 
-
+# This only works for Nvidia!
 # Enable Supergfxctl, a GPU switcher for hybrid laptops
-export def "main setup supergfxctl" [] {
+export def "main setup install supergfxctl" [] {
   systemctl enable --now supergfxd.service
 }
 
 # Set up LACT, an overclocking utility for AMD cards
-export def "main setup amd-lact" [] {
+export def "main setup install amd-lact" [] {
   ublue-update --wait
   echo 'Installing LACT...'
   http get (http get "https://api.github.com/repos/ilya-zlobintsev/LACT/releases/latest" | get assets | where {|e| $e.name | str ends-with "fedora-39.rpm"}).0.browser_download_url | save -f /tmp/lact.rpm
   rpm-ostree install --apply-live -y /tmp/lact.rpm
+  sleep 2sec
+  systemctl daemon-reload
   systemctl enable --now lactd
   rm /tmp/lact.rpm
   echo 'Complete.'
 }
 
+# Install Davinci Resolve in a compatible distrobox
+export def "main setup install davinci" [
+  --yes (-y) # Skip all confirmation prompts
+  --box_name: string # Name of the distrobox where davinci-installer will be run from
+  script_path: string # The script that will be run to install Davinci Resolve
+] {
+  if (which distrobox | length) == 0 {
+    fancy_prompt_message "Distrobox" 
+    if not (user_prompt $yes) {
+      exit 0
+    }
+    generic_script_installation $yes "Distrobox" (distrobox_installer)
+  }
+
+  mut install_box = ""
+  if $box_name == null {
+    $install_box = $INSTALLATION_BOX 
+  }
+  let box_name = $install_box 
+
+  create_container_optional $yes {name: $box_name, description: "Davinci container", image: $DAVINCI_IMAGE}
+
+  mkdir $"($env.HOME)/.cache/davincibox"
+  cp -f $script_path $"($env.HOME)/.cache/davincibox/dresolve.run"
+  distrobox enter $box_name -- bash -c $"pushd ($env.HOME)/.cache/davincibox && ./dresolve.run --appimage-extract && popd"
+  distrobox enter $box_name -- sh -c $"setup-davinci ($env.HOME)/.cache/davincibox/squashfs-root/AppRun distrobox && add-davinci-launcher distrobox"
+  rm -rf $"($env.HOME)/.cache/davincibox"
+}
+
+# Delete Davinci Resolve in a from a distrobox
+export def "main setup remove davinci" [
+  --yes (-y) # Skip all confirmation prompts, 
+  --box_name: string # Name of the distrobox where davinci-installer will be run from
+  --delete-box # Also delete container
+] {
+  if (which distrobox | length) == 0 {
+    fancy_prompt_message "Distrobox" 
+    if not (user_prompt $yes) {
+      exit 0
+    }
+    generic_script_installation $yes "Distrobox" (distrobox_installer)
+  }
+
+  mut install_box = ""
+  if $box_name == null {
+    $install_box = $INSTALLATION_BOX 
+  }
+  
+  try { distrobox ls | grep $install_box } catch { 
+    echo "The selected box ($install_box) is not created yet."
+    exit 1 
+  }
+
+  distrobox enter $install_box '--' sh -c "add-davinci-launcher remove"
+  if $delete_box != null {
+    distrobox rm $install_box
+  }
+}
 

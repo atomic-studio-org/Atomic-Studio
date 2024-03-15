@@ -27,7 +27,7 @@ export def "main pw reset quantum-buffersize" [] {
 }
 
 # Set specific buffersize for PIPEWIRE_QUANTUM variable (fixes ardour and carla crashes)
-export def "main pw set quantum-buffersize" [--buffersize (-b): int] {
+export def "main pw set quantum-buffersize" [buffersize: int] {
   mut is_valid_thing: bool = false
   mut iter = 0
   let max_iter = ($VALID_BFSIZES | length)
@@ -38,6 +38,7 @@ export def "main pw set quantum-buffersize" [--buffersize (-b): int] {
     if VALID_BFSIZES.$iter == $buffersize {
       $is_valid_thing = true
     }
+    $iter = $iter + 1
   }
 
   if not is_valid_thing {
@@ -53,7 +54,6 @@ export def "main pw set quantum-buffersize" [--buffersize (-b): int] {
 
 # Edit your own custom configuration for pipewire
 export def "main pw set config" [
-  --system (-s) # Select system configurations to override
   --user (-u) # Select user configs
 ] {
   let pipewire_config_path = $"($env.HOME)/.config/pipewire"
@@ -62,16 +62,14 @@ export def "main pw set config" [
   mkdir $pipewire_config_path
 
   mut target_fpath = ""
-  if $system != null {
-    $target_fpath = $pipewire_sys_path
-  }
+  $target_fpath = $pipewire_sys_path
   if $user != null {
     $target_fpath = $pipewire_config_path
   }
 
   let selected_config_file = (gum file $target_fpath)
 
-  if $system != null {
+  if $user == null {
     cp $selected_config_file $pipewire_config_path
   }
   mut editor = "nano"
@@ -87,7 +85,7 @@ export def "main pw enable realtime" [] {
   rpm-ostree kargs --append-if-missing="threadirqs"
   
   for $group in $REALTIME_GROUPS {
-    usermod -a -G $group $env.USER
+    pkexec usermod -a -G $group $env.USER
   }
   echo "Reboot for changes to take effect."
 }
@@ -98,7 +96,7 @@ export def "main pw disable realtime" [] {
   rpm-ostree kargs --delete-if-present="threadirqs"
 
   for $group in $REALTIME_GROUPS {
-    usermod -R $group $env.USER
+    pkexec usermod -R $group $env.USER
   }
   echo "Reboot for changes to take effect."
 }

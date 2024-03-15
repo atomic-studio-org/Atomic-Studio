@@ -27,7 +27,7 @@ export def "main reporter" [
   $method_command = match $method {
     termbin => "nc termbin.com 9999",
     fpaste => "fpaste"
-    loopback => "echo $in",
+    loopback | loop | lp => "echo $in",
   }
   if $method == null {
     $method_command = "fpaste"
@@ -40,13 +40,12 @@ export def "main reporter" [
 
   $fetch | each { |fetch_arg|
      table_commands ...(match $fetch_arg {
-      hw => { ["lscpu" "lsmem" "lsblk" "mount"] },
       audio => { ["pactl info", "pw-dump"] },
       packages => { ["rpm -qa" "rpm-ostree status -v"] },
       distrobox => { ["podman images" "distrobox ls" "podman ps -a"] },
       systemd => { ["systemctl status" "systemctl status --user"] },
-      env => { ["$env"] }
-      _ => [],
+      env => { ["$env"] },
+      _ => { ["lscpu" "lsmem" "lsblk" "mount"] }
     })
   } | table -e --theme basic | nu --stdin -c $"($method_command)"
 }

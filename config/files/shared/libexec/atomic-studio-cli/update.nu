@@ -4,14 +4,14 @@
 export def "main update unpin" [
   number: int # Which deployment will be unpinned
 ] {
-  ostree admin pin --unpin $number
+  pkexec ostree admin pin --unpin $number
 }
 
 # Pin a certain system version
 export def "main update pin" [
   number: int # Which deployment will be pinned
 ] {
-  ostree admin pin $number
+  pkexec ostree admin pin $number
 }
 
 # Rollback an update 

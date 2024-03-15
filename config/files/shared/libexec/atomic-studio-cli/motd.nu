@@ -30,15 +30,24 @@ def replace_format [
 
 # Turn MOTD off
 export def "main motd off" [] {
-  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
-  rm $MOTD_DISABLED_FILE
+  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_disabled"
+  if not ($MOTD_DISABLED_FILE | path exists) {
+    echo "MOTD is already disabled"
+    exit 0
+  }
+  mkdir ($MOTD_DISABLED_FILE | path dirname) 
+  touch $MOTD_DISABLED_FILE
   echo "Disabled MOTD for the current user"
 }
 
 # Turn MOTD on
 export def "main motd on" [] {
-  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_enabled"
-  touch $MOTD_DISABLED_FILE
+  let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_disabled"
+  if not ($MOTD_DISABLED_FILE | path exists) {
+    echo "MOTD is already enabled"
+    exit 0
+  }
+  rm $MOTD_DISABLED_FILE
   echo "Enabled MOTD for the current user"
 }
 
@@ -54,17 +63,19 @@ export def "main motd" [
     exit 0
   }
 
-  mut TEMPLATE_PATH = $template_path
-  if $template_path == null {
-    $TEMPLATE_PATH = $STUDIO_TEMPLATE_PATH 
+  mut TEMPLATE_PATH = $STUDIO_TEMPLATE_PATH 
+  if $template_path != null {
+    $TEMPLATE_PATH = $template_path
   }
-  mut MOTD_PATH = $motd_path
-  if $motd_path == null {
-    $MOTD_PATH = "/usr/share/ublue-os/atomic-studio/motd/tips"
+  
+  mut MOTD_PATH = "/usr/share/ublue-os/atomic-studio/motd/tips"
+  if $motd_path != null {
+    $MOTD_PATH = $motd_path
   }
-  mut IMAGE_INFO_PATH = $image_info_path
-  if $image_info_path == null {
-    $IMAGE_INFO_PATH = "/usr/share/ublue-os/image-info.json"
+
+  mut IMAGE_INFO_PATH = "/usr/share/ublue-os/image-info.json"
+  if $image_info_path != null {
+    $IMAGE_INFO_PATH = $image_info_path
   }
 
   let CURRENT_TIP_FILE = (ls $MOTD_PATH | where { |e| ($e.type == "file") and ($e.name | str ends-with md) } | shuffle | get 0.name)

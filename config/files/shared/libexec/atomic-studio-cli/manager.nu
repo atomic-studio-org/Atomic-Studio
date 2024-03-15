@@ -2,7 +2,7 @@
 
 use lib/user_interaction.nu [user_prompt]
 use lib/distrobox.nu [DISTROBOXES_META]
-use lib/manager_lib.nu [brew_install, nix_install, distrobox_install, pipx_install, brew_uninstall, nix_uninstall, distrobox_uninstall, pipx_uninstall]
+use lib/manager_installers.nu [brew_install, nix_install, distrobox_install, pipx_install, brew_uninstall, nix_uninstall, distrobox_uninstall, pipx_uninstall]
 
 # Available package managers: ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman", "pipx"]
 export def "main manager" [] {
