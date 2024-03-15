@@ -38,6 +38,10 @@ jobs:
         uses: ublue-os/remove-unwanted-software@v6
         with:
           remove-codeql: 'true'
+      - name: Additional cleanup
+        run: |
+            sudo rm -rf /home/linuxbrew /usr/share/miniconda /usr/local/share/vcpkg
+            sudo apt purge imagemagick imagemagick xorriso sqlite3 sphinxsearch shellcheck
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -101,17 +105,16 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.IMAGE_REGISTRY }}
-      
-      - name: Push To GHCR Image Registry
-        uses: redhat-actions/push-to-registry@v2
-        id: push
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          image: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          registry: ${{ env.IMAGE_REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          extra-args: |
-            --disable-content-trust
+
+      - name: Push To GHCR Image Registry
+        run: docker push --disable-content-trust  ${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
 
       - name: Sign container image
         uses: EyeCantCU/cosign-action/sign@v0.2.2
@@ -121,8 +124,3 @@ jobs:
           registry-token: ${{ secrets.GITHUB_TOKEN }}
           signing-secret: ${{ secrets.SIGNING_SECRET }}
           tags: ${{ steps.push.outputs.digest }}
-
-      - name: Echo outputs
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "${{ toJSON(steps.push.outputs) }}"
