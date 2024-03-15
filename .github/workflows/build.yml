@@ -1,7 +1,8 @@
+---
 name: Build Atomic Studio
-on:
+on:  # yamllint disable-line rule:truthy
   schedule:
-    - cron: "00 17 * * *" # build at 17:00 UTC every day 
+    - cron: "00 17 * * *"  # build at 17:00 UTC every day
   push:
     paths:
       - config/**
@@ -33,15 +34,13 @@ jobs:
         uses: ublue-os/remove-unwanted-software@v6
         with:
           remove-codeql: 'true'
-      
       - name: Checkout repository
         uses: actions/checkout@v4
-      
       - name: Generate recipes
         run: |
             sudo apt install -y jsonnet
-            jsonnet config.jsonnet templates/recipes-std.jsonnet -o config/recipes 
-        
+            jsonnet config.jsonnet templates/recipes-std.jsonnet \
+              -o config/recipes
       - name: Build Image
         uses: blue-build/github-action@v1.2.0
         with:
