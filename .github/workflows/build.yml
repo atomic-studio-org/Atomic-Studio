@@ -95,7 +95,7 @@ jobs:
           context: .
           push: false 
           file: /tmp/Containerfile
-          tags: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
+          tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
@@ -114,7 +114,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Push To GHCR Image Registry
-        run: docker push --disable-content-trust  ${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+        run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
 
       - name: Sign container image
         uses: EyeCantCU/cosign-action/sign@v0.2.2
