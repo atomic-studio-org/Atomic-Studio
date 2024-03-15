@@ -9,6 +9,8 @@ on:  # yamllint disable-line rule:truthy
       - modules/**
   pull_request:
   workflow_dispatch:
+env:
+    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 jobs:
   bluebuild:
     name: Build Custom Image
@@ -21,30 +23,108 @@ jobs:
       fail-fast: false
       matrix:
         recipe:
-          - recipes/recipe.yml
-          - recipes/recipe-nvidia.yml
-          - recipes/recipe-gnome.yml
-          - recipes/recipe-gnome-nvidia.yml
-          - recipes/recipe-hardened.yml
-          - recipes/recipe-nvidia-hardened.yml
-          - recipes/recipe-gnome-hardened.yml
-          - recipes/recipe-gnome-nvidia-hardened.yml
+          - ".yml"
+          - "-nvidia.yml"
+          - "-gnome.yml"
+          - "-gnome-nvidia.yml"
+          - "-hardened.yml"
+          - "-nvidia-hardened.yml"
+          - "-gnome-hardened.yml"
+          - "-gnome-nvidia-hardened.yml"
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
         with:
           remove-codeql: 'true'
+
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - uses: mikefarah/yq@v4.42.1
+
       - name: Generate recipes
+        id: recipes_meta
         run: |
             sudo apt install -y jsonnet
-            jsonnet templates/recipe-std.jsonnet \
-              -m config/recipes -y
-      - name: Build Image
-        uses: blue-build/github-action@v1.2.0
+            mkdir config/recipes 
+            jsonnet templates/recipe-std.jsonnet -m config/recipes -y
+            echo "IMAGE_NAME=$(yq '.name' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "IMAGE_DESCRIPTION=$(yq '.description' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "VERSION=39" >> $GITHUB_OUTPUT
+            echo "image=${{env.IMAGE_REGISTRY}}/$(yq '.name' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "tags=$(yq '.image-version' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
         with:
-          recipe: ${{ matrix.recipe }}
-          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
-          registry_token: ${{ github.token }}
-          pr_event_number: ${{ github.event.number }}
+          install: true
+          driver: docker
+
+      - name: Image Metadata
+        uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: |
+            ${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title=${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+            org.opencontainers.image.version=${{ steps.recipes_meta.outputs.VERSION }}
+            org.opencontainers.image.description=${{ steps.recipes_meta.outputs.IMAGE_DESCRIPTION }}
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/atomic-studio-org/Atomic-Studio/main/README.md
+            io.artifacthub.package.logo-url=https://raw.githubusercontent.com/atomic-studio-org/Atomic-Studio/main/assets/studio-blob.png
+
+      - name: Generate Containerfile with Bluebuild
+        shell: bash
+        run: |
+          docker run \
+            --detach \
+            --rm \
+            --name blue-build-installer \
+            ghcr.io/blue-build/cli:main-installer \
+            tail -f /dev/null
+          docker cp blue-build-installer:/out/bluebuild /usr/local/bin/bluebuild
+          docker stop -t 0 blue-build-installer
+          /usr/local/bin/bluebuild template -v ./config/recipes/recipe${{matrix.recipe}} -o /tmp/Containerfile 
+
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false 
+          file: /tmp/Containerfile
+          tags: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
+      # https://github.com/macbre/push-to-ghcr/issues/12
+      - name: Lowercase Registry
+        id: registry_case
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ env.IMAGE_REGISTRY }}
+      
+      - name: Push To GHCR Image Registry
+        uses: redhat-actions/push-to-registry@v2
+        id: push
+        with:
+          image: ${{ steps.recipe_meta.outputs.image }}
+          tags: ${{ steps.recipe_meta.outputs.tags }}
+          registry: ${{ steps.registry_case.outputs.lowercase }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          extra-args: |
+            --disable-content-trust
+
+      - name: Sign container image
+        uses: EyeCantCU/cosign-action/sign@v0.2.2
+        if: github.event_name != 'pull_request'
+        with:
+          containers: ${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+          registry-token: ${{ secrets.GITHUB_TOKEN }}
+          signing-secret: ${{ secrets.SIGNING_SECRET }}
+          tags: ${{ steps.push.outputs.digest }}
+
+      - name: Echo outputs
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "${{ toJSON(steps.push.outputs) }}"
