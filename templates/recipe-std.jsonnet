@@ -13,14 +13,14 @@ local modules = {
 };
 
 local gen_image_tags(baseimage, nvidia=false, hardened=false) = (if baseimage == "silverblue" then "-gnome" else "") + (if nvidia then "-nvidia" else "") + (if hardened then "-hardened" else "");
-local gen_module_definition(prefix, modules) = [(prefix + "/" + module + ".yml") for module in modules];
+local gen_module_definition(prefix, modules) = [ { "from-file": (prefix + "/" + module + ".yml")}  for module in modules ];
 
 local image(baseimage, imageversion, nvidia=false, hardened=false) = {
     name: project_image_name + gen_image_tags(baseimage, nvidia, hardened),
     description: "Operating system based on Fedora Atomic meant for content creators and artists",
     "base-image": (if hardened then secure_images else base_images) + baseimage + (if nvidia then "-nvidia" else "-main") + (if hardened then "-userns-hardened" else ""),
     "image-version": imageversion,
-    modules: 
+    modules:  
     (
         if hardened then 
             gen_module_definition("common/shared", modules.hardened)
