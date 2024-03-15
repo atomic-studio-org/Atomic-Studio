@@ -39,7 +39,7 @@ jobs:
       - name: Generate recipes
         run: |
             sudo apt install -y jsonnet
-            jsonnet templates/recipes-std.jsonnet \
+            jsonnet templates/recipe-std.jsonnet \
               -m config/recipes -y
       - name: Build Image
         uses: blue-build/github-action@v1.2.0
