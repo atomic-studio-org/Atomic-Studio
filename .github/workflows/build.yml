@@ -105,7 +105,7 @@ jobs:
         id: push
         with:
           image: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          tags: ${{ steps.recipe_meta.outputs.tags }}
+          tags: latest 
           registry: ${{ steps.registry_case.outputs.lowercase }}
           username: ${{ github.actor }}
           password: ${{ github.token }}
