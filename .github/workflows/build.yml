@@ -91,7 +91,7 @@ jobs:
           context: .
           push: false 
           file: /tmp/Containerfile
-          tags: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
+          tags: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
@@ -106,8 +106,8 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         id: push
         with:
-          image: ${{ github.repository_owner }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          registry: ghcr.io
+          image: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ github.token }}
           extra-args: |
