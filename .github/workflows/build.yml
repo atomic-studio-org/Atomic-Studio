@@ -90,6 +90,7 @@ jobs:
           /usr/local/bin/bluebuild template -v ./config/recipes/recipe${{matrix.recipe}} -o /tmp/Containerfile 
 
       - name: Build
+        id: build_image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -116,12 +117,13 @@ jobs:
       - name: Push To GHCR Image Registry
         run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
 
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.3.0
+    
       - name: Sign container image
-        uses: EyeCantCU/cosign-action/sign@v0.2.2
-        if: github.event_name != 'pull_request'
-        with:
-          containers: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          registry: ${{ env.IMAGE_REGISTRY }}
-          registry-token: ${{ github.token }}
-          signing-secret: ${{ secrets.SIGNING_SECRET }}
-          tags: latest
+        shell: bash
+        run: |
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}@sha256:${{ steps.build_image.outputs.digest }}
+        env:
+          COSIGN_EXPERIMENTAL: false
+          COSIGN_PRIVATE_KEY: ${{ env.SIGNING_SECRET }}
