@@ -103,6 +103,7 @@ jobs:
         uses: atomic-studio-org/kernel-signer-docker@main
         with:
           image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          imagename: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
           privkey: ${{ secrets.SBKEY }}
           pubkey: /usr/etc/pki/certs/atomic-studio-sbkey.der
           tags: latest 
