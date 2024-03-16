@@ -36,6 +36,15 @@
                                          }: {
         inherit (utility-flake.packages.${pkgs.system}) cosign-generate;
 
+        generate-sbkey = pkgs.writeScriptBin "sbkey-generator" ''
+          mkdir result
+          ${pkgs.lib.getExe pkgs.openssl} req \
+            -new -x509 -newkey rsa:2048 \
+            -nodes -days 36500 -outform DER \
+            -keyout "result/MOK.priv" \
+            -out "result/MOK.der"
+        '';
+
         build-image = pkgs.writers.writeNuBin "build-image" ''
           def "main" [--prefix (-p): string, ...recipes: string] {
             mut recipe_prefix: string = ""
@@ -65,7 +74,7 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           inherit (self.checks.${pkgs.system}.pre-commit-check) shellHook;
-          packages = with pkgs; [ bluebuild.packages.${system}.bluebuild nushell git jq yq jsonnet ];
+          packages = with pkgs; [ bluebuild.packages.${system}.bluebuild nushell git jq yq jsonnet openssl ];
         };
       });
     };

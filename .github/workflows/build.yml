@@ -99,6 +99,14 @@ jobs:
           tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Sign kernel
+        uses: atomic-studio-org/kernel-signer-docker@v0.1.0
+        with:
+          image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          privkey: ${{ secrets.SBKEY }}
+          pubkey: /usr/etc/pki/certs/atomic-studio-sbkey.der
+          tags: latest 
+
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
       - name: Lowercase Registry

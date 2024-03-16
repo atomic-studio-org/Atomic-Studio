@@ -3,3 +3,4 @@ cosign.private
 /Containerfile
 .direnv
 /.pre-commit-config.yaml
+result/

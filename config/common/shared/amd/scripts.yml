@@ -1,3 +1,4 @@
 type: script-nu
 scripts:
   - zluda.nu
+  - kernel.nu
