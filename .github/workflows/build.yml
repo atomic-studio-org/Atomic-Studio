@@ -121,7 +121,7 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           containers: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          registry: ${{env.IMAGE_REGISTRY}}
-          registry-token: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+          registry-token: ${{ github.token }}
           signing-secret: ${{ secrets.SIGNING_SECRET }}
           tags: latest
