@@ -15,7 +15,7 @@ env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 jobs:
   bluebuild:
-    name: Build Custom Image
+    name: Build Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -124,4 +124,4 @@ jobs:
           registry: ${{env.IMAGE_REGISTRY}}
           registry-token: ${{ secrets.GITHUB_TOKEN }}
           signing-secret: ${{ secrets.SIGNING_SECRET }}
-          tags: ${{ steps.push.outputs.digest }}
+          tags: latest
