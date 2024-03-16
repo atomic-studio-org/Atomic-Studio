@@ -120,7 +120,7 @@ jobs:
         uses: EyeCantCU/cosign-action/sign@v0.2.2
         if: github.event_name != 'pull_request'
         with:
-          containers: ${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+          containers: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
           registry: ${{env.IMAGE_REGISTRY}}
           registry-token: ${{ secrets.GITHUB_TOKEN }}
           signing-secret: ${{ secrets.SIGNING_SECRET }}
