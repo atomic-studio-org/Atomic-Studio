@@ -11,7 +11,7 @@
 Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
 <br/><br/>
 
-This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` to `helvum`). You can install this image by either installing the offline ISOs in [Github Actions Artifacts](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml) or by rebasing your system to one of them.
+This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` to `helvum`). You can install this image by either installing the offline ISOs in [Github Actions Artifacts](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml) or by rebasing your system to one of them.
 
 You can also use hardened images that have less hardware compatibility but have much better security!
 
