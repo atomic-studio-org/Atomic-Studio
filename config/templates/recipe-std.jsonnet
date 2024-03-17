@@ -30,8 +30,8 @@ local gen_image_tags(base_image, nvidia, hardened) = std.join("", [
 local gen_baseimage_url(base_image, nvidia, hardened) = std.join("", [
     cond(hardened, images.hardened + "/", images.base + "/"),
     base_image,
-    cond(hardened, "-userns-hardened", ""),
     cond(nvidia, "-nvidia", "-main"),
+    cond(hardened, "-userns-hardened", ""),
 ]);
 
 local gen_module_definition(prefix, modules) = [

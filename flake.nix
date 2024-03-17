@@ -35,15 +35,7 @@
                                          ,
                                          }: {
         inherit (utility-flake.packages.${pkgs.system}) cosign-generate;
-
-        generate-sbkey = pkgs.writeScriptBin "sbkey-generator" ''
-          mkdir result
-          ${pkgs.lib.getExe pkgs.openssl} req \
-            -new -x509 -newkey rsa:2048 \
-            -nodes -days 36500 -outform DER \
-            -keyout "result/MOK.priv" \
-            -out "result/MOK.der"
-        '';
+        inherit (utility-flake.packages.${pkgs.system}) generate-sbkey;
 
         build-image = pkgs.writers.writeNuBin "build-image" ''
           def "main" [--prefix (-p): string, ...recipes: string] {
