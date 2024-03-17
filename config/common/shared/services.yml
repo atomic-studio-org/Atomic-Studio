@@ -3,3 +3,4 @@ system:
   enabled:
     - realtime-entsk
     - realtime-setup
+    - pci-latency

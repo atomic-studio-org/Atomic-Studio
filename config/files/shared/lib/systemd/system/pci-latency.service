@@ -1,0 +1,9 @@
+[Unit]
+Description=Adjust latency timers for PCI peripherals
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pci-latency
+
+[Install]
+WantedBy=multi-user.target
