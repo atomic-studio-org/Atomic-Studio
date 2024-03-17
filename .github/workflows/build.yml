@@ -7,7 +7,6 @@ on:  # yamllint disable-line rule:truthy
     paths:
       - config/**
       - modules/**
-      - templates/**
       - .github/workflows/build.yml
   pull_request:
   workflow_dispatch:
@@ -51,7 +50,7 @@ jobs:
         run: |
             sudo apt install -y jsonnet
             mkdir config/recipes 
-            jsonnet templates/recipe-std.jsonnet -m config/recipes -y
+            jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y
             echo "IMAGE_NAME=$(yq '.name' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "VERSION=39" >> $GITHUB_OUTPUT

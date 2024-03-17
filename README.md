@@ -11,7 +11,7 @@
 Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
 <br/><br/>
 
-This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` <-> `helvum`). You can install this image by either installing the (current netinstall) ISO in [Releases](https://github.com/atomic-studio-org/Atomic-Studio/releases) or by rebasing your system to one of them.
+This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` to `helvum`). You can install this image by either installing the offline ISOs in [Github Actions Artifacts](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml) or by rebasing your system to one of them.
 
 You can also use hardened images that have less hardware compatibility but have much better security!
 
@@ -52,7 +52,7 @@ When writing a pull request, make sure you have Nushell and Nix installed on you
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
 
 ```bash
-cosign verify --key cosign.pub ghcr.io/blue-build/legacy-template
+cosign verify --key cosign.pub ghcr.io/atomic-studio-org/atomic-studio-$IMAGE
 ```
 
 ## Final Note
