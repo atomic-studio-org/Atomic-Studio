@@ -15,7 +15,9 @@ install:
   - wine-mono
   - mingw32-wine-gecko
   - mingw64-wine-gecko
-  - wine-dxvk* 
+  - wine-dxvk
   - winetricks
   - yabridge 
   - libcurl-gnutls
+  - icoutils
+  - perl-Image-ExifTool

@@ -15,7 +15,7 @@ local modules = {
     amd: ["packages", "scripts"],
     gnome: ["apps", "files", "scripts"],
     plasma: ["apps", "files", "scripts"],
-    audio: ["audinux", "pipewire-packages", "wine-tkg"],
+    audio: ["audinux", "pipewire-packages", "wine-tkg", "wine-tkg-scripts"],
     misc: [{ "type": "yafti" }, { "type": "signing" }],
 };
 

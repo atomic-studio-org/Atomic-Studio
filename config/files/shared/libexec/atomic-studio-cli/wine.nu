@@ -2,9 +2,15 @@ export def "main wine" [] {
   echo "Usage wine <command>."
 }
 
-# Run anythihg through wine-tkg
+# Run anything through wine-tkg
 export def "main wine run" [...rest] {
-  wine ...$rest
+  wineserver64
+  wine64 ...$rest
+}
+
+# Open the wine manager 
+export def "main wine manager" [] {
+  winezgui
 }
 
 # Register pipewire-wineasio DLL to default wine prefix
