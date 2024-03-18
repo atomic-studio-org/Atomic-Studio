@@ -9,17 +9,6 @@ export def "main setup" [] {
   echo "Usage setup <subcommand>."
 }
 
-# This only works for Nvidia!
-# Disable Supergfxctl, a GPU switcher for hybrid laptops
-export def "main setup remove supergfxctl" [] {
-  systemctl disable --now supergfxd.service
-}
-
-# Uninstall LACT, an overclocking utility for AMD cards
-export def "main setup remove amd-lact" [] {
-  systemctl disable --now lactd
-  rpm-ostree remove (rpm -qa | grep lact) -y --apply-live
-}
 
 # Removes OpenTabletDriver services and the installation from container (does not delete the container itself.)
 export def "main setup remove opentabletdriver" [] {
@@ -30,10 +19,7 @@ export def "main setup remove opentabletdriver" [] {
   distrobox enter -n $archbox_entry.name -- 'paru -Rns opentabletdriver --noconfirm'
 }
 
-# Removes RTCQS from the host system
-export def "main setup remove rtcqs" [] {
-  pipx uninstall rtcqs
-}
+
 
 # Install OpenTabletDriver in a container
 export def "main setup install opentabletdriver" [
@@ -98,7 +84,7 @@ export def "main setup install amd-lact" [] {
   ublue-update --wait
   echo 'Installing LACT...'
   http get (http get "https://api.github.com/repos/ilya-zlobintsev/LACT/releases/latest" | get assets | where {|e| $e.name | str ends-with "fedora-39.rpm"}).0.browser_download_url | save -f /tmp/lact.rpm
-  rpm-ostree install --apply-live -y /tmp/lact.rpm
+  pkexec rpm-ostree install --apply-live -y /tmp/lact.rpm
   sleep 2sec
   systemctl daemon-reload
   systemctl enable --now lactd
@@ -153,9 +139,10 @@ export def "main setup remove davinci" [
   if $box_name == null {
     $install_box = $INSTALLATION_BOX 
   }
-  
-  try { distrobox ls | grep $install_box } catch { 
-    echo "The selected box ($install_box) is not created yet."
+ 
+  let install_box_static = $install_box 
+  try { distrobox ls | grep $install_box } catch {
+    echo $"The selected box ($install_box_static) is not created yet."
     exit 1 
   }
 
@@ -165,3 +152,24 @@ export def "main setup remove davinci" [
   }
 }
 
+# Disable Supergfxctl, a GPU switcher for hybrid laptops
+export def "main setup remove supergfxctl" [] {
+  systemctl disable --now supergfxd.service
+}
+
+# Removes RTCQS from the host system
+export def "main setup remove rtcqs" [] {
+  pipx uninstall rtcqs
+}
+
+# Uninstall LACT, an overclocking utility for AMD cards
+export def "main setup remove amd-lact" [--force (-f)] {
+  try { rpm -qa | grep lact } catch {
+    echo "Amd LACT doesnt seem to be installed. Use --force if it actually is installed."
+    if $force == null {
+      exit 1
+    }
+  }
+  systemctl disable --now lactd
+  rpm-ostree remove (rpm -qa | grep lact) -y --apply-live
+}

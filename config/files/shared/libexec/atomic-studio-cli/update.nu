@@ -16,18 +16,20 @@ export def "main update pin" [
 
 # Rollback an update 
 export def "main update rollback" [] {
-  rpm-ostree rollback 
+  pkexec rpm-ostree rollback 
 }
 
 # Show changelogs for the current system
 export def "main update changelog" [] {
-  rpm-ostree db diff --changelogs
+  pkexec rpm-ostree db diff --changelogs
 }
 
+# Disable automatic updates
 export def "main update auto off" [] {
   systemctl disable --now ublue-update.timer
 }
 
+# Enable automatic updates
 export def "main update auto on" [] {
   systemctl enable --now ublue-update.timer
 }

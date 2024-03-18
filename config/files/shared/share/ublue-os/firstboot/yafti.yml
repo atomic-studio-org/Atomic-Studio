@@ -30,48 +30,22 @@ screens:
           description: Add certain user groups and kernel arguments for your user in order to use realtime applications properly 
           default: false
           packages:
-            - Add realtime group: pkexec studio pw enable realtime
+            - Add realtime group: studio pw enable realtime
         OpenTabletDriver:
           description: Setup OpenTabletDriver, a FOSS alternative to the proprietary wacom drivers 
           default: true
           packages:
-            - Setup OTD: studio setup opentabletdriver 
-        Davinci Box:
-          description: Reproducible and descartable environment for installing Davinci Resolve - Make sure to install Davinci Resolve inside of davincibox with the "studio davinci" command.
-          default: false
-          condition:
-            run: distrobox list | grep -v davincibox
+            - Setup OTD: studio setup install opentabletdriver
+        Amd LACT:
+          description: Setup Amd LACT for GPU overclocking
+          default: false 
           packages:
-            - Setup davincibox: distrobox create -i ghcr.io/zelikos/davincibox:latest -n davincibox
-        OBS Studio Portable:
-          description: Portable environment for installing OBS Studio - Use this if the pre-installed OBS flatpak does not work properly for you. (and you want some extra plugins)
-          default: false
-          condition:
-            run: distrobox list | grep -v obs-studio-portable
+            - Setup OTD: studio setup install amd-lact
+        GreenWithEnvy:
+          description: Setup GreenWithEnvy for overclocking and managing your Nvidia GPUs 
+          default: false 
           packages:
-            - Setup obs-studio-portable: distrobox create --image ghcr.io/ublue-os/obs-studio-portable:latest --name obs-studio-portable --pull --additional-packages nvidia-driver-535
-            - Installing obs-portable launcher: sh -c "mkdir -p $HOME/.local/bin && echo distrobox enter --name obs -- /opt/obs-portable/obs-portable | tee $HOME/.local/bin"
-        amd-additions:
-          source: yafti.screen.package
-          values:
-            title: AMD Additions
-            condition:
-              run: grep -qv 'nvidia' <<< $(jq -r '."image-flavor"' < /usr/share/ublue-os/image-info.json)
-            show_terminal: true
-            package_manager: yafti.plugin.run
-            packages:
-              - LACT (GPU Overclocking): studio setup amd-lact
-        nvidia-additions:
-          source: yafti.screen.package
-          values:
-            title: Nvidia Additions
-            condition:
-              run: grep -q 'nvidia' <<< $(jq -r '."image-flavor"' < /usr/share/ublue-os/image-info.json)
-            show_terminal: true
-            package_manager: yafti.plugin.run
-            packages:
-              - GreenWithEnvy (GPU Overclocking): flatpak install --user --noninteractive com.leinardi.gwe
-              - Supergfxctl (Hybrid GPU Switching): studio setup supergfxctl
+            - Setup GWE: flatpak install --user --noninteractive com.leinardi.gwe
   check-user-flathub:
     source: yafti.screen.consent
     values:

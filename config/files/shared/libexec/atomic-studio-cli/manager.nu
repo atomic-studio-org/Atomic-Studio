@@ -1,7 +1,7 @@
 #!/usr/bin/env -S nu
 
 use lib/user_interaction.nu [user_prompt]
-use lib/distrobox.nu [DISTROBOXES_META]
+use lib/distrobox.nu [DISTROBOXES_META, gen_export_string]
 use lib/manager_installers.nu [brew_install, nix_install, distrobox_install, pipx_install, brew_uninstall, nix_uninstall, distrobox_uninstall, pipx_uninstall]
 
 # Available package managers: ["apt", "brew", "nix", "dnf", "yum", "paru", "pacman", "pipx"]
@@ -23,7 +23,8 @@ export def "main manager export" [
   mkdir $export_Path
 
   let selected_box = ($DISTROBOXES_META | select aliases name | where { |e| ($e.name == $box_or_subsystem) or ($e.aliases == $box_or_subsystem) } | get name | str join)
-  let packages_export_cmd: string = (gen_export_string $packages $export_Path)
+  let packages_export_cmd = gen_export_string $packages $export_Path
+
   distrobox-enter $selected_box -- sh -c $"($packages_export_cmd) 2> /dev/null" err> /dev/null
 }
 

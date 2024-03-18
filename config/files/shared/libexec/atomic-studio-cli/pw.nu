@@ -10,6 +10,7 @@ def default_reset_message [message: string] {
   return $"($message) should be reset now."
 }
 
+# Reset the entire custom pipewire configuration
 export def "main pw reset config" [] {
   let pipewire_config_path = $"($env.HOME)/.config/pipewire"
   rm -f $pipewire_config_path
@@ -17,7 +18,7 @@ export def "main pw reset config" [] {
   echo (default_reset_message "Pipewire user config")
 }
 
-# Resets PIPEWIRE_QUANTUM variable back to its default 
+# Reset PIPEWIRE_QUANTUM variable back to its default 
 export def "main pw reset quantum-buffersize" [] {
   rm -f $TARGET_CONFIG_PATH
   pw-metadata -n settings 0 clock.force-quantum 0 
@@ -41,7 +42,7 @@ export def "main pw set quantum-buffersize" [buffersize: int] {
     $iter = $iter + 1
   }
 
-  if not is_valid_thing {
+  if not $is_valid_thing {
     echo "Invalid Value"
     exit 2
   }
@@ -61,8 +62,7 @@ export def "main pw set config" [
 
   mkdir $pipewire_config_path
 
-  mut target_fpath = ""
-  $target_fpath = $pipewire_sys_path
+  mut target_fpath = $pipewire_sys_path
   if $user != null {
     $target_fpath = $pipewire_config_path
   }
@@ -81,23 +81,26 @@ export def "main pw set config" [
 
 # Enables realtime in linux kernel arguments
 export def "main pw enable realtime" [] {
-  rpm-ostree kargs --append-if-missing="preempt=full"
-  rpm-ostree kargs --append-if-missing="threadirqs"
-  
   for $group in $REALTIME_GROUPS {
     pkexec usermod -a -G $group $env.USER
   }
+
+  rpm-ostree kargs --append-if-missing="preempt=full"
+  rpm-ostree kargs --append-if-missing="threadirqs"
+  
   echo "Reboot for changes to take effect."
 }
 
 # Disables realtime from linux kernel arguments
 export def "main pw disable realtime" [] {
-  rpm-ostree kargs --delete-if-present="preempt=full"
-  rpm-ostree kargs --delete-if-present="threadirqs"
 
   for $group in $REALTIME_GROUPS {
     pkexec usermod -R $group $env.USER
   }
+
+  rpm-ostree kargs --delete-if-present="preempt=full"
+  rpm-ostree kargs --delete-if-present="threadirqs"
+
   echo "Reboot for changes to take effect."
 }
 

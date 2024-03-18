@@ -40,12 +40,13 @@ export def "main reporter" [
 
   $fetch | each { |fetch_arg|
      table_commands ...(match $fetch_arg {
-      audio => { ["pactl info", "pw-dump"] },
+      audio => { ["pactl info" "pw-dump"] },
       packages => { ["rpm -qa" "rpm-ostree status -v"] },
       distrobox => { ["podman images" "distrobox ls" "podman ps -a"] },
       systemd => { ["systemctl status" "systemctl status --user"] },
       env => { ["$env"] },
-      _ => { ["lscpu" "lsmem" "lsblk" "mount"] }
+      hw => { ["lscpu" "lsmem" "lsblk" "mount"]  },
+      _ => { echo "Invalid command" ; exit 1 },
     })
   } | table -e --theme basic | nu --stdin -c $"($method_command)"
 }

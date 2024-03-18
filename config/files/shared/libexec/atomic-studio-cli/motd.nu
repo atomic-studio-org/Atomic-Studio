@@ -31,7 +31,7 @@ def replace_format [
 # Turn MOTD off
 export def "main motd off" [] {
   let MOTD_DISABLED_FILE = $"($env.HOME)/.config/atomic-studio/motd_disabled"
-  if not ($MOTD_DISABLED_FILE | path exists) {
+  if ($MOTD_DISABLED_FILE | path exists) {
     echo "MOTD is already disabled"
     exit 0
   }
@@ -79,9 +79,9 @@ export def "main motd" [
   }
 
   let CURRENT_TIP_FILE = (ls $MOTD_PATH | where { |e| ($e.type == "file") and ($e.name | str ends-with md) } | shuffle | get 0.name)
-  let IMAGE_INFO = (open $IMAGE_INFO_PATH | from json)
-  let IMAGE_NAME = ($IMAGE_INFO).image-ref | sed -e 's|ostree-image-signed:docker://ghcr.io/.*/||' -e 's|ostree-unverified-registry:ghcr.io/.*/||' )
-  mut TIP = "󰋼 (open ($CURRENT_TIP_FILE) | lines | shuffle | get 0)"
+  let IMAGE_INFO = (open $IMAGE_INFO_PATH)
+  let IMAGE_NAME = (($IMAGE_INFO).image-ref | sed -e 's|ostree-image-signed:docker://ghcr.io/.*/||' -e 's|ostree-unverified-registry:ghcr.io/.*/||' )
+  mut TIP = "󰋼 (open $CURRENT_TIP_FILE | lines | shuffle | get 0 | str join)"
   
   let IMAGE_DATE = (rpm-ostree status --booted | sed -n 's/.*Timestamp: \(.*\)/\1/p')
   let IMAGE_DATE_SECONDS = (run-external date '-d' "$IMAGE_DATE" +%s --redirect-combine | capture).stdout
@@ -93,7 +93,7 @@ export def "main motd" [
     $TIP = '#  Your current image is over 1 month old, run `studio-update`'
   }
  
-  if $no_tip {
+  if $no_tip != null {
     $TIP = ""
   }
 

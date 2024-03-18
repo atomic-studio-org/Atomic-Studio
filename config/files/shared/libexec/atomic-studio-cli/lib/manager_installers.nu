@@ -53,7 +53,7 @@ export def brew_install [yes: bool, packages: list<string>] {
 
 export def nix_install [yes: bool, packages: list<string>] {
   if (which nix | length) != 0 {
-    run-external nix profile install ($packages | each {|value| $"nixpkgs#($value) "} | str join) 
+    run-external nix profile install ($packages | each {|value| $"nixpkgs#($value)"} | str join) 
     exit 0
   }
 

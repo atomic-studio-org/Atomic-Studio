@@ -22,14 +22,14 @@ export def nix_installer [] {
 export def brew_installer [] {
   mut executable_installer = "/usr/lib/brew-install"
 
-  if not ( $executable_installer | path exists) {
+  if not ($executable_installer | path exists) {
     $executable_installer = /tmp/brew-install
     http get "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh" | save -f $executable_installer
     chmod +x $executable_installer
   }
   let installer = $executable_installer
 
-  return { yes | run-external $installer }
+  return { yes | run-external pkexec $installer }
 }
 
 export def distrobox_installer [] {
