@@ -4,7 +4,7 @@ repos:
   - https://copr.fedorainfracloud.org/coprs/patrickl/yabridge/repo/fedora-%OS_VERSION%/patrickl-yabridge-fedora-%OS_VERSION%.repo
   - https://copr.fedorainfracloud.org/coprs/patrickl/wine-tkg/repo/fedora-%OS_VERSION%/patrickl-wine-tkg-fedora-%OS_VERSION%.repo
   - https://copr.fedorainfracloud.org/coprs/patrickl/wine-mono/repo/fedora-%OS_VERSION%/patrickl-wine-mono-fedora-%OS_VERSION%.repo
-  - https://copr.fedorainfracloud.org/coprs/patrickl/wine-mingw-wine-gecko/repo/fedora-%OS_VERSION%/patrickl-mingw-wine-gecko-fedora-%OS_VERSION%.repo
+  - https://copr.fedorainfracloud.org/coprs/patrickl/mingw-wine-gecko/repo/fedora-%OS_VERSION%/patrickl-mingw-wine-gecko-fedora-%OS_VERSION%.repo
   - https://copr.fedorainfracloud.org/coprs/patrickl/vkd3d/repo/fedora-%OS_VERSION%/patrickl-vkd3d-fedora-%OS_VERSION%.repo
   - https://copr.fedorainfracloud.org/coprs/patrickl/wine-dxvk/repo/fedora-%OS_VERSION%/patrickl-wine-dxvk-fedora-%OS_VERSION%.repo
   - https://copr.fedorainfracloud.org/coprs/patrickl/winetricks/repo/fedora-%OS_VERSION%/patrickl-winetricks-fedora-%OS_VERSION%.repo
