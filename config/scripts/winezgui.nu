@@ -1,4 +1,6 @@
 #!/usr/bin/env nu
 git clone https://github.com/fastrizwaan/WineZGUI /tmp/winezgui
-/tmp/winezgui/setup --install
+cd /tmp/winezgui
+./setup --install
 ln -s /usr/bin/wine64 /usr/bin/wine
+ln -s /usr/bin/wineserver64 /usr/bin/wineserver
