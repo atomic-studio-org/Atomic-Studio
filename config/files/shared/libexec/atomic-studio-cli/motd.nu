@@ -78,7 +78,7 @@ export def "main motd" [
     $IMAGE_INFO_PATH = $image_info_path
   }
 
-  let CURRENT_TIP_FILE = (ls $MOTD_PATH | where { |e| ($e.type == "file") and ($e.name | str ends-with md) } | shuffle | get 0.name)
+  let CURRENT_TIP_FILE = (ls $MOTD_PATH | where { |e| ($e.type == "file") and ($e.name | str ends-with txt) } | shuffle | get 0.name)
   let IMAGE_INFO = (open $IMAGE_INFO_PATH)
   let IMAGE_NAME = (($IMAGE_INFO).image-ref | sed -e 's|ostree-image-signed:docker://ghcr.io/.*/||' -e 's|ostree-unverified-registry:ghcr.io/.*/||' )
   mut TIP = "󰋼 (open $CURRENT_TIP_FILE | lines | shuffle | get 0 | str join)"
