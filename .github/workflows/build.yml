@@ -126,7 +126,7 @@ jobs:
         run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3.3.0
+        uses: sigstore/cosign-installer@v3.4.0
     
       - name: Sign container image
         shell: bash
