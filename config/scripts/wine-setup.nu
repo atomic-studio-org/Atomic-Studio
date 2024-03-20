@@ -15,7 +15,7 @@ let FEDORA_MAJOR_VERSION = (run-external --redirect-combine rpm '-E' '%fedora' |
   $"https://copr.fedorainfracloud.org/coprs/patrickl/libcurl-gnutls/repo/fedora-($FEDORA_MAJOR_VERSION)/patrickl-libcurl-gnutls-fedora-($FEDORA_MAJOR_VERSION).repo"
 ] | each { |e| http get $e | append "\n" | save -a /etc/yum.repos.d/wine-related.repo }
 
-rpm-ostree install zenity wine.($ARCH) wine-dxvk.($ARCH) wine.i686 wine-dxvk.i686 mingw32-wine-gecko mingw64-wine-gecko yabridge pipewire-wineasio libcurl-gnutls icoutils perl-Image-ExifTool winetricks
+rpm-ostree install zenity wine.x86_64 wine-dxvk.x86_64 wine.i686 wine-dxvk.i686 mingw32-wine-gecko mingw64-wine-gecko yabridge pipewire-wineasio libcurl-gnutls icoutils perl-Image-ExifTool winetricks
 
 git clone https://github.com/fastrizwaan/WineZGUI /tmp/winezgui
 cd /tmp/winezgui
