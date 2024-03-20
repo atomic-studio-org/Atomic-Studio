@@ -2,8 +2,20 @@ export def "main wine" [] {
   echo "Usage wine <command>."
 }
 
+# Workaround if your wine64 prefix is not working
+export def "main wine init" [--no_64_bit] {
+  rm ~/wine -rf
+  if $no_64_bit != null {
+    wineboot -i
+  }
+  WINEARCH=win32 wineboot -i
+}
+
 # Run anything through wine-tkg
 export def "main wine run" [...rest] {
+  if not ( $"($env.HOME)/.wine" | path exists) {
+    studio wine init
+  }
   wineserver64
   wine64 ...$rest
 }
