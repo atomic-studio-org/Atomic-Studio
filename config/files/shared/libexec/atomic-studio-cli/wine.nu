@@ -21,7 +21,7 @@ export def "main wine wineasio register" [] {
 
 # Unregister pipewire-wineasio DLL to default wine prefix
 export def "main wine wineasio unregister" [] {
-  regsvr32 /u wineasio.dll
+  regsvr64 /u wineasio.dll
 }
 
 # Scans a wine prefix for VSTPlugins folders
