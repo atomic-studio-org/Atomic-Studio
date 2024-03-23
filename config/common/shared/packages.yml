@@ -1,7 +1,9 @@
 type: rpm-ostree
 repos:
   - https://copr.fedorainfracloud.org/coprs/atim/nushell/repo/fedora-%OS_VERSION%/atim-nushell-fedora-%OS_VERSION%.repo
+  - https://copr.fedorainfracloud.org/coprs/tulilirockz/studio-cli/repo/fedora-%OS_VERSION%/tulilirockz-studio-cli-fedora-%OS_VERSION%.repo
 install:
+  - studio-cli
   - jq
   - nushell
   - netcat

@@ -1,9 +1,0 @@
-#!/usr/bin/env -S nu --stdin
-
-use ../libexec/atomic-studio-cli/mod.nu *
-
-# The main Atomic Studio CLI.
-# You can use this to run Atomic Studio-specific commands
-def "main" [] {
-  echo "Usage: studio <command>."
-}
