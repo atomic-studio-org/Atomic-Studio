@@ -1,15 +1,17 @@
 <div align="center">
-    <img src="./assets/studio-blob.png" alt="drawing" width="200rem"/> 
-    <h1 style="font-size: 48px; margin-left: 0.1em; text-align: center;">Atomic Studio</h1>
+    <picture>
+        <source srcset="https://github.com/atomic-studio-org/Atomic-Studio/assets/120808662/ef2bc889-2325-4420-9644-e3a162169cf4" media="(prefers-color-scheme: dark)">
+        <img src="https://github.com/atomic-studio-org/Atomic-Studio/assets/120808662/0566e6e5-a82f-416e-b412-4a8a1dc935e5">
+    </picture>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg" alt="Build Status" /></a>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml)"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO Status"/></a>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/main/LICENSE.md"><img src="https://img.shields.io/github/license/atomic-studio-org/Atomic-Studio?style=plastic&style=social" alt="Image License: APACHE 2.0"/></a>
     <a href="https://artifacthub.io/packages/search?repo=atomic-studio"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/atomic-studio" alt="Atomic Studio on ArtifactHub" /></a>
 </div>
 
-<br/>
+---
+
 Want a reproducible and atomic environment for all your content creation needs? Then Atomic Studio is for you! We provide many Graphics, Audio and Video production software and tweaks to make your content creation as pratical as possible, the idea is to install this system with your favorite flavour and start creating right away!
-<br/><br/>
 
 This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` to `helvum`). You can install this image by either installing the offline ISOs in [Github Actions Artifacts](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml) or by rebasing your system to one of them.
 
