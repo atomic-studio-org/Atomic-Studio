@@ -28,10 +28,6 @@ jobs:
           - "-nvidia.yml"
           - "-gnome.yml"
           - "-gnome-nvidia.yml"
-          - "-hardened.yml"
-          - "-nvidia-hardened.yml"
-          - "-gnome-hardened.yml"
-          - "-gnome-nvidia-hardened.yml"
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6

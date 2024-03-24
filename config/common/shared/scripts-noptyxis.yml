@@ -1,5 +1,0 @@
-type: script-nu
-scripts:
-  - extra-packages.nu
-  - tuned.nu
-  #- rt-kernel.nu

@@ -15,8 +15,6 @@ Want a reproducible and atomic environment for all your content creation needs? 
 
 This image is distributed in two flavours: Plasma and Gnome, they have the same applications, but some minor differentes in theming, and some adapted aplications for better system integration (like `qpwgraph` to `helvum`). You can install this image by either installing the offline ISOs in [Github Actions Artifacts](https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml) or by rebasing your system to one of them.
 
-You can also use hardened images that have less hardware compatibility but have much better security!
-
 ### Rebasing
 
 ```shell
@@ -31,9 +29,6 @@ rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-
 
 # Latest Gnome version + Nvidia
 rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-gnome-nvidia:latest
-
-# Add -hardened to get the hardened image versions. E.g.:
-rpm-ostree rebase ostree-image-signed:docker://ghcr.io/atomic-studio-org/atomic-studio-hardened:latest
 ```
 
 > Note: If these commands do not work first time, you are probably on a vanilla Fedora Atomic system, please run these but, instead of `ostree-image-signed:docker://`, use `ostree-unverified-registry:`, like the follwing command:

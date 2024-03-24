@@ -1,8 +1,0 @@
-type: default-flatpaks
-notify: true
-system:
-  repo-url: https://nightly.gnome.org/gnome-nightly.flatpakrepo
-  repo-name: gnome-nightly
-  repo-title: Gnome Nightly
-  install:
-    - org.gnome.Ptyxis.Devel

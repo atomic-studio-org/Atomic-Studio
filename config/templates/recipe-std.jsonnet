@@ -1,6 +1,5 @@
 local images = {
     base: "ghcr.io/ublue-os",
-    hardened: "ghcr.io/secureblue",
 };
 
 local project = {
@@ -9,8 +8,7 @@ local project = {
 };
 
 local modules = {
-    no_hardened: ["gui-apps","packages", "files", "scripts", "bling", "services"],
-    hardened: ["gui-apps","packages", "files", "scripts-noptyxis", "hardened-ptyxis-flatpak","bling", "services"],
+    shared: ["gui-apps","packages", "files", "scripts", "bling", "services"],
     nvidia: ["scripts"],
     amd: ["packages", "scripts"],
     gnome: ["apps", "files", "scripts"],
@@ -21,17 +19,14 @@ local modules = {
 
 local cond(boolcond, iftrue, iffalse) = if (boolcond) then iftrue else iffalse;
 
-local gen_image_tags(base_image, nvidia, hardened) = std.join("", [
+local gen_image_tags(base_image, nvidia) = std.join("", [
     cond(base_image == "silverblue", "-gnome", ""),
     cond(nvidia, "-nvidia", ""),
-    cond(hardened, "-hardened", ""),
 ]);
 
-local gen_baseimage_url(base_image, nvidia, hardened) = std.join("", [
-    cond(hardened, images.hardened + "/", images.base + "/"),
+local gen_baseimage_url(base_image, nvidia) = std.join("", [
     base_image,
     cond(nvidia, "-nvidia", "-main"),
-    cond(hardened, "-userns-hardened", ""),
 ]);
 
 local gen_module_definition(prefix, modules) = [
@@ -39,17 +34,14 @@ local gen_module_definition(prefix, modules) = [
     for module in modules 
 ];
 
-local image(baseimage, nvidia, hardened) = {
-    "name": project.image_name + gen_image_tags(baseimage, nvidia, hardened),
+local image(baseimage, nvidia) = {
+    "name": project.image_name + gen_image_tags(baseimage, nvidia),
     "description": project.description,
-    "base-image": gen_baseimage_url(baseimage, nvidia, hardened),
+    "base-image": gen_baseimage_url(baseimage, nvidia),
     "image-version": "latest",
     "modules": std.flattenArrays(
     [
-        cond(hardened, 
-            gen_module_definition("shared", modules.hardened), 
-            gen_module_definition("shared", modules.no_hardened)
-        ),
+        gen_module_definition("shared", modules.shared),
         cond(nvidia, 
             gen_module_definition("shared/nvidia", modules.nvidia),
             gen_module_definition("shared/amd", modules.amd)  
@@ -64,10 +56,8 @@ local image(baseimage, nvidia, hardened) = {
 };
 
 local gen_all_variations(prefix) = {
-  [prefix + gen_image_tags(base_image, nvidia, hardened) + ".yml"]: image(base_image, nvidia, hardened)
+  [prefix + gen_image_tags(base_image, nvidia) + ".yml"]: image(base_image, nvidia)
   for nvidia in [
-    true, false
-  ] for hardened in [ 
     true, false
   ] for base_image in [
     "kinoite", "silverblue"
