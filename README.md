@@ -1,7 +1,7 @@
 <div align="center">
     <picture>
         <source srcset="https://github.com/atomic-studio-org/Atomic-Studio/assets/120808662/ef2bc889-2325-4420-9644-e3a162169cf4" media="(prefers-color-scheme: dark)">
-        <img src="https://github.com/atomic-studio-org/Atomic-Studio/assets/120808662/0566e6e5-a82f-416e-b412-4a8a1dc935e5">
+        <img src="https://github.com/atomic-studio-org/Atomic-Studio/assets/120808662/2eb45b07-3d7a-4b32-b58e-ac6620169bdf">
     </picture>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build.yml/badge.svg" alt="Build Status" /></a>
     <a href="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml)"><img src="https://github.com/atomic-studio-org/Atomic-Studio/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO Status"/></a>
