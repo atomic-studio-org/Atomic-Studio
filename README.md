@@ -55,3 +55,5 @@ cosign verify --key cosign.pub ghcr.io/atomic-studio-org/atomic-studio-$IMAGE
 ## Notes
 
 > This operating system image is not affilitated with Ubuntu or Fedora at all! We just use the Fedora base and get some inspirations from the Ubuntu Studio project. If you like this project, make sure to check out Ubuntu Studio proper!
+
+> The branding was made by [@xynydev](https://github.com/xynydev), please check out their work!
