@@ -4,3 +4,4 @@ cosign.private
 .direnv
 /.pre-commit-config.yaml
 result/
+.jj
