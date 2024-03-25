@@ -1,4 +1,6 @@
 type: rpm-ostree
+remove:
+  - plasma-welcome
 install:
   - qpwgraph
   - materia-kde 
