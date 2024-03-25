@@ -399,11 +399,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1711228801,
-        "narHash": "sha256-ROYTtkTRXTwOnQtkFvl45zmeDQUfGWH+U8It46NnkUM=",
+        "lastModified": 1711339630,
+        "narHash": "sha256-SGKfa4q0arc2fYLJC0JGhD0ENILeqbnwXYGcSCi8/bQ=",
         "owner": "atomic-studio-org",
         "repo": "Utility-Flake-Library",
-        "rev": "ad06079dee02b79aaa583185bcd554748d1fe016",
+        "rev": "12860f5d4c4ab13010617651f45b57b763a355fb",
         "type": "github"
       },
       "original": {
