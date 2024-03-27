@@ -18,7 +18,7 @@ jobs:
           assignees: tulilirockz
           numOfAssignee: 1
     - name: Add to Project Tracking
-      uses: actions/add-to-project@v0.6.1
+      uses: actions/add-to-project@v1.0.0
       with:
         project-url: https://github.com/orgs/atomic-studio-org/projects/3
         github-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
