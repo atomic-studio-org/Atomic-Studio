@@ -31,7 +31,7 @@ jobs:
             RECIPES=$(jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y)
             readarray -t RECIPES_ARR < <(echo \"${RECIPES}\")
             echo "Generated recipes: ${RECIPES_ARR[*]}"
-            echo "recipes=${RECIPES_ARR[@]}" >> $GITHUB_OUTPUT
+            echo "recipes=(${RECIPES_ARR[*]})" >> $GITHUB_OUTPUT
   bluebuild:
     name: Build Image
     runs-on: ubuntu-latest
