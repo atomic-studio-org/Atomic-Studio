@@ -117,14 +117,14 @@ jobs:
           context: .
           push: false 
           file: /tmp/Containerfile
-          tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
+          tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Sign kernel
         uses: atomic-studio-org/kernel-signer-docker@main
         with:
-          image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          imagename: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+          imagename: ${{ steps.recipe_meta.outputs.IMAGE_NAME }}
           privkey: ${{ secrets.SBKEY }}
           pubkey: /usr/etc/pki/certs/atomic-studio-sbkey.der
           tags: latest 
@@ -145,7 +145,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Push To GHCR Image Registry
-        run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+        run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.4.0
@@ -153,8 +153,8 @@ jobs:
       - name: Sign container image
         shell: bash
         run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}@${{ steps.build_image.outputs.digest }}
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}@${{ steps.build_image.outputs.digest }}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
         env:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
