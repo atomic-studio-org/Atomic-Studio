@@ -69,10 +69,10 @@ jobs:
       - name: Generate recipes
         id: recipe_meta
         run: |
-            echo "IMAGE_NAME=$(yq '.name' ${{matrix.recipe}} )" >> $GITHUB_OUTPUT
-            echo "IMAGE_DESCRIPTION=$(yq '.description' ${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "VERSION=39" >> $GITHUB_OUTPUT
-            echo "tags=$(yq '."image-version"' ${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "tags=$(yq '."image-version"' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -104,7 +104,7 @@ jobs:
             tail -f /dev/null
           docker cp blue-build-installer:/out/bluebuild /usr/local/bin/bluebuild
           docker stop -t 0 blue-build-installer
-          /usr/local/bin/bluebuild template -v ${{matrix.recipe}} -o /tmp/Containerfile 
+          /usr/local/bin/bluebuild template -v ./${{matrix.recipe}} -o /tmp/Containerfile 
 
       - name: Build
         id: build_image
