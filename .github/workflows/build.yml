@@ -52,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        recipe: ${{ fromJson(needs.get-repos.outputs.recipes) }}
+        recipe: ${{ fromJson(needs.generate-recipes.outputs.recipes) }}
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
