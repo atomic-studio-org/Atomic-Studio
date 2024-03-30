@@ -31,11 +31,16 @@ jobs:
 
             RECIPES=$(jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y)
 
-            readarray -t RECIPES_ARR < <(echo \"${RECIPES}\")
+            # newlines replaced with spaces
+            echo "Generated recipes: ${RECIPES//$'\n'/ }"
 
-            echo "Generated recipes: ${RECIPES_ARR[*]}"
+            # adds [" to the start, adds "] to the end, and replaces newlines with "," to turn the newline-delimeted string into a JSON array
+            RECIPES_JSON_STR="[\"${RECIPES//$'\n'/\",\"}\"]"
+            echo "Generated JSON: ${RECIPES_JSON_STR}"
+            # JSON strings are the only way to dynamically generate GH build matrices
 
-            echo "recipes=(${RECIPES_ARR[*]})" >> $GITHUB_OUTPUT
+            echo "recipes='${RECIPES_JSON_STR}'" >> $GITHUB_OUTPUT
+            
   bluebuild:
     name: Build Image
     runs-on: ubuntu-latest
@@ -47,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        recipe: ${{ needs.generate-recipes.outputs.recipes }}
+        recipe: ${{ fromJson(needs.generate-recipes.outputs.recipes) }}
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
