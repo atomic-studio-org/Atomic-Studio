@@ -29,8 +29,9 @@ jobs:
             sudo apt install -y jsonnet
             mkdir config/recipes 
             RECIPES=$(jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y)
-            echo "Generated recipes: ${RECIPES}"
-            echo "readarray -t recipes < <(echo \"${RECIPES}\")" >> $GITHUB_OUTPUT
+            readarray -t RECIPES_ARR < <(echo \"${RECIPES}\")
+            echo "Generated recipes: ${RECIPES_ARR[*]}"
+            echo "recipes=${RECIPES_ARR[@]}" >> $GITHUB_OUTPUT
   bluebuild:
     name: Build Image
     runs-on: ubuntu-latest
