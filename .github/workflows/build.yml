@@ -29,7 +29,7 @@ jobs:
             sudo apt install -y jsonnet
             mkdir config/recipes 
 
-            RECIPES=$(jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y)
+            RECIPES=$(jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y)
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
@@ -66,9 +66,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Generate recipes
+      - name: Generate recipes (again) and get metadata
         id: recipe_meta
         run: |
+            sudo apt install -y jsonnet
+            mkdir config/recipes
+            jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y
+
             echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "VERSION=39" >> $GITHUB_OUTPUT
