@@ -34,11 +34,13 @@ jobs:
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
 
-            # adds [" to the start, adds "], " to the end, and replaces newlines with ",", to turn the newline-delimeted string into a JSON array
+            # adds [" to the start, adds "] to the end, and replaces newlines with "," to turn the newline-delimeted string into a JSON array
             RECIPES_JSON_STR="[\"${RECIPES//$'\n'/\",\"}\"]"
+            echo "Generated JSON: ${RECIPES_JSON_STR}"
             # JSON strings are the only way to dynamically generate GH build matrices
 
             echo "recipes=${RECIPES_JSON_STR}" >> $GITHUB_OUTPUT
+            
   bluebuild:
     name: Build Image
     runs-on: ubuntu-latest
