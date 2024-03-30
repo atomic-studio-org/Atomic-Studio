@@ -39,7 +39,7 @@ jobs:
             echo "Generated JSON: ${RECIPES_JSON_STR}"
             # JSON strings are the only way to dynamically generate GH build matrices
 
-            echo "recipes=${RECIPES_JSON_STR}" >> $GITHUB_OUTPUT
+            echo "recipes='${RECIPES_JSON_STR}'" >> $GITHUB_OUTPUT
             
   bluebuild:
     name: Build Image
