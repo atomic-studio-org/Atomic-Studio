@@ -13,9 +13,38 @@ on:  # yamllint disable-line rule:truthy
 env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 jobs:
+  generate-recipes:
+    name: Generate Recipes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      recipes: ${{ steps.generate-recipes.outputs.recipes }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate recipes
+        id: generate-recipes
+        shell: bash
+        run: |
+            sudo apt install -y jsonnet
+            mkdir config/recipes 
+
+            RECIPES=$(jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y)
+
+            # newlines replaced with spaces
+            echo "Generated recipes: ${RECIPES//$'\n'/ }"
+
+            # adds [" to the start, adds "] to the end, and replaces newlines with "," to turn the newline-delimeted string into a JSON array
+            RECIPES_JSON_STR="[\"${RECIPES//$'\n'/\",\"}\"]"
+            echo "Generated JSON: ${RECIPES_JSON_STR}"
+            # JSON strings are the only way to dynamically generate GH build matrices
+
+            echo "recipes=${RECIPES_JSON_STR}" >> $GITHUB_OUTPUT
+            
   bluebuild:
     name: Build Image
     runs-on: ubuntu-latest
+    needs: generate-recipes
     permissions:
       contents: read
       packages: write
@@ -23,11 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        recipe:
-          - ".yml"
-          - "-nvidia.yml"
-          - "-gnome.yml"
-          - "-gnome-nvidia.yml"
+        recipe: ${{ fromJson(needs.generate-recipes.outputs.recipes) }}
     steps:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v6
@@ -40,18 +65,19 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Generate recipes
-        id: recipes_meta
+      
+      - name: Generate recipes (again) and get metadata
+        id: recipe_meta
         run: |
             sudo apt install -y jsonnet
-            mkdir config/recipes 
-            jsonnet config/templates/recipe-std.jsonnet -m config/recipes -y
-            echo "IMAGE_NAME=$(yq '.name' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
-            echo "IMAGE_DESCRIPTION=$(yq '.description' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            mkdir config/recipes
+            jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y
+
+            echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+            echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "VERSION=39" >> $GITHUB_OUTPUT
-            echo "tags=$(yq '."image-version"' config/recipes/recipe${{matrix.recipe}} )" >> $GITHUB_OUTPUT
-      
+            echo "tags=$(yq '."image-version"' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -65,9 +91,9 @@ jobs:
           images: |
             ${{ env.IMAGE_NAME }}
           labels: |
-            org.opencontainers.image.title=${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-            org.opencontainers.image.version=${{ steps.recipes_meta.outputs.VERSION }}
-            org.opencontainers.image.description=${{ steps.recipes_meta.outputs.IMAGE_DESCRIPTION }}
+            org.opencontainers.image.title=${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+            org.opencontainers.image.version=${{ steps.recipe_meta.outputs.VERSION }}
+            org.opencontainers.image.description=${{ steps.recipe_meta.outputs.IMAGE_DESCRIPTION }}
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/atomic-studio-org/Atomic-Studio/main/README.md
             io.artifacthub.package.logo-url=https://raw.githubusercontent.com/atomic-studio-org/Atomic-Studio/main/assets/studio-blob.png
 
@@ -82,7 +108,7 @@ jobs:
             tail -f /dev/null
           docker cp blue-build-installer:/out/bluebuild /usr/local/bin/bluebuild
           docker stop -t 0 blue-build-installer
-          /usr/local/bin/bluebuild template -v ./config/recipes/recipe${{matrix.recipe}} -o /tmp/Containerfile 
+          /usr/local/bin/bluebuild template -v ./${{matrix.recipe}} -o /tmp/Containerfile 
 
       - name: Build
         id: build_image
@@ -91,14 +117,14 @@ jobs:
           context: .
           push: false 
           file: /tmp/Containerfile
-          tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}:latest
+          tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Sign kernel
         uses: atomic-studio-org/kernel-signer-docker@main
         with:
-          image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
-          imagename: ${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          image: ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+          imagename: ${{ steps.recipe_meta.outputs.IMAGE_NAME }}
           privkey: ${{ secrets.SBKEY }}
           pubkey: /usr/etc/pki/certs/atomic-studio-sbkey.der
           tags: latest 
@@ -119,7 +145,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Push To GHCR Image Registry
-        run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+        run: docker push --disable-content-trust ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.4.0
@@ -127,8 +153,8 @@ jobs:
       - name: Sign container image
         shell: bash
         run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}@${{ steps.build_image.outputs.digest }}
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipes_meta.outputs.IMAGE_NAME }}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}@${{ steps.build_image.outputs.digest }}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
         env:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
