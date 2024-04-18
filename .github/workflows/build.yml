@@ -27,9 +27,9 @@ jobs:
         shell: bash
         run: |
             sudo apt install -y jsonnet
-            mkdir config/recipes 
+            mkdir recipes 
 
-            RECIPES=$(jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y)
+            RECIPES=$(jsonnet ./config/templates/recipe-std.jsonnet -m ./recipes -y)
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
@@ -70,8 +70,8 @@ jobs:
         id: recipe_meta
         run: |
             sudo apt install -y jsonnet
-            mkdir config/recipes
-            jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y
+            mkdir recipes
+            jsonnet ./config/templates/recipe-std.jsonnet -m ./recipes -y
 
             echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
