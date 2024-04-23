@@ -6,9 +6,9 @@ local project = {
 
 local modules = {
     shared: ["gui-apps","packages", "files", "scripts", "bling", "services"],
-    nvidia: ["scripts"],
+    nvidia: [],
     amd: ["packages", "scripts"],
-    gnome: ["apps", "scripts"],
+    gnome: ["apps"],
     plasma: ["apps", "scripts"],
     audio: ["audinux", "pipewire-packages"],
     misc: [{ "type": "yafti" }, { "type": "signing" }],
@@ -29,7 +29,7 @@ local image(baseimage, nvidia) = {
     "modules": std.flattenArrays(
     [
         gen_module_definition("shared", modules.shared),
-        if (nvidia) then gen_module_definition("shared/nvidia", modules.nvidia) else gen_module_definition("shared/amd", modules.amd),
+        if (nvidia) then [] else gen_module_definition("shared/amd", modules.amd),
         if (baseimage == "silverblue") then gen_module_definition("gnome", modules.gnome) else gen_module_definition("plasma", modules.plasma),
         gen_module_definition("audio", modules.audio),
         modules.misc,
