@@ -25,7 +25,7 @@ local image(baseimage, nvidia) = {
     "name": project.image_name + gen_image_tags(baseimage, nvidia),
     "description": project.description,
     "base-image": project.base_images + "/" + baseimage + (if (nvidia) then "-nvidia" else "-main"),
-    "image-version": "40",
+    "image-version": "latest",
     "modules": std.flattenArrays(
     [
         gen_module_definition("shared", modules.shared),
