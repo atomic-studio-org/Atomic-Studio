@@ -13,3 +13,4 @@ system:
     - io.missioncenter.MissionCenter
     - it.mijorus.whisper
     - io.github.dimtpap.coppwr
+    - org.blender.Blender
