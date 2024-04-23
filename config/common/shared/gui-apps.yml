@@ -77,4 +77,5 @@ install:
   - scribus
   - openshot
   - furnace
+  - easyeffects
   #- blender
