@@ -9,7 +9,7 @@ local modules = {
     nvidia: [],
     amd: ["packages", "scripts"],
     gnome: ["apps"],
-    plasma: ["apps", "scripts"],
+    plasma: ["apps", "scripts", "files"],
     audio: ["audinux", "pipewire-packages"],
     misc: [{ "type": "yafti" }, { "type": "signing" }],
 };
