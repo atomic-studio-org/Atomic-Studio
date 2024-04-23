@@ -8,8 +8,8 @@ local modules = {
     shared: ["gui-apps","packages", "files", "scripts", "bling", "services"],
     nvidia: ["scripts"],
     amd: ["packages", "scripts"],
-    gnome: ["apps", "files", "scripts"],
-    plasma: ["apps", "files", "scripts"],
+    gnome: ["apps", "scripts"],
+    plasma: ["apps", "scripts"],
     audio: ["audinux", "pipewire-packages"],
     misc: [{ "type": "yafti" }, { "type": "signing" }],
 };
