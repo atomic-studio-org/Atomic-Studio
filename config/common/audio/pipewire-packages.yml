@@ -1,5 +1,0 @@
-type: rpm-ostree
-install:
-  - pipewire-jack-audio-connection-kit
-  - pipewire-jack-audio-connection-kit-devel
-  - qemu-audio-pipewire

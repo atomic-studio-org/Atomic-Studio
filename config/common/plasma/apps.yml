@@ -8,3 +8,5 @@ install:
   - qpwgraph
   - materia-kde 
   - kde-connect
+  - kwin-x11
+  - plasma-workspace-x11 

@@ -1,8 +1,5 @@
 type: rpm-ostree
-install:
-  - fira-code-fonts
-  - papirus-icon-theme
-  - materia-gtk-theme
+install:  
   - librecad
   - krita
   - inkscape

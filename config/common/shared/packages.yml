@@ -20,3 +20,9 @@ install:
   - realtime-tests
   - pulseaudio-utils
   - pipx
+  - fira-code-fonts
+  - papirus-icon-theme
+  - materia-gtk-theme
+  - pipewire-jack-audio-connection-kit
+  - pipewire-jack-audio-connection-kit-devel
+  - qemu-audio-pipewire
