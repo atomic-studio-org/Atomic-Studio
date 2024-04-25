@@ -1,15 +1,16 @@
 #!/usr/bin/env -S nu
+use lib/std.nu [fetch_generic]
 
-let ZLUDA_LATEST = (http get https://api.github.com/repos/vosen/ZLUDA/releases/latest | get assets | where {|e| $e.name | str ends-with $"-linux.tar.gz" } | get browser_download_url).0 
+let ZLUDA_LATEST = (http get https://api.github.com/repos/vosen/ZLUDA/releases/latest | get assets | where {|e| $e.name | str ends-with $"-linux.tar.gz" } | get browser_download_url).0
+let FETCHED_ZLUDA_PATH = (fetch_generic $ZLUDA_LATEST ".tar.gz")
+let PATH_TARGET = "/usr/lib64/zluda"
 
-http get $ZLUDA_LATEST | save -f /tmp/zluda.tar.gz
-
-mkdir /usr/lib64/zluda
+mkdir $PATH_TARGET
 
 try {
-  tar --strip-components 1 -xvzf /tmp/zluda.tar.gz -C /usr/lib64/zluda
+  tar --strip-components 1 -xvzf $FETCHED_ZLUDA_PATH -C $PATH_TARGET
 } catch {
-  echo "Failed extracting the entire zluda file for some reason."
+  echo "WARNING: Failed extracting the entire zluda file for some reason."
 }
 
-rm -f /tmp/zluda.tar.gz
+rm -f $FETCHED_ZLUDA_PATH
