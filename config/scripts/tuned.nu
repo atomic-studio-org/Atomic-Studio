@@ -1,5 +1,5 @@
 #!/usr/bin/env -S nu
-use lib/std.nu [fetch_copr]
+use lib/std.nu [fetch_copr, get_fedora_version]
 
 try { rpm-ostree override remove power-profiles-daemon } catch { echo "Failed removing ppd" }
 
