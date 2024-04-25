@@ -4,7 +4,7 @@ repos:
 remove:
   - plasma-welcome
 install:
-  - studio-presets-plasma-0.1.0+e1a1fcf-0
+  - studio-presets-plasma-0.1.0+e1a1fcf
   - qpwgraph
   - materia-kde 
   - kde-connect
