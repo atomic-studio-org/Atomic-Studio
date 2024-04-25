@@ -24,5 +24,4 @@ install:
   - papirus-icon-theme
   - materia-gtk-theme
   - pipewire-jack-audio-connection-kit
-  - pipewire-jack-audio-connection-kit-devel
   - qemu-audio-pipewire
