@@ -26,10 +26,11 @@ jobs:
         id: generate-recipes
         shell: bash
         run: |
-            sudo apt install -y jsonnet
-            mkdir config/recipes 
-
-            RECIPES=$(jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y)
+            curl -L -o pkl https://github.com/apple/pkl/releases/download/0.25.3/pkl-linux-amd64
+            chmod +x pkl
+            ./pkl --version
+            
+            RECIPES=$(./pkl eval ./config/templates/std.pkl -f json -m ./config/recipes)
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
