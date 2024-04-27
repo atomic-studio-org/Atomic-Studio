@@ -26,11 +26,9 @@ jobs:
         id: generate-recipes
         shell: bash
         run: |
-            curl -L -o pkl https://github.com/apple/pkl/releases/download/0.25.3/pkl-linux-amd64
-            chmod +x pkl
-            ./pkl --version
-            
-            RECIPES=$(./pkl eval ./config/templates/std.pkl -f json -m ./config/recipes)
+            /home/linuxbrew/.linuxbrew/bin/brew install pkl
+
+            RECIPES=$(/home/linuxbrew/.linuxbrew/bin/pkl eval ./config/templates/std.pkl -f json -m ./config/recipes)
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
@@ -61,7 +59,7 @@ jobs:
           remove-codeql: 'true'
       - name: Additional cleanup
         run: |
-            sudo rm -rf /home/linuxbrew /usr/share/miniconda /usr/local/share/vcpkg
+            sudo rm -rf /usr/share/miniconda /usr/local/share/vcpkg
             sudo apt purge imagemagick imagemagick xorriso sqlite3 sphinxsearch shellcheck
 
       - name: Checkout repository
@@ -70,13 +68,13 @@ jobs:
       - name: Generate recipes (again) and get metadata
         id: recipe_meta
         run: |
-            sudo apt install -y jsonnet
-            mkdir config/recipes
-            jsonnet ./config/templates/recipe-std.jsonnet -m ./config/recipes -y
+            /home/linuxbrew/.linuxbrew/bin/brew install pkl
+            /home/linuxbrew/.linuxbrew/bin/pkl eval ./config/templates/std.pkl -f json -m ./config/recipes
+            rm -rf /home/linuxbrew
 
             echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
-            echo "VERSION=39" >> $GITHUB_OUTPUT
+            echo "VERSION=40" >> $GITHUB_OUTPUT
             echo "tags=$(yq '."image-version"' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
