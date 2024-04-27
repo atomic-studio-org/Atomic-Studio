@@ -70,7 +70,6 @@ jobs:
         run: |
             /home/linuxbrew/.linuxbrew/bin/brew install pkl
             /home/linuxbrew/.linuxbrew/bin/pkl eval ./config/templates/std.pkl -f json -m ./config/recipes
-            rm -rf /home/linuxbrew
 
             echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
