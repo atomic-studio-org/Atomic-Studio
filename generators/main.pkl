@@ -23,7 +23,7 @@ const meta = new Dynamic {
       ["type"] = "signing"
     })
   }
-  module_prefix = "common"
+  module_prefix = "../files/common"
 }
 
 const function genImageTags(base: String, nvidia: Boolean, fx: Boolean): String = (if (base == "silverblue") "-gnome" else "") + (if (fx) "-fx" else "") + (if (nvidia) "-nvidia" else "") 
