@@ -28,7 +28,7 @@ jobs:
         run: |
             /home/linuxbrew/.linuxbrew/bin/brew install pkl
 
-            RECIPES=$(/home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m ./recipes)
+            RECIPES=$(/home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m . | sed '/.*files/d')
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"
@@ -69,7 +69,7 @@ jobs:
         id: recipe_meta
         run: |
             /home/linuxbrew/.linuxbrew/bin/brew install pkl
-            /home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m ./recipes
+            /home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m .
 
             echo "IMAGE_NAME=$(yq '.name' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
             echo "IMAGE_DESCRIPTION=$(yq '.description' ./${{matrix.recipe}} )" >> $GITHUB_OUTPUT
