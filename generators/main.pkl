@@ -12,11 +12,11 @@ const meta = new Dynamic {
   }
   modules {
     shared = List("packages", "files", "scripts", "bling", "services")
-    fx = List("apps", "flatpaks", "audinux")
+    fx = List("packages", "flatpaks", "audinux")
     nvidia = List()
     amd = List("packages", "scripts")
-    gnome = List("apps")
-    plasma = List("apps", "scripts", "files")
+    gnome = List("packages")
+    plasma = List("packages", "scripts", "files")
     misc = List(new Mapping {
       ["type"] = "yafti"
     }, new Mapping {
