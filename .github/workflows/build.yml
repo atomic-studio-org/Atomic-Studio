@@ -28,7 +28,7 @@ jobs:
         run: |
             /home/linuxbrew/.linuxbrew/bin/brew install pkl
 
-            RECIPES=$(/home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m . | sed '/.*files/d')
+            RECIPES=$(/home/linuxbrew/.linuxbrew/bin/pkl eval ./generators/main.pkl -m . -f yaml | sed '/.*files/d')
 
             # newlines replaced with spaces
             echo "Generated recipes: ${RECIPES//$'\n'/ }"

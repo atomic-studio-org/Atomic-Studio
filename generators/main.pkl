@@ -37,18 +37,18 @@ const function genImage(base: String, nvidia: Boolean, fx: Boolean): recipes.Ima
   modules = new Listing {
     ...(bbmodules.genImportModule("\(meta.module_prefix)/shared", ".yaml", meta.modules.shared)) 
     ...?(if(nvidia) null else bbmodules.genImportModule("\(meta.module_prefix)/shared/amd", ".yaml", meta.modules.amd)) 
-    ...?(if(base == "silverblue") bbmodules.genImportModule("\(meta.module_prefix)/gnome", ".yaml", meta.modules.gnome) else bbmodules.genImportModule("common/plasma", ".yml", meta.modules.plasma))
+    ...?(if(base == "silverblue") bbmodules.genImportModule("\(meta.module_prefix)/gnome", ".yaml", meta.modules.gnome) else bbmodules.genImportModule("\(meta.module_prefix)/plasma", ".yml", meta.modules.plasma))
     ...?(if(fx) bbmodules.genImportModule("\(meta.module_prefix)/fx", ".yaml", meta.modules.fx) else null)
   }
 }
 
 const function removeUnnecessaryExtension(prefix: String, suffix: String, data: String): String = data.substring(prefix.length, data.length - suffix.length)
 
-const function atomicStudioImages(prefix: String, extension: String): Mapping<String, recipes.Image> = new Mapping<String, recipes.Image> {
+const function atomicStudioImages(prefix: String): Mapping<String, recipes.Image> = new Mapping<String, recipes.Image> {
   for (_base in List("kinoite", "silverblue")) {
     for (_nvidia in List(false, true)) {
       for (_fx in List(false, true)) {
-        ["\(prefix)\(genImageTags(_base, _nvidia, _fx))\(extension)"] = genImage(_base, _nvidia, _fx)
+        ["\(prefix)\(genImageTags(_base, _nvidia, _fx))"] = genImage(_base, _nvidia, _fx)
       }
     }
   }
@@ -67,8 +67,8 @@ output {
     }
 
     // The recipes to be generated
-    for (_filename, _recipe in atomicStudioImages("recipe", ".yaml")) {
-      ["recipes/\(_filename)"] {
+    for (_filename, _recipe in atomicStudioImages("recipe")) {
+      ["recipes/\(_filename).\(this.renderer.extension)"] {
         value = _recipe
         renderer = new YamlRenderer {}
       }
