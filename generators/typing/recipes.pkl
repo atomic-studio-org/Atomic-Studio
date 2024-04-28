@@ -1,0 +1,18 @@
+module com.github.bluebuild.recipes
+
+import "modules.pkl"
+
+class Project {
+  image_name: String
+  description: String
+  base_images: String
+}
+
+class Image {
+  name: String
+  description: String
+  `base-image`: String
+  `image-version`: String
+  modules: Listing<modules.ImportModule?>
+}
+

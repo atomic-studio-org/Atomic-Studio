@@ -1,7 +1,0 @@
-name: script-nu  
-shortdesc: The script module can be used to run arbitrary nushell scripts at image build time.
-readme: https://raw.githubusercontent.com/blue-build/modules/main/modules/script/README.md
-example: |
-  type: script-nu
-  scripts:
-    - myscript # will run config/scripts/myscript

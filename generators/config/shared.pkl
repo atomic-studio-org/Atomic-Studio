@@ -1,0 +1,70 @@
+import "../typing/modules.pkl"
+
+shared = new Dynamic {
+  bling = (modules.Bling) {
+    install = new Listing {
+      "ublue-update"
+      "dconf-update-service"
+    }
+  }
+  files = (modules.Files) {
+    files = new Listing {
+      new Mapping<String, String> {
+        ["shared"] = "/usr"
+      }
+    }
+  }
+  scripts = (modules.Script) {
+    scripts = new Listing {
+      "ptyxis.nu"
+      "extra-packages.nu"
+      "tuned.nu"
+    }
+  }
+  services = (modules.Systemd) {
+    system = (modules.SystemdNamespace) {
+      masked = new Listing {
+        "rtkit-daemon"
+      }
+      enabled = new Listing {
+        "realtime-entsk"
+        "realtime-setup"
+        "pci-latency"
+      }
+    }
+  }
+  packages = (modules.RpmOstree) {
+    repos = new Listing {
+      "https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-cli/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-cli-fedora-%OS_VERSION%.repo"
+      "https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-presets/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-presets-fedora-%OS_VERSION%.repo"
+    }
+    install = new Listing {
+      "studio-cli"
+      "studio-wallpapers-xe"
+      "studio-wallpapers-xyny"
+      "jq"
+      "nu"
+      "netcat"
+      "espeak-ng"
+      "qemu-audio-dbus"
+      "qemu-audio-alsa"
+      "qemu-audio-spice"
+      "ffmpeg"
+      "fish"
+      "switcheroo-control"
+      "realtime-setup"
+      "realtime-tests"
+      "pulseaudio-utils"
+      "pipx"
+      "fira-code-fonts"
+      "papirus-icon-theme"
+      "materia-gtk-theme"
+      "pipewire-jack-audio-connection-kit"
+      "qemu-audio-pipewire"
+    }
+  }
+}
+
+output {
+  value = shared
+}

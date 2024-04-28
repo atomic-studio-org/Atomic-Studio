@@ -1,0 +1,37 @@
+import "../typing/modules.pkl"
+
+output {
+  value = plasma
+}
+
+plasma = new Dynamic {
+  packages = (modules.RpmOstree) {
+    repos = new Listing {
+      "https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-presets/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-presets-fedora-%OS_VERSION%.repo"
+    }
+    remove = new Listing {
+      "plasma-welcome"
+    }
+    install = new Listing {
+      "studio-presets-plasma-0.1.0+e1a1fcf"
+      "qpwgraph"
+      "materia-kde "
+      "kde-connect"
+      "kwin-x11"
+      "plasma-workspace-x11"
+    }
+  }
+  files = (modules.Files) {
+    files = new Listing {
+      new Mapping<String, String> {
+        ["plasma"] = "/usr"
+      }
+    }
+  }
+  scripts = (modules.Script) {
+    scripts = new Listing {
+      "kde-wallpaper-engine.nu"
+    }
+  }
+}
+

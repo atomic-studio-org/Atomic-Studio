@@ -1,0 +1,67 @@
+module com.github.bluebuild.modules
+
+abstract class Module {
+  fixed type: String
+}
+
+class RpmOstree extends Module {
+  fixed type: "rpm-ostree"
+  install: Listing<String?>?
+  remove: Listing<String?>?
+  repos: Listing<String?>?
+}
+
+class DefaultFlatpaksNamespace {
+  `repo-url`: String?
+  `repo-name`: String?
+  `repo-title`: String?
+  install: Listing<String>?
+  remove: Listing<String>?
+}
+
+class DefaultFlatpaks extends Module {
+  fixed type: "default-flatpaks"
+  notify: Boolean?
+  system: DefaultFlatpaksNamespace
+  user: DefaultFlatpaksNamespace
+}
+
+class Files extends Module {
+  fixed type: "files"
+  files: Listing<Mapping<String, String>>
+}
+
+class Bling extends Module {
+  fixed type: "bling"
+  install: Listing<String>
+}
+
+class Script extends Module {
+  fixed type: "script"
+  scripts: Listing<String>
+}
+
+class SystemdNamespace {
+  masked: Listing<String>?
+  unmasked: Listing<String>?
+  enabled: Listing<String>?
+  disabled: Listing<String>?
+}
+
+class Systemd extends Module {
+  fixed type: "systemd"
+  system: SystemdNamespace
+  user: SystemdNamespace
+}
+
+class ImportModule {
+  `from-file`: String
+}
+
+const function genImportModule(baseFolder: String, extension: String, modules: List<String>): Listing<ImportModule> = new Listing<ImportModule> {
+  for (_module in modules) {
+    new ImportModule {
+      `from-file` = "\(baseFolder)/\(_module)\(extension)"
+    }
+  }
+}

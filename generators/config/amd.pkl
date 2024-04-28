@@ -1,0 +1,22 @@
+import "../typing/modules.pkl"
+
+output {
+  value = data
+}
+
+const data = new Dynamic {
+  ["packages"] = (modules.RpmOstree) {
+    install = new Listing {
+      "rocm-hip"
+      "rocm-opencl"
+      "rocm-clinfo"
+    }
+  }
+  ["scripts"] = (modules.Script) {
+    scripts = new Listing {
+      "zluda.nu"
+      "kernel.nu"
+    }
+  }
+}
+

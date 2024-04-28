@@ -1,0 +1,77 @@
+import "typing/recipes.pkl"
+import "typing/modules.pkl" as bbmodules
+import* "config/*.pkl" as config
+
+/// This module is strictly made for generating Atomic Studio images and it's Bluebuild modules and should not be consumed, everything you can depend on is in typing/ or some other folder in this directory.
+
+const meta = new Dynamic {
+  image {
+    name = "atomic-studio"
+    description = "Operating system based on Fedora Atomic meant for content creators and artists"
+    base = "ghcr.io/ublue-os"
+  }
+  modules {
+    shared = List("packages", "files", "scripts", "bling", "services")
+    fx = List("apps", "flatpaks", "audinux")
+    nvidia = List()
+    amd = List("packages", "scripts")
+    gnome = List("apps")
+    plasma = List("apps", "scripts", "files")
+    misc = List(new Mapping {
+      ["type"] = "yafti"
+    }, new Mapping {
+      ["type"] = "signing"
+    })
+  }
+  module_prefix = "common"
+}
+
+const function genImageTags(base: String, nvidia: Boolean, fx: Boolean): String = (if (base == "silverblue") "-gnome" else "") + (if (fx) "-fx" else "") + (if (nvidia) "-nvidia" else "") 
+
+const function genImage(base: String, nvidia: Boolean, fx: Boolean): recipes.Image = (recipes.Image) {
+  local filePrefix = ".yaml"
+  name = "\(meta.image.name)\(genImageTags(base, nvidia, fx))"
+  description = meta.image.description
+  `base-image` = "\(meta.image.base)/\(base)\(if (nvidia) "-nvidia" else "-main")"
+  `image-version` = "latest"
+  modules = new Listing {
+    ...(bbmodules.genImportModule("\(meta.module_prefix)/shared", ".yaml", meta.modules.shared)) 
+    ...?(if(nvidia) null else bbmodules.genImportModule("\(meta.module_prefix)/shared/amd", ".yaml", meta.modules.amd)) 
+    ...?(if(base == "silverblue") bbmodules.genImportModule("\(meta.module_prefix)/gnome", ".yaml", meta.modules.gnome) else bbmodules.genImportModule("common/plasma", ".yml", meta.modules.plasma))
+    ...?(if(fx) bbmodules.genImportModule("\(meta.module_prefix)/fx", ".yaml", meta.modules.fx) else null)
+  }
+}
+
+const function removeUnnecessaryExtension(prefix: String, suffix: String, data: String): String = data.substring(prefix.length, data.length - suffix.length)
+
+const function atomicStudioImages(prefix: String, extension: String): Mapping<String, recipes.Image> = new Mapping<String, recipes.Image> {
+  for (_base in List("kinoite", "silverblue")) {
+    for (_nvidia in List(false, true)) {
+      for (_fx in List(false, true)) {
+        ["\(prefix)\(genImageTags(_base, _nvidia, _fx))\(extension)"] = genImage(_base, _nvidia, _fx)
+      }
+    }
+  }
+}
+
+output {
+  files {
+    // All the Bluebuild Modules
+    for (_filename, _data in config) {
+      for (_modname, _moddata in _data.output.value) {
+        ["files/\(meta.module_prefix)/\(removeUnnecessaryExtension("config/", ".pkl", _filename))/\(_modname).\(_data.output.renderer.extension)"] {
+          value = _moddata
+          renderer = new YamlRenderer {}
+        }
+      }
+    }
+
+    // The recipes to be generated
+    for (_filename, _recipe in atomicStudioImages("recipe", ".yaml")) {
+      ["recipes/\(_filename)"] {
+        value = _recipe
+        renderer = new YamlRenderer {}
+      }
+    }
+  }
+}
