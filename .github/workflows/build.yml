@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
   push:
     paths:
       - config/**
+      - generators/**
       - modules/**
       - .github/workflows/build.yml
   pull_request:
