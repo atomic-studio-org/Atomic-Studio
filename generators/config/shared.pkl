@@ -61,6 +61,7 @@ shared = new Dynamic {
       "materia-gtk-theme"
       "pipewire-jack-audio-connection-kit"
       "qemu-audio-pipewire"
+      "fastfetch"
     }
   }
 }

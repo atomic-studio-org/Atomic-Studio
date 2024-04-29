@@ -65,7 +65,6 @@
 
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          inherit (self.checks.${pkgs.system}.pre-commit-check) shellHook;
           packages = with pkgs; [ bluebuild.packages.${system}.bluebuild nushell git jq yq jsonnet openssl ];
         };
       });
