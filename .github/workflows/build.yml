@@ -117,7 +117,9 @@ jobs:
           push: false 
           file: /tmp/Containerfile
           tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }} 
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Sign kernel
         uses: atomic-studio-org/kernel-signer-docker@main
@@ -152,8 +154,9 @@ jobs:
       - name: Sign container image
         shell: bash
         run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}@${{ steps.build_image.outputs.digest }}
+          SIGN_IMAGE=$(docker inspect --format='{{index .RepoDigests 0}}' ${{env.IMAGE_REGISTRY}}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}:latest)
           cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY $SIGN_IMAGE
         env:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
