@@ -13,7 +13,7 @@ plasma = new Dynamic {
       "plasma-welcome"
     }
     install = new Listing {
-      "studio-presets-plasma-0.1.0+aa53099-0"
+      "studio-presets-plasma"
       "qpwgraph"
       "kde-connect"
       "kwin-x11"
