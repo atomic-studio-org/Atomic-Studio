@@ -59,7 +59,6 @@ shared = new Dynamic {
       "pipx"
       "fira-code-fonts"
       "papirus-icon-theme"
-      "materia-gtk-theme"
       "pipewire-jack-audio-connection-kit"
       "qemu-audio-pipewire"
       "fastfetch"
