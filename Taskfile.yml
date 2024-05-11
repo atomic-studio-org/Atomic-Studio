@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task: build:image
+  build:image:
+    cmds:
+      - mkdir -p {{.OUT}}
+      - cp -r files generators {{.OUT}}
+      - pushd {{.OUT}} && pkl eval generators/main.pkl -m files -f yaml ; popd
+      - pushd {{.OUT}}/files ; bluebuild build {{.CLI_ARGS}} ; popd
+    vars:
+      OUT: build
+      RECIPES: "*"

@@ -1,0 +1,9 @@
+type: systemd
+system:
+  masked:
+  - rtkit-daemon
+  enabled:
+  - realtime-entsk
+  - realtime-setup
+  - pci-latency
+user: {}

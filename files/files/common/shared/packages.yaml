@@ -1,0 +1,27 @@
+type: rpm-ostree
+install:
+- studio-cli
+- studio-wallpapers-xe
+- studio-wallpapers-xyny
+- jq
+- nu
+- netcat
+- espeak-ng
+- qemu-audio-dbus
+- qemu-audio-alsa
+- qemu-audio-spice
+- ffmpeg
+- fish
+- switcheroo-control
+- realtime-setup
+- realtime-tests
+- pulseaudio-utils
+- pipx
+- fira-code-fonts
+- papirus-icon-theme
+- pipewire-jack-audio-connection-kit
+- qemu-audio-pipewire
+- fastfetch
+repos:
+- https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-cli/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-cli-fedora-%OS_VERSION%.repo
+- https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-presets/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-presets-fedora-%OS_VERSION%.repo

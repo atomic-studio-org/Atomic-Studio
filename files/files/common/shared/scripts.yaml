@@ -1,0 +1,5 @@
+type: script
+scripts:
+- ptyxis.nu
+- extra-packages.nu
+- tuned.nu

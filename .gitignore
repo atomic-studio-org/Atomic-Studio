@@ -5,3 +5,4 @@ cosign.private
 /.pre-commit-config.yaml
 result/
 .jj
+build/

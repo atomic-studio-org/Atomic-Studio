@@ -1,0 +1,11 @@
+type: rpm-ostree
+install:
+- studio-presets-plasma
+- qpwgraph
+- kde-connect
+- kwin-x11
+- plasma-workspace-x11
+remove:
+- plasma-welcome
+repos:
+- https://copr.fedorainfracloud.org/coprs/atomic-studio-org/studio-presets/repo/fedora-%OS_VERSION%/atomic-studio-org-studio-presets-fedora-%OS_VERSION%.repo
