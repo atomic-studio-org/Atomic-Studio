@@ -118,8 +118,6 @@ jobs:
           file: /tmp/Containerfile
           tags: ${{env.IMAGE_REGISTRY}}/${{ steps.recipe_meta.outputs.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }} 
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Sign kernel
         uses: atomic-studio-org/kernel-signer-docker@main
