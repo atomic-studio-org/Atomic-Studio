@@ -16,7 +16,7 @@ shared = new Dynamic {
   }
   scripts = (modules.Script) {
     scripts = new Listing {
-      //"initramfs.nu"
+      "initramfs.nu"
       "ptyxis.nu"
       "extra-packages.nu"
       "tuned.nu"
