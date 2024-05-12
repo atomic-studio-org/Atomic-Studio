@@ -1,8 +1,0 @@
-type: rpm-ostree
-install:
-- aeolus
-- xtuner
-- jamin
-- DISTRHO-Ports
-repos:
-- https://copr.fedorainfracloud.org/coprs/ycollet/audinux/repo/fedora-%OS_VERSION%/ycollet-audinux-fedora-%OS_VERSION%.repo

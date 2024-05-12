@@ -1,5 +1,0 @@
-type: rpm-ostree
-install:
-- rocm-hip
-- rocm-opencl
-- rocm-clinfo
