@@ -2,7 +2,7 @@
 name: Build Atomic Studio
 on:  # yamllint disable-line rule:truthy
   schedule:
-    - cron: "00 17 * * *"  # build at 17:00 UTC every day
+    - cron: '41 5 * * 0'  # 5:41 UTC Weekly on Sundays
   push:
     paths:
       - config/**
