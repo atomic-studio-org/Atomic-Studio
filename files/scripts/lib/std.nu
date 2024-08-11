@@ -3,7 +3,7 @@ export def get_arch [] {
 }
 
 export def get_fedora_version [] {
-  return (run-external --redirect-combine rpm '-E' '%fedora' | complete).stdout
+  return (run-external rpm '-E' '%fedora' | complete).stdout
 }
 
 export def fetch_generic [url: string, suffix: string] {
