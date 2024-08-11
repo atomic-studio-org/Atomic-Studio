@@ -22,9 +22,10 @@ plasma = new Dynamic {
   }
   files = (modules.Files) {
     files = new Listing {
-      new Mapping<String, String> {
-        ["plasma"] = "/usr"
-      }
+        (modules.FilesListingItem) {
+            source = "system/plasma/"
+            destination = "/"
+        }
     }
   }
   scripts = (modules.Script) {

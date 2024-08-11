@@ -9,8 +9,9 @@ shared = new Dynamic {
   }
   files = (modules.Files) {
     files = new Listing {
-      new Mapping<String, String> {
-        ["shared"] = "/usr"
+      (modules.FilesListingItem) {
+        source = "system/shared/"
+        destination = "/"
       }
     }
   }
