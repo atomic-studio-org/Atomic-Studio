@@ -26,9 +26,14 @@ class DefaultFlatpaks extends Module {
   user: DefaultFlatpaksNamespace
 }
 
+class FilesListingItem {
+    source: String
+    destination: String
+}
+
 class Files extends Module {
   fixed type: "files"
-  files: Listing<Mapping<String, String>>
+  files: Listing<FilesListingItem>
 }
 
 class Bling extends Module {

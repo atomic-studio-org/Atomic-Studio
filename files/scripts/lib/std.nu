@@ -3,7 +3,7 @@ export def get_arch [] {
 }
 
 export def get_fedora_version [] {
-  return (run-external --redirect-combine rpm '-E' '%fedora' | complete).stdout
+  return (run-external rpm '-E' '%fedora' | complete).stdout
 }
 
 export def fetch_generic [url: string, suffix: string] {
@@ -13,7 +13,7 @@ export def fetch_generic [url: string, suffix: string] {
 }
 
 export def fetch_copr [url: string] {
-  let copr_name = (PWD=/etc/yum.repos.d mktemp --suffix ".repo")
+  let copr_name = (mktemp --tmpdir-path "/etc/yum.repos.d/" --suffix ".repo")
   http get $url | save -f $copr_name
   return $copr_name
 }
